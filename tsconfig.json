@@ -13,7 +13,7 @@
       "sourceMap": true,
       "forceConsistentCasingInFileNames": true,
       "resolveJsonModule": true,
-      "typeRoots": ["src/@types", "node_modules/@types"]
+      "typeRoots": []
   },
   "include": [
       "src/**/*.ts",
@@ -24,5 +24,5 @@
       "dist",
       "src/**/*.d.ts"
   ],
-  "types": ["src/@types", "node_modules/@types"],
+  "types": [],
 }
