@@ -11,7 +11,7 @@ import {
 import { plantManagerService, roleService } from "../../services";
 
 export const plantManagerLogin = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

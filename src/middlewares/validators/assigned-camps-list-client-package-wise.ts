@@ -17,7 +17,7 @@ const assignedCampsListClientPackageSchema = Joi.object({
 });
 
 export const assignedCampsListClientPackageValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

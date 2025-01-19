@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Message, formatResponse } from "../../helpers";
 
 export const getAccountantProfile = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

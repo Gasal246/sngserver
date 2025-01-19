@@ -9,6 +9,8 @@ const mongoose_1 = require("mongoose");
 const services_1 = require("../../services");
 const models_1 = __importDefault(require("../../models"));
 const enums_1 = require("../../types/enums");
+const user_transactions_1 = require("../../services/user_transactions");
+const client_1 = require("../../services/client");
 const userPlaceInternetOrder = async (req, res) => {
     try {
         const userData = req.decodedToken.data;
@@ -23,12 +25,11 @@ const userPlaceInternetOrder = async (req, res) => {
             res.status(400).json(data);
             return;
         }
-        if (userData.location_camp.location_camp_client_id.toString() !==
-            assignCampDetails.client_id.toString()) {
-            const data = (0, helpers_1.formatResponse)(400, true, "Camp id and base camp id not of same client.", null);
-            res.status(400).json(data);
-            return;
-        }
+        // if (userData.location_camp.location_camp_client_id.toString() !== assignCampDetails.client_id.toString()) {
+        //   const data = formatResponse(400, true, "Camp id and base camp id not of same client.", null);
+        //   res.status(400).json(data);
+        //   return;
+        // }
         if (!(0, mongoose_1.isValidObjectId)(req.body.package_id)) {
             const data = (0, helpers_1.formatResponse)(400, true, "Package not found.", null);
             res.status(400).json(data);
@@ -74,30 +75,42 @@ const userPlaceInternetOrder = async (req, res) => {
         order.camp_id = (0, helpers_1.createObjectId)(userData.location_camp.location_camp_id);
         const promises = [];
         if (!activeInternetPackage) {
-            const starDate = new Date();
-            const expireDate = new Date(starDate.getTime());
+            const startDate = new Date();
+            const expireDate = new Date(startDate.getTime());
             expireDate.setTime(expireDate.getTime() + (0, helpers_1.minuteInMilleSeconds)(order.duration));
-            order.package_start_date = starDate;
-            order.purchase_date = starDate;
+            order.package_start_date = startDate;
+            order.purchase_date = startDate;
             order.package_expiry_date = expireDate;
             order.order_status = enums_1.OrderStatus.active;
         }
         else {
-            order.package_start_date = null;
+            order.package_start_date = activeInternetPackage === null || activeInternetPackage === void 0 ? void 0 : activeInternetPackage.package_expiry_date;
             order.purchase_date = new Date();
-            order.package_expiry_date = null;
+            order.package_expiry_date = new Date((activeInternetPackage === null || activeInternetPackage === void 0 ? void 0 : activeInternetPackage.package_expiry_date.getTime()) +
+                (0, helpers_1.minuteInMilleSeconds)(order.duration));
             order.order_status = enums_1.OrderStatus.pending;
         }
         const wallet_amount = wallet.wallet_amount - orderPrice;
-        promises.push(services_1.orderInternetPackageService.createOrderInternetPackage(order));
-        promises.push(services_1.userWalletService.updateWalletAmount(wallet._id, wallet_amount));
-        await Promise.all(promises);
+        promises.push(await services_1.orderInternetPackageService.createOrderInternetPackage(order));
+        promises.push(await services_1.userWalletService.updateWalletAmount(wallet._id, wallet_amount));
+        const location_client = await (0, client_1.getClientByIdWithoutStatus)(userData.location_camp.location_camp_id);
+        // Adding Wallet Transaction
+        promises.push((0, user_transactions_1.addNewTransaction)({
+            userid: userData.id,
+            walletid: wallet.id,
+            amount: orderPrice,
+            currency: (location_client === null || location_client === void 0 ? void 0 : location_client.currency_code) || "",
+            title: `Membership Purchased (${order.package_name})`,
+            type: "debit",
+        }));
+        await Promise.all(promises).then(() => console.log("success"));
         const data = (0, helpers_1.formatResponse)(200, false, `#${order.order_number} order has been created successfully`, null);
         res.status(200).json(data);
         return;
     }
     catch (e) {
         const data = (0, helpers_1.formatResponse)(500, true, e.message, null);
+        console.log(data);
         res.status(500).json(data);
         return;
     }

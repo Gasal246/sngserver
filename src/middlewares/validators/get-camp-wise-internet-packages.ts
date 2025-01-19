@@ -11,7 +11,7 @@ const campInternetPackageSchema = Joi.object({
 });
 
 export const getCampWiseInternetPackageValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

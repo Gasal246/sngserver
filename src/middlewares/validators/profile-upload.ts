@@ -12,7 +12,7 @@ function ensureDirExists(dir: string) {
 
 // Multer storage configuration
 const storage = multer.diskStorage({
-  destination: (req, file, cb) => {
+  destination: (req: any, file, cb) => {
     const userData = req.decodedToken?.data || {}; // Ensure user data is present
     const uploadDir = path.join(
       __dirname,
@@ -31,7 +31,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const fileFilter = (req: Request, file: Express.Multer.File, cb: any) => {
+const fileFilter = (req: Request | any, file: Express.Multer.File, cb: any) => {
   const allowedTypes = ["image/jpeg", "image/png"];
   if (!allowedTypes.includes(file.mimetype)) {
     console.log("Invalid File Type");

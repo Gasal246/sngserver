@@ -98,6 +98,33 @@ const getInternetPackageForUser = async (user_id, order_status, base_client_id) 
             },
         },
         {
+            $lookup: {
+                from: "clients",
+                localField: "order_from_camp_detail.client_id",
+                foreignField: "_id",
+                as: "client_data",
+                pipeline: [
+                    {
+                        $addFields: {
+                            id: "$_id",
+                        },
+                    },
+                    {
+                        $project: {
+                            _id: 0,
+                            id: 1,
+                            currency_code: 1,
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            $unwind: {
+                path: "$client_data",
+            },
+        },
+        {
             $match: {
                 "order_from_camp_detail.client_id": new mongoose_1.default.Types.ObjectId(base_client_id),
             },

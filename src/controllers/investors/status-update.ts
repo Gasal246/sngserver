@@ -4,7 +4,7 @@ import { Message, formatResponse } from "../../helpers";
 import { Roles } from "../../types/enums";
 
 export const investorStatusUpdate = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

@@ -22,7 +22,7 @@ const deviceHistorySchema = Joi.object({
 });
 
 export const deviceCodeHistoryValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

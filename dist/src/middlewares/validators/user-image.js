@@ -28,6 +28,7 @@ const uploadHandler = (0, multer_1.default)({
     { name: "national_id", maxCount: 1 },
     { name: "user_image", maxCount: 1 },
     { name: "passport_image", maxCount: 1 },
+    { name: "photo", maxCount: 1 },
 ]);
 const imageValidator = async (req, res, next) => {
     uploadHandler(req, res, function (err) {

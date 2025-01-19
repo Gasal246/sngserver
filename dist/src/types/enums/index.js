@@ -23,8 +23,8 @@ var PosCategoryEnum;
 })(PosCategoryEnum || (exports.PosCategoryEnum = PosCategoryEnum = {}));
 var RechargeTypeEnum;
 (function (RechargeTypeEnum) {
-    RechargeTypeEnum["POS_TOP_UP"] = "POS Top Up";
-    RechargeTypeEnum["POS_TRANSFER"] = "POS Transfer";
+    RechargeTypeEnum["POS_TOP_UP"] = "Wallet Top Up";
+    RechargeTypeEnum["POS_TRANSFER"] = "Wallet Transfer";
     RechargeTypeEnum["ONLINE_PAYMENT"] = "Online payment";
     RechargeTypeEnum["REFUND"] = "Refund";
 })(RechargeTypeEnum || (exports.RechargeTypeEnum = RechargeTypeEnum = {}));

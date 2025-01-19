@@ -16,7 +16,7 @@ const assignCampToAccountantSchema = Joi.object({
 });
 
 export const assignCampToAccountantValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -48,7 +48,7 @@ export const assignCampToAccountantValidator = async (
   }
 };
 
-const checkDeviceCodeArr = async (req: Request) => {
+const checkDeviceCodeArr = async (req: Request | any) => {
   const regularExpression = new RegExp("^[0-9a-zA-Z]+(,[0-9a-zA-Z]+)*$");
   if (!regularExpression.test(req.body.camp_ids)) {
     return "Camp ids required with out space and comma separated values";

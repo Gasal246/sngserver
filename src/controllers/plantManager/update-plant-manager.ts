@@ -3,7 +3,7 @@ import { formatResponse } from "../../helpers";
 import { plantManagerService } from "../../services";
 
 export const updatePlantManager = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

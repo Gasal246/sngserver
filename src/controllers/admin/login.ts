@@ -6,7 +6,7 @@ import { Message, formatResponse, validPassword } from "../../helpers";
 import { adminService, roleService } from "../../services";
 
 export const adminLogin = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

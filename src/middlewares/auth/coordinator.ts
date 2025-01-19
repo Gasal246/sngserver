@@ -6,7 +6,7 @@ import { authConfig } from "../../config/auth.config";
 import { clientService, coordinatorService } from "../../services";
 
 export const verifyCoordinatorToken = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

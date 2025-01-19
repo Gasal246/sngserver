@@ -10,7 +10,7 @@ const deActiveDeviceCodeSchema = Joi.object({
 });
 
 export const deActiveDeviceCodeValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

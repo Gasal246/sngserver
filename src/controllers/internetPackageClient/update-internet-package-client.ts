@@ -6,7 +6,7 @@ import {
 } from "../../services";
 
 export const updateInternetPackageClient = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

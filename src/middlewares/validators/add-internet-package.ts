@@ -70,7 +70,7 @@ const internetPackageSchema = Joi.object({
 });
 
 export const internetPackageValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

@@ -11,7 +11,7 @@ const assignUserToCamp = Joi.object({
 });
 
 export const assignUserToCampValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

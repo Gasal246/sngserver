@@ -18,7 +18,7 @@ const assignedPackageListClientWiseSchema = Joi.object({
 });
 
 export const assignedPackageListClientWiseValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

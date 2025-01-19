@@ -3,7 +3,7 @@ import { posDeviceCodeService } from "../../services";
 import { Message, formatResponse } from "../../helpers";
 
 export const posDeviceCodeStatusUpdate = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

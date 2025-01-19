@@ -25,11 +25,9 @@ const schema = new mongoose_1.default.Schema({
     },
     service_amount: {
         type: Number,
-        required: true,
     },
     payable_amount: {
         type: Number,
-        required: true,
     },
     // 0=delete,1=active,2=pending,3=block
     status: {

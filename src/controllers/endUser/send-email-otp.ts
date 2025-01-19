@@ -14,7 +14,7 @@ import {
 import db from "../../models";
 
 export const sendUserEmailOtp = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

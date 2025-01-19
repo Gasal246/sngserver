@@ -87,7 +87,7 @@ const getClientById = async (id) => {
 };
 exports.getClientById = getClientById;
 const getClientByIdWithoutStatus = async (id) => {
-    const result = await clientModel.findOne({ _id: id });
+    const result = await clientModel.findById((0, helpers_1.createObjectId)(id));
     return result;
 };
 exports.getClientByIdWithoutStatus = getClientByIdWithoutStatus;

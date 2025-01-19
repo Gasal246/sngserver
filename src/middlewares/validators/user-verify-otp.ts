@@ -30,7 +30,7 @@ const userVerifyOtpSchema = Joi.object({
 });
 
 export const userVerifyOtpValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

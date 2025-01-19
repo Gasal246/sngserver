@@ -3,7 +3,7 @@ import { campService } from "../../services";
 import { Message, formatResponse } from "../../helpers";
 
 export const getOneCamp = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

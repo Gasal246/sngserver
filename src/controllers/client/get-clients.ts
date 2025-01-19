@@ -3,7 +3,7 @@ import { clientService } from "../../services";
 import { formatResponse } from "../../helpers";
 
 export const getAllClients = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

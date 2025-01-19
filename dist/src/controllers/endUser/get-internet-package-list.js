@@ -49,6 +49,8 @@ const getInternetPackageListForEndUser = async (req, res) => {
                 internetPackage.internet_package_client.package_status;
             obj.createdAt = internetPackage.internet_package_client.createdAt;
             obj.updatedAt = internetPackage.internet_package_client.updatedAt;
+            obj.currency_code =
+                internetPackage.internet_package_client.client_data.currency_code;
             obj.camp_name = internetPackage.camp.camp_name;
             obj.camp_address = internetPackage.camp.camp_address;
             obj.camp_city = internetPackage.camp.camp_city;

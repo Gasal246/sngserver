@@ -6,7 +6,7 @@ import {
 import { formatResponse } from "../../helpers";
 
 export const deActiveDeviceCode = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

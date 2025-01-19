@@ -17,7 +17,7 @@ const getCampByCoordinatorSchema = Joi.object({
 });
 
 export const getCampByCoordinatorValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

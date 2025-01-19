@@ -4,7 +4,7 @@ import { Message, createObjectId, formatResponse } from "../../helpers";
 import { isValidObjectId } from "mongoose";
 
 export const getAssignAccountant = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

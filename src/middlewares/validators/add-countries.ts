@@ -30,7 +30,7 @@ const countrySchema = Joi.object({
 });
 
 export const addCountryValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -105,7 +105,7 @@ export const addCountryValidator = async (
   }
 };
 
-const checkUniqueValidations = async (req: Request) => {
+const checkUniqueValidations = async (req: Request | any) => {
   const countryResponse = await checkUniqueCountriesData(req);
   const objUnique = {
     name: false,
@@ -133,7 +133,7 @@ const checkUniqueValidations = async (req: Request) => {
   return objUnique;
 };
 
-const checkUniqueCountriesData = async (req: Request) => {
+const checkUniqueCountriesData = async (req: Request | any) => {
   return await countriesService.checkCountriesData(
     req.body,
     req.params && req.params.id ? req.params.id : undefined

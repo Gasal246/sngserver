@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { Message, formatResponse } from "../../helpers";
 
 export const getInvestorProfile = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

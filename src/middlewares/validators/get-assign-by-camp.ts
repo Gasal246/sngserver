@@ -17,7 +17,7 @@ const assignByCampSchema = Joi.object({
 });
 
 export const getAssignByCampValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

@@ -252,6 +252,24 @@ const getInternetPackageForPosOrder = async (camp_id) => {
                     {
                         $unwind: "$internet_package",
                     },
+                    {
+                        $lookup: {
+                            from: "clients",
+                            localField: "client_id",
+                            foreignField: "_id",
+                            as: "client_data",
+                            pipeline: [
+                                {
+                                    $project: {
+                                        currency_code: 1,
+                                    },
+                                },
+                            ],
+                        },
+                    },
+                    {
+                        $unwind: "$client_data",
+                    },
                 ],
             },
         },

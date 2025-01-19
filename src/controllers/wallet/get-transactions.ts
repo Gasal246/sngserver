@@ -3,7 +3,7 @@ import { formatResponse } from "../../helpers";
 import { getWalletById } from "../../services/user_wallet";
 import { getTransactionsByWalletId } from "../../services/user_transactions";
 
-export async function getWalletTransactions(req: Request, res: Response) {
+export async function getWalletTransactions(req: Request | any, res: Response) {
   try {
     const decodedToken = req.decodedToken;
     const wallet = await getWalletById(req.params.id);

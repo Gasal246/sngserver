@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { formatResponse } from "../../helpers";
 
 export const getLocationWiseCamp = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

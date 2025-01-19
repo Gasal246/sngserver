@@ -5,7 +5,7 @@ import { generateHash } from "../../helpers";
 import { investorsService } from "../../services";
 
 export const updateInvestorPassword = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

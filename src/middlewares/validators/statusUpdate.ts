@@ -13,7 +13,7 @@ const statusSchema = Joi.object({
 });
 
 export const statusUpdateValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

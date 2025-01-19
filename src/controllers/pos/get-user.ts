@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { userRegisterService } from "../../services";
 import { Message, formatResponse } from "../../helpers";
 
-export const getUsers = async (req: Request, res: Response): Promise<void> => {
+export const getUsers = async (req: Request | any, res: Response): Promise<void> => {
   try {
     const keyword = req.query.keyword ? req.query.keyword.toString() : "";
     const users = await userRegisterService.userSearchWithKeyword(keyword);

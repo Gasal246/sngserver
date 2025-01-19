@@ -11,7 +11,7 @@ import {
 import { clientService, coordinatorService, roleService } from "../../services";
 
 export const coordinatorLogin = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

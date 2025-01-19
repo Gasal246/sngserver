@@ -13,7 +13,7 @@ const userChangePhoneSchema = Joi.object({
 });
 
 export const userChangePhoneValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -51,7 +51,7 @@ export const userChangePhoneValidator = async (
   }
 };
 
-const checkUniquePhone = async (req: Request) => {
+const checkUniquePhone = async (req: Request | any) => {
   return await userRegisterService.checkUniquePhone(
     req.body.phone,
     req.decodedToken.data.id

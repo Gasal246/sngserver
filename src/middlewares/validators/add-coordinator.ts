@@ -53,7 +53,7 @@ const coordinatorSchema = Joi.object({
 });
 
 export const coordinatorValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -92,7 +92,7 @@ export const coordinatorValidator = async (
   }
 };
 
-const checkUniqueEmail = async (req: Request) => {
+const checkUniqueEmail = async (req: Request | any) => {
   return await coordinatorService.checkEmail(
     req.body.email,
     req.params && req.params.id ? req.params.id : undefined

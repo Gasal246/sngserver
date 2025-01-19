@@ -25,7 +25,7 @@ const posRechargeManualSchema = Joi.object({
 });
 
 export const posRechargeManualValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

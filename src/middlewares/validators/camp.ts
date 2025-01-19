@@ -127,7 +127,7 @@ const addCampSchema = Joi.object({
 });
 
 export const campValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -165,7 +165,7 @@ export const campValidator = async (
   }
 };
 
-const checkUniqueCampName = async (req: Request) => {
+const checkUniqueCampName = async (req: Request | any) => {
   return await campService.checkCampName(
     req.body.camp_name,
     req.params && req.params.id ? req.params.id : undefined

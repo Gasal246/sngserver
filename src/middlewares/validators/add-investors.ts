@@ -24,7 +24,7 @@ const investorsSchema = Joi.object({
 });
 
 export const addInvestorValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -63,7 +63,7 @@ export const addInvestorValidator = async (
   }
 };
 
-const checkUniqueEmail = async (req: Request) => {
+const checkUniqueEmail = async (req: Request | any) => {
   return await investorsService.checkEmail(
     req.body.email,
     req.params && req.params.id ? req.params.id : undefined

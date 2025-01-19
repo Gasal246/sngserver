@@ -15,7 +15,7 @@ const validateCampSchema = Joi.object({
 });
 
 export const validateCampValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

@@ -4,7 +4,7 @@ import { Message, formatResponse } from "../../helpers";
 import { internetPackageClientService } from "../../services";
 
 export const isInternetPackageClientIdIsExists = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

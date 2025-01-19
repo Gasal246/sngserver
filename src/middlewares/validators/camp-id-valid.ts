@@ -4,7 +4,7 @@ import { Message, formatResponse } from "../../helpers";
 import { campService } from "../../services";
 
 export const isCampIdIsExists = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

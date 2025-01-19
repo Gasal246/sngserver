@@ -7,7 +7,7 @@ import {
 } from "../../services";
 
 export const updateProfile = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {
@@ -110,7 +110,7 @@ export const updateProfile = async (
 };
 
 export const updateProfileOnEntry = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

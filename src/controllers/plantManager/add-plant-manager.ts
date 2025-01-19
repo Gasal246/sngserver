@@ -4,7 +4,7 @@ import { plantManagerService, roleService } from "../../services";
 import { Roles } from "../../types/enums";
 
 export const addPlantManager = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

@@ -5,7 +5,7 @@ import db from "../../models";
 import { isValidObjectId } from "mongoose";
 
 export const assignUserToCamp = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

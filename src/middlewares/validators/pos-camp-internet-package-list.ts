@@ -16,7 +16,7 @@ const PosCampInternetPackageList = Joi.object({
 });
 
 export const posCampInternetPackageListValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

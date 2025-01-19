@@ -13,7 +13,7 @@ const locationStatusSchema = Joi.object({
 });
 
 export const locationStatusValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

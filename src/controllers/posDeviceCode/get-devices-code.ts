@@ -4,7 +4,7 @@ import { formatResponse } from "../../helpers";
 import { Obj } from "../../types/interfaces";
 
 export const getAllDeviceCodes = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

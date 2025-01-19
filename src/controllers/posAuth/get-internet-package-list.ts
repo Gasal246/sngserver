@@ -14,7 +14,7 @@ import { isValidObjectId } from "mongoose";
 import { PosCategoryEnum } from "../../types/enums";
 
 export const getInternetPackageList = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

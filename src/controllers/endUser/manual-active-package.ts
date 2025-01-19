@@ -25,7 +25,7 @@ import { Obj } from "../../types/interfaces";
 import dayjs from "dayjs";
 
 export const manualActivePackage = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

@@ -11,7 +11,7 @@ const userSearchSchema = Joi.object({
 });
 
 export const userSearchValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

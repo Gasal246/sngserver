@@ -8,7 +8,7 @@ import {
 import db from "../../models";
 
 export const sendUserOtp = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

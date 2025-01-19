@@ -30,83 +30,108 @@ const posLogin = async (req, res) => {
                 return;
             }
         }
+        const camps = (await services_1.CampAssignPosService.getCampDetails(user.id)) || [];
+        const devices = (await services_1.posAssignPosDeviceService.getDeviceListAssignToPos(user.id)) || [];
         // TD: start
-        const deviceHistory = await services_1.posDeviceCodeHistoryService.getDeviceByMacAddress(req.body.device_mac_address);
-        if (!deviceHistory) {
-            const data = (0, helpers_1.formatResponse)(401, true, "Device is not active.", null);
-            res.status(401).json(data);
-            return;
+        // *me (main)
+        // console.log("BODY: ", req.body);
+        let jwtData;
+        if (req.body.camp_id) {
+            const deviceHistory = await services_1.posDeviceCodeHistoryService.getDeviceByMacAddress(req.body.device_mac_address);
+            if (!deviceHistory) {
+                const data = (0, helpers_1.formatResponse)(401, true, "Device is not active.", null);
+                res.status(401).json(data);
+                return;
+            }
+            if (!(0, mongoose_1.isValidObjectId)(req.body.camp_id)) {
+                const data = (0, helpers_1.formatResponse)(400, true, helpers_1.Message.CAMP_NOT_FOUND, null);
+                res.status(400).json(data);
+                return;
+            }
+            const camp = await services_1.campService.getCampById(req.body.camp_id);
+            if (!camp) {
+                const data = (0, helpers_1.formatResponse)(401, true, helpers_1.Message.CAMP_NOT_FOUND, null);
+                res.status(401).json(data);
+                return;
+            }
+            const deviceCodeId = deviceHistory.pos_dc_id;
+            const campId = camp._id;
+            const deviceAssignedToCamp = await services_1.campAssignPosDeviceService.isCampAssignToDeviceModel(deviceCodeId.toString(), campId.toString());
+            if (!deviceAssignedToCamp) {
+                const data = (0, helpers_1.formatResponse)(401, true, "Device code not assigned to camp.", null);
+                res.status(401).json(data);
+                return;
+            }
+            const deviceAssignedToPos = await services_1.posAssignPosDeviceService.isPosAssignToDeviceModel(deviceCodeId.toString(), user._id.toString());
+            if (!deviceAssignedToPos) {
+                const data = (0, helpers_1.formatResponse)(401, true, "Device code not assigned to pos user.", null);
+                res.status(401).json(data);
+                return;
+            }
+            const campAssignedToUser = await services_1.CampAssignPosService.isCampAssignToPos(user._id.toString(), campId.toString());
+            if (!campAssignedToUser) {
+                const data = (0, helpers_1.formatResponse)(401, true, "Camp not assigned to pos user.", null);
+                res.status(401).json(data);
+                return;
+            }
+            // Moving onsite camp to offline
+            await services_1.CampAssignPosService.campMoveOnsiteToOffsite(user._id.toString());
+            // Transferring login camp to Onsite
+            await services_1.CampAssignPosService.campMoveToOnsite(campAssignedToUser._id.toString());
+            // TD: end
+            const role = await services_1.roleService.getRoleById(user.role_id);
+            const pos = (0, helpers_1.parseToSimpleObj)(user);
+            delete pos.password;
+            const camp_details = {
+                camp_id: campId,
+                camp_name: camp.camp_name,
+                router_primary_ip: camp.router_primary_ip,
+                router_mac_address: camp.router_mac_address,
+            };
+            const dcDetails = {
+                pos_dc_id: deviceCodeId,
+                device_name: deviceHistory.device_name,
+                device_model: deviceHistory.device_model,
+                device_mac_address: deviceHistory.device_mac_address,
+                device_history_id: deviceHistory._id,
+            };
+            jwtData = {
+                data: {
+                    ...pos,
+                    name: role === null || role === void 0 ? void 0 : role.name,
+                    slug: role === null || role === void 0 ? void 0 : role.slug,
+                    role_slug: role === null || role === void 0 ? void 0 : role.slug,
+                    camp: camp_details,
+                    device: dcDetails,
+                },
+            };
         }
-        if (!(0, mongoose_1.isValidObjectId)(req.body.camp_id)) {
-            const data = (0, helpers_1.formatResponse)(400, true, helpers_1.Message.CAMP_NOT_FOUND, null);
-            res.status(400).json(data);
-            return;
+        else {
+            const role = await services_1.roleService.getRoleById(user.role_id);
+            const pos = (0, helpers_1.parseToSimpleObj)(user);
+            delete pos.password;
+            jwtData = {
+                data: {
+                    ...pos,
+                    name: role === null || role === void 0 ? void 0 : role.name,
+                    slug: role === null || role === void 0 ? void 0 : role.slug,
+                    role_slug: role === null || role === void 0 ? void 0 : role.slug,
+                },
+            };
         }
-        const camp = await services_1.campService.getCampById(req.body.camp_id);
-        if (!camp) {
-            const data = (0, helpers_1.formatResponse)(401, true, helpers_1.Message.CAMP_NOT_FOUND, null);
-            res.status(401).json(data);
-            return;
-        }
-        const deviceCodeId = deviceHistory.pos_dc_id;
-        const campId = camp._id;
-        const deviceAssignedToCamp = await services_1.campAssignPosDeviceService.isCampAssignToDeviceModel(deviceCodeId.toString(), campId.toString());
-        if (!deviceAssignedToCamp) {
-            const data = (0, helpers_1.formatResponse)(401, true, "Device code not assigned to camp.", null);
-            res.status(401).json(data);
-            return;
-        }
-        const deviceAssignedToPos = await services_1.posAssignPosDeviceService.isPosAssignToDeviceModel(deviceCodeId.toString(), user._id.toString());
-        if (!deviceAssignedToPos) {
-            const data = (0, helpers_1.formatResponse)(401, true, "Device code not assigned to pos user.", null);
-            res.status(401).json(data);
-            return;
-        }
-        const campAssignedToUser = await services_1.CampAssignPosService.isCampAssignToPos(user._id.toString(), campId.toString());
-        if (!campAssignedToUser) {
-            const data = (0, helpers_1.formatResponse)(401, true, "Camp not assigned to pos user.", null);
-            res.status(401).json(data);
-            return;
-        }
-        //Moving onsite camp to offline
-        await services_1.CampAssignPosService.campMoveOnsiteToOffsite(user._id.toString());
-        //Transferring login camp to Onsite
-        await services_1.CampAssignPosService.campMoveToOnsite(campAssignedToUser._id.toString());
-        // TD: end
-        const role = await services_1.roleService.getRoleById(user.role_id);
-        const pos = (0, helpers_1.parseToSimpleObj)(user);
-        delete pos.password;
-        const camp_details = {
-            camp_id: campId,
-            camp_name: camp.camp_name,
-            router_primary_ip: camp.router_primary_ip,
-            router_mac_address: camp.router_mac_address,
-        };
-        const dcDetails = {
-            pos_dc_id: deviceCodeId,
-            device_name: deviceHistory.device_name,
-            device_model: deviceHistory.device_model,
-            device_mac_address: deviceHistory.device_mac_address,
-            device_history_id: deviceHistory._id,
-        };
-        const jwtData = {
-            data: {
-                ...pos,
-                name: role === null || role === void 0 ? void 0 : role.name,
-                slug: role === null || role === void 0 ? void 0 : role.slug,
-                role_slug: role === null || role === void 0 ? void 0 : role.slug,
-                camp: camp_details,
-                device: dcDetails,
-            },
-        };
         //Generated jwt token
         const token = jsonwebtoken_1.default.sign(jwtData, auth_config_1.authConfig.token, {
             expiresIn: auth_config_1.authConfig.expiresIn,
         });
         const data = (0, helpers_1.formatResponse)(201, false, helpers_1.Message.LOGIN_SUCCESS, {
-            user_data: jwtData.data,
+            user_data: {
+                ...jwtData.data,
+                assigned_camps: camps,
+                assigned_devices: devices,
+            },
             token: token,
         });
+        // console.log("DATA SENDING: ", data);
         res.status(201).json(data);
         return;
     }

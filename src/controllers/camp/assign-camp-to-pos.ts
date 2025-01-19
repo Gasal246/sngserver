@@ -18,7 +18,7 @@ import { isValidObjectId } from "mongoose";
 import db from "../../models";
 
 export const assignCampsToPos = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

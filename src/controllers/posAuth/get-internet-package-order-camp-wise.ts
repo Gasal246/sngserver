@@ -7,7 +7,7 @@ import {
 import { isValidObjectId } from "mongoose";
 
 export const getInternetPackageOrderCampWise = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

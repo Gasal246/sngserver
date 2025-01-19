@@ -30,6 +30,7 @@ const investors_model_1 = __importDefault(require("./investors.model"));
 const user_wallet_model_1 = __importDefault(require("./user_wallet.model"));
 const order_internet_package_model_1 = __importDefault(require("./order_internet_package.model"));
 const plant_manager_model_1 = __importDefault(require("./plant_manager.model"));
+const transaction_model_1 = __importDefault(require("./transaction.model"));
 exports.default = {
     accountantModel: accountant_model_1.default,
     adminModel: admin_model_1.default,
@@ -58,5 +59,6 @@ exports.default = {
     userWalletModel: user_wallet_model_1.default,
     orderInternetPackageModel: order_internet_package_model_1.default,
     plantManagerModel: plant_manager_model_1.default,
+    userTransactions: transaction_model_1.default,
 };
 //# sourceMappingURL=index.js.map

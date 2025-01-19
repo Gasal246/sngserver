@@ -3,7 +3,7 @@ import { Message, createObjectId, formatResponse } from "../../helpers";
 import { orderInternetPackageService, userCampService } from "../../services";
 
 export const getInternetPackageOrderListForEndUser = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

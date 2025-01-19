@@ -21,7 +21,7 @@ const assignDeviceCodeToPosSchema = Joi.object({
 });
 
 export const assignCampToPosValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -68,7 +68,7 @@ export const assignCampToPosValidator = async (
   }
 };
 
-const checkDeviceCodeArr = async (req: Request) => {
+const checkDeviceCodeArr = async (req: Request | any) => {
   const regularExpression = new RegExp("^[0-9a-zA-Z]+(,[0-9a-zA-Z]+)*$");
   if (!regularExpression.test(req.body.camp_ids)) {
     return "Camp ids required with out space and comma separated values";
@@ -77,7 +77,7 @@ const checkDeviceCodeArr = async (req: Request) => {
   return "";
 };
 
-const checkCategory = async (req: Request) => {
+const checkCategory = async (req: Request | any) => {
   const regularExpression = new RegExp("^[1-3](,[1-3])*$");
   if (!regularExpression.test(req.body.camp_categories)) {
     return "Camp categories required with out space and comma separated values.The camp categories  field must be one of: 1,2,3.";

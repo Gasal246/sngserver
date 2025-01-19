@@ -7,7 +7,7 @@ import { isValidObjectId } from "mongoose";
 import { updateUserById } from "../../services/user_register";
 
 export const validateCamp = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

@@ -22,7 +22,7 @@ import {
 import { addNewTransaction } from "../../services/user_transactions";
 
 export const userWalletRecharge = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

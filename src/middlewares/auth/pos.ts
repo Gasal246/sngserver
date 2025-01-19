@@ -6,7 +6,7 @@ import { authConfig } from "../../config/auth.config";
 import { clientService, posService } from "../../services";
 
 export const verifyPosToken = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

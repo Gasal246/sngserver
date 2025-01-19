@@ -47,11 +47,11 @@ const posRechargeManualSchema = Joi.object({
         "number.base": "The recharge amount must contain only numeric value.",
         "number.min": "The recharge amount must be greater than or equal to 1.",
     }),
-    service_amount: Joi.number().min(0).required().messages({
-        "any.required": "The service amount field is required.",
-        "number.base": "The service amount must contain only numeric value.",
-        "number.min": "The service amount must be greater than or equal to 0.",
-    }),
+    // service_amount: Joi.number().min(0).required().messages({
+    //   "any.required": "The service amount field is required.",
+    //   "number.base": "The service amount must contain only numeric value.",
+    //   "number.min": "The service amount must be greater than or equal to 0.",
+    // }),
     profile_camp_id: Joi.string().required().messages({
         "any.required": "Camp id is required.",
         "string.empty": "Camp id is required.",

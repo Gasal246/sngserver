@@ -8,7 +8,7 @@ import path from "path";
 import mongoose from "mongoose";
 
 export const initialProfileUpdate = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {
@@ -48,7 +48,7 @@ export const initialProfileUpdate = async (
 };
 
 // FUNCTION TO UPDATE EXPO PUSH TOKEN FOR THE NOTIFICATION SERVICES.
-export const updateExpoPushToken = async (req: Request, res: Response) => {
+export const updateExpoPushToken = async (req: Request | any, res: Response) => {
   try {
     const token = req.body.expo_push_token;
     if (!token) {

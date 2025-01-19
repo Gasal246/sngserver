@@ -2,7 +2,7 @@ import { Request, Response } from "express";
 import { campService } from "../../services";
 import { Message, formatResponse } from "../../helpers";
 
-export const addCamp = async (req: Request, res: Response): Promise<void> => {
+export const addCamp = async (req: Request | any, res: Response): Promise<void> => {
   try {
     const totalCount = await campService.getCampsCount(
       req.decodedToken.data.id

@@ -3,7 +3,7 @@ import { internetPackageService } from "../../services";
 import { formatResponse } from "../../helpers";
 
 export const updateInternetPackage = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

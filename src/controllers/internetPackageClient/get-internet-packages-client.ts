@@ -4,7 +4,7 @@ import { createObjectId, formatResponse } from "../../helpers";
 import { Obj } from "../../types/interfaces";
 
 export const getAllInternetPackagesClient = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

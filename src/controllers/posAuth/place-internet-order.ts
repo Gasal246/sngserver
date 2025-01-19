@@ -23,7 +23,7 @@ import {
 } from "../../types/enums";
 
 export const placeInternetOrder = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

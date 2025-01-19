@@ -3,7 +3,7 @@ import { isValidObjectId } from "mongoose";
 import { Message, formatResponse } from "../../helpers";
 
 export const checkMongooseId = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

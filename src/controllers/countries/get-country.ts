@@ -3,7 +3,7 @@ import { countriesService } from "../../services";
 import { Message, formatResponse } from "../../helpers";
 
 export const getOneCountry = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

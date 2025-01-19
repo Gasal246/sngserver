@@ -140,7 +140,7 @@ const addClientSchema = Joi.object({
 });
 
 export const ClientValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -178,7 +178,7 @@ export const ClientValidator = async (
   }
 };
 
-const checkUniqueEmail = async (req: Request) => {
+const checkUniqueEmail = async (req: Request | any) => {
   return await clientService.checkEmail(
     req.body.email,
     req.params && req.params.id ? req.params.id : undefined

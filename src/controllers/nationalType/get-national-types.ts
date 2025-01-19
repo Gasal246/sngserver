@@ -3,7 +3,7 @@ import { nationalTypeService } from "../../services";
 import { formatResponse } from "../../helpers";
 
 export const getAllNationalTypes = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

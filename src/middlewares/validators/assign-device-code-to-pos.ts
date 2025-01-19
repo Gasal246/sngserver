@@ -15,7 +15,7 @@ const assignDeviceCodeToPosSchema = Joi.object({
 });
 
 export const assignDeviceCodeToPosValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -47,7 +47,7 @@ export const assignDeviceCodeToPosValidator = async (
   }
 };
 
-const checkDeviceCodeArr = async (req: Request) => {
+const checkDeviceCodeArr = async (req: Request | any) => {
   const regularExpression = new RegExp("^[0-9a-zA-Z]+(,[0-9a-zA-Z]+)*$");
   if (!regularExpression.test(req.body.pos_device_codes)) {
     return "Device code ids required with out space and comma separated values";

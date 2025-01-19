@@ -43,6 +43,7 @@ const verifyUserToken = async (req, res, next) => {
         res.status(401).json(data);
         return;
     }
+    // console.log("Token Verified");
     next();
 };
 exports.verifyUserToken = verifyUserToken;

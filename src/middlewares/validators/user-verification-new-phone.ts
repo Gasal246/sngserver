@@ -19,7 +19,7 @@ const userVerificationNewPhoneSchema = Joi.object({
 });
 
 export const userVerificationNewPhoneValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

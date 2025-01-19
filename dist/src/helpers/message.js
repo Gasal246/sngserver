@@ -25,5 +25,6 @@ exports.Message = {
     INSUFFICIENT_BALANCE: "Insufficient balance.Please recharge",
     LOCATION_CAMP_NO_AVAILABLE: "Location camp id is not available.",
     OUT_OF_SERVICE_AREA: "You are out of service area.",
+    POS_CAMP_NOT_AUT: "Pos Is Not Authorized To Access The Camp.",
 };
 //# sourceMappingURL=message.js.map

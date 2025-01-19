@@ -6,7 +6,7 @@ import {
 import { formatResponse } from "../../helpers";
 
 export const addDeviceCodeHistory = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

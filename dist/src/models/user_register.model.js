@@ -137,6 +137,10 @@ const schema = new mongoose_1.default.Schema({
         default: "",
         type: String,
     },
+    expo_push_token: {
+        default: "",
+        type: String,
+    },
     new_phone: {
         default: "0",
         type: String,

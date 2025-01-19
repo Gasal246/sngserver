@@ -5,7 +5,7 @@ import { generateHash } from "../../helpers";
 import { adminService } from "../../services";
 
 export const updatePassword = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

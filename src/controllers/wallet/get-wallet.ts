@@ -3,7 +3,7 @@ import { formatResponse } from "../../helpers";
 import { walletAvailableForUserAndClient } from "../../services/user_wallet";
 import { getCampById } from "../../services/camp";
 
-export async function getWallet(req: Request, res: Response) {
+export async function getWallet(req: Request | any, res: Response) {
   try {
     const { data: decodedToken } = req.decodedToken;
     let client_id: null | string =

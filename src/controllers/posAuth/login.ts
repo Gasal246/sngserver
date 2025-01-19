@@ -20,7 +20,7 @@ import {
 } from "../../services";
 import { isValidObjectId } from "mongoose";
 
-export const posLogin = async (req: Request, res: Response): Promise<void> => {
+export const posLogin = async (req: Request | any, res: Response): Promise<void> => {
   try {
     const user = await posService.getPosByEmail(req.body.email);
     if (!user) {

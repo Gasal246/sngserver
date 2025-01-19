@@ -11,7 +11,7 @@ import {
 import { accountantService, clientService, roleService } from "../../services";
 
 export const accountantLogin = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

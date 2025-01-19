@@ -47,11 +47,11 @@ const posLoginSchema = Joi.object({
         "any.required": "Password is required.",
         "string.empty": "Password is required.",
     }),
-    camp_id: Joi.string().required().messages({
+    camp_id: Joi.string().optional().messages({
         "any.required": "Camp id is required.",
         "string.empty": "Camp id is required.",
     }),
-    device_mac_address: Joi.string().required().messages({
+    device_mac_address: Joi.string().optional().messages({
         "any.required": "Device mac address is required.",
         "string.empty": "Device mac address is required.",
     }),

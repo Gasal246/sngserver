@@ -85,7 +85,7 @@ export default async (): Promise<Server | void> => {
     app.use(express.json());
     app.use("/public", express.static(path.join(__dirname, "../public")));
     app.use("/", router);
-    app.all("*", (req: Request, res: Response) => {
+    app.all("*", (req: Request | any, res: Response) => {
       res.send(
         `Welcome to searchngo APIs in ${process.env.NODE_ENV} environment.`
       );

@@ -5,7 +5,7 @@ import { accountantService } from "../../services";
 import { Roles } from "../../types/enums";
 
 export const isAccountantIdIsExists = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

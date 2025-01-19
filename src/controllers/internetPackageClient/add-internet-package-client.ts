@@ -10,7 +10,7 @@ import {
 } from "../../helpers";
 
 export const addInternetPackageClient = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

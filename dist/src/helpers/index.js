@@ -39,7 +39,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.MAX_KB = exports.MAX_DAY = exports.getUrlForMongodb = exports.getUrlOfProfileImage = exports.IMAGE_SUPPORTED_FORMATS = exports.userDir = exports.dayToMinutes = exports.minutesToDay = exports.minuteInMilleSeconds = exports.sendEmailOtp = exports.sendOtp = exports.generateOtp = exports.deleteFile = exports.generateRandomPackageCode = exports.generateRandomDeviceCode = exports.convertsObjectIds = exports.checkAllIdValid = exports.hasDuplicate = exports.parseToSimpleObj = exports.validPassword = exports.generateHash = exports.createObjectId = exports.normalizePort = exports.isStage = exports.isProd = exports.isDev = exports.getEnv = void 0;
+exports.MAX_KB = exports.MAX_DAY = exports.getUrlForMongodb = exports.getUrlOfProfileImage = exports.IMAGE_SUPPORTED_FORMATS = exports.commonUserDir = exports.userDir = exports.dayToMinutes = exports.minutesToDay = exports.minuteInMilleSeconds = exports.sendEmailOtp = exports.sendOtp = exports.generateOtp = exports.deleteFile = exports.generateRandomPackageCode = exports.generateRandomDeviceCode = exports.convertsObjectIds = exports.checkAllIdValid = exports.hasDuplicate = exports.parseToSimpleObj = exports.validPassword = exports.generateHash = exports.createObjectId = exports.normalizePort = exports.isStage = exports.isProd = exports.isDev = exports.getEnv = void 0;
 const bcryptjs_1 = require("bcryptjs");
 const mongoose_1 = __importStar(require("mongoose"));
 const enums_1 = require("../types/enums");
@@ -224,6 +224,7 @@ const dayToMinutes = (day) => {
 };
 exports.dayToMinutes = dayToMinutes;
 exports.userDir = "./public/uploads/user/profile/";
+exports.commonUserDir = "./public/uploads/user/";
 exports.IMAGE_SUPPORTED_FORMATS = ["image/png", "image/jpg", "image/jpeg"];
 const getUrlOfProfileImage = (name) => {
     return process.env.BASE_URL + `/public/uploads/user/profile/` + name;

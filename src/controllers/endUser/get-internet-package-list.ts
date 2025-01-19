@@ -9,7 +9,7 @@ import { internetPackageClientService, userCampService } from "../../services";
 import { Obj } from "../../types/interfaces";
 
 export const getInternetPackageListForEndUser = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

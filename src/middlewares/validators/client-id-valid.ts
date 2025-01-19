@@ -4,7 +4,7 @@ import { Message, formatResponse } from "../../helpers";
 import { clientService } from "../../services";
 
 export const isClientIdIsExists = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

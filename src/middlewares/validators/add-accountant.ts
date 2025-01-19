@@ -24,7 +24,7 @@ const accountantSchema = Joi.object({
 });
 
 export const accountantValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -63,7 +63,7 @@ export const accountantValidator = async (
   }
 };
 
-const checkUniqueEmail = async (req: Request) => {
+const checkUniqueEmail = async (req: Request | any) => {
   return await accountantService.checkEmail(
     req.body.email,
     req.params && req.params.id ? req.params.id : undefined

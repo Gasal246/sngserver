@@ -7,7 +7,7 @@ import {
 } from "../../helpers";
 
 export const posCheckin = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

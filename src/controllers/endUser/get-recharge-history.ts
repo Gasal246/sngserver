@@ -4,7 +4,7 @@ import { Message, formatResponse, parseToSimpleObj } from "../../helpers";
 import dayjs from "dayjs";
 
 export const getRechargeHistory = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

@@ -15,7 +15,7 @@ import { authConfig } from "../../config/auth.config";
 import { isValidObjectId } from "mongoose";
 
 export const verifyUserOtp = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

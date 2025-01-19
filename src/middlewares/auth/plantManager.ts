@@ -6,7 +6,7 @@ import { authConfig } from "../../config/auth.config";
 import { plantManagerService } from "../../services";
 
 export const verifyPlantManagerToken = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

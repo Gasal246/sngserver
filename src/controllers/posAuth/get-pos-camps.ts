@@ -3,7 +3,7 @@ import { Message, formatResponse } from "../../helpers";
 import { CampAssignPosService } from "../../services";
 
 export const getPosCamps = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

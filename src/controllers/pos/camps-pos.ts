@@ -4,7 +4,7 @@ import { CampAssignPosService } from "../../services";
 import mongoose from "mongoose";
 
 export const getPosListByCampId = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

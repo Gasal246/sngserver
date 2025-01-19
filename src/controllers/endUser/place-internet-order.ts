@@ -20,7 +20,7 @@ import { getCampCurrencyCode } from "../../services/camp";
 import { getClientByIdWithoutStatus } from "../../services/client";
 
 export const userPlaceInternetOrder = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

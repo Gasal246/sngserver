@@ -17,7 +17,7 @@ const assignedPackageListCampWiseSchema = Joi.object({
 });
 
 export const assignedPackageListCampWiseValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -49,7 +49,7 @@ export const assignedPackageListCampWiseValidator = async (
   }
 };
 
-const checkCampsIdArr = (req: Request) => {
+const checkCampsIdArr = (req: Request | any) => {
   const camp_ids: string = req.query.camp_ids
     ? req.query.camp_ids.toString()
     : "";

@@ -4,7 +4,7 @@ import { accountantService, roleService } from "../../services";
 import { Roles } from "../../types/enums";
 
 export const addAccountant = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

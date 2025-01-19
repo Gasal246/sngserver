@@ -3,7 +3,7 @@ import { Message, formatResponse, generateOtp, sendOtp } from "../../helpers";
 import { userRegisterService } from "../../services";
 
 export const changeUserPhone = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

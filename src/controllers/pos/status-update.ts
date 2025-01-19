@@ -3,7 +3,7 @@ import { campService, posService } from "../../services";
 import { Message, formatResponse } from "../../helpers";
 
 export const posStatusUpdate = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

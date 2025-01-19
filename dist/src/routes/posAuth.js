@@ -42,6 +42,7 @@ const validators_1 = require("../middlewares/validators");
 const pos_1 = require("../middlewares/auth/pos");
 const multer_1 = __importDefault(require("multer"));
 const get_internet_package_list_1 = require("../controllers/posAuth/get-internet-package-list");
+const camps_pos_1 = require("../controllers/pos/camps-pos");
 const router = express.Router();
 router.post("/login", (0, multer_1.default)().array(""), validators_1.posLoginValidator, controllers_1.posLogin);
 router.get("/profile", pos_1.verifyPosToken, controllers_1.getPosProfile);
@@ -54,5 +55,6 @@ router.post("/internet-package/place-order", (0, multer_1.default)().array(""), 
 router.get("/internet-package/order", [pos_1.verifyPosToken, validators_1.getCampWiseInternetOrderValidator], controllers_1.getInternetPackageOrderCampWise);
 router.get("/internet-package/order-by-user", [pos_1.verifyPosToken, validators_1.posCampInternetPackageListValidator], controllers_1.getInternetPackageOrderUserWise);
 router.get("/getCamps-client-wise", [pos_1.verifyPosToken], controllers_1.getPosCampsClientWise);
+router.get("/get-pos-assigned-to-camp/:camp_id", pos_1.verifyPosToken, camps_pos_1.getPosListByCampId);
 exports.default = router;
 //# sourceMappingURL=posAuth.js.map

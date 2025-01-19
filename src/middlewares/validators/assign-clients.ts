@@ -15,7 +15,7 @@ const assignClientSchema = Joi.object({
 });
 
 export const assignClientValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -45,7 +45,7 @@ export const assignClientValidator = async (
   }
 };
 
-const checkClientIdArr = (req: Request) => {
+const checkClientIdArr = (req: Request | any) => {
   const regularExpression = new RegExp("^[0-9a-zA-Z]+(,[0-9a-zA-Z]+)*$");
   if (!regularExpression.test(req.body.client_ids)) {
     return "Client ids required with out space and comma separated values";

@@ -9,6 +9,7 @@ const helpers_1 = require("../../helpers");
 const mongoose_1 = require("mongoose");
 const models_1 = __importDefault(require("../../models"));
 const enums_1 = require("../../types/enums");
+const user_transactions_1 = require("../../services/user_transactions");
 const userWalletRecharge = async (req, res) => {
     try {
         if (!(0, mongoose_1.isValidObjectId)(req.body.profile_camp_id)) {
@@ -44,11 +45,16 @@ const userWalletRecharge = async (req, res) => {
             res.status(400).json(data);
             return;
         }
-        if (req.decodedToken.data.client_id != assignCampDetails.client_id) {
-            const data = (0, helpers_1.formatResponse)(400, true, "User and pos user not of same client.", null);
-            res.status(400).json(data);
-            return;
-        }
+        // if (req.decodedToken.data.client_id != assignCampDetails.client_id) {
+        //   const data = formatResponse(
+        //     400,
+        //     true,
+        //     "User and pos user not of same client.",
+        //     null
+        //   );
+        //   res.status(400).json(data);
+        //   return;
+        // }
         const promises = [];
         const walletData = await services_1.userWalletService.walletAvailableForUserAndClient(req.decodedToken.data.client_id, req.body.user_id);
         if (walletData) {
@@ -70,14 +76,20 @@ const userWalletRecharge = async (req, res) => {
         userRecharge.role_id = (0, helpers_1.createObjectId)(req.decodedToken.data.role_id);
         userRecharge.type = enums_1.RechargeTypeEnum.POS_TOP_UP;
         userRecharge.recharge_amount = req.body.recharge_amount;
-        userRecharge.service_amount = req.body.service_amount;
         userRecharge.camp_id = (0, helpers_1.createObjectId)(req.body.profile_camp_id);
-        userRecharge.payable_amount =
-            parseFloat(req.body.recharge_amount) +
-                parseFloat(req.body.service_amount);
         userRecharge.status = 1;
         userRecharge.transaction_id = (0, helpers_1.generateRandomPackageCode)();
+        // userRecharge.service_amount = req.body.service_amount;
+        // userRecharge.payable_amount = parseFloat(req.body.recharge_amount);
         promises.push(services_1.userRechargeService.createUserRecharge(userRecharge));
+        promises.push((0, user_transactions_1.addNewTransaction)({
+            amount: req.body.recharge_amount,
+            currency: "AED",
+            title: enums_1.RechargeTypeEnum.POS_TOP_UP,
+            type: "credit",
+            userid: user._id.toString(),
+            walletid: walletData === null || walletData === void 0 ? void 0 : walletData.id,
+        }));
         await Promise.all(promises);
         const data = (0, helpers_1.formatResponse)(200, false, "User recharge done successfully", null);
         res.status(200).json(data);

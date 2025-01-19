@@ -4,7 +4,7 @@ import { Message, formatResponse } from "../../helpers";
 import { countriesService } from "../../services";
 
 export const isCountryIdIsExists = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

@@ -24,7 +24,7 @@ const posLoginSchema = Joi.object({
 });
 
 export const posLoginValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

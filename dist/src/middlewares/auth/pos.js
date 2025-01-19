@@ -6,6 +6,7 @@ const helpers_1 = require("../../helpers");
 const auth_config_1 = require("../../config/auth.config");
 const services_1 = require("../../services");
 const verifyPosToken = async (req, res, next) => {
+    // console.log("Token Verification")
     if (!req.headers.authorization ||
         req.headers.authorization.split(" ")[0] !== "Bearer") {
         const data = (0, helpers_1.formatResponse)(401, true, helpers_1.Message.ACCESS_DENIED, null);
@@ -32,6 +33,7 @@ const verifyPosToken = async (req, res, next) => {
             return;
         }
         req.decodedToken = decoded;
+        // console.log("Token Verified")
     }
     catch (err) {
         const data = (0, helpers_1.formatResponse)(401, true, helpers_1.Message.ACCESS_DENIED, null);

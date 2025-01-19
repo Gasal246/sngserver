@@ -84,7 +84,7 @@ const updateProfileSchema = Joi.object({
 });
 
 export const updateProfileValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -156,7 +156,7 @@ export const updateProfileValidator = async (
   }
 };
 
-const checkUniqueEmail = async (req: Request) => {
+const checkUniqueEmail = async (req: Request | any) => {
   return await userRegisterService.checkEmail(
     req.body.email,
     req.decodedToken.data.id

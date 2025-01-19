@@ -3,7 +3,7 @@ import { formatResponse } from "../../helpers";
 import { campService, userCampService } from "../../services";
 
 export const getClientWiseCamp = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

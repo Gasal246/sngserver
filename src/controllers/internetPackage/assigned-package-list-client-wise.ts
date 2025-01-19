@@ -4,7 +4,7 @@ import { formatResponse, minutesToDay } from "../../helpers";
 import { Obj } from "../../types/interfaces";
 
 export const assignedPackageListClientWise = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

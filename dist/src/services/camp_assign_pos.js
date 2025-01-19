@@ -93,7 +93,7 @@ const getCampDetails = async (posId) => {
     return result;
 };
 exports.getCampDetails = getCampDetails;
-const getCampAssignPosDetails = async (campId, status) => {
+const getCampAssignPosDetails = async (campId, status, limit) => {
     const filter = {
         camp_id: campId,
         status: status
@@ -102,7 +102,7 @@ const getCampAssignPosDetails = async (campId, status) => {
                 $ne: 0,
             },
     };
-    const result = await campAssignPosModel.aggregate([
+    const pipeline = [
         {
             $match: filter,
         },
@@ -130,7 +130,11 @@ const getCampAssignPosDetails = async (campId, status) => {
         {
             $unset: ["__v", "pos.__v", "_id", "pos._id", "pos.password"],
         },
-    ]);
+    ];
+    if (limit) {
+        pipeline.push({ $limit: parseInt(limit) });
+    }
+    const result = await campAssignPosModel.aggregate(pipeline);
     return result;
 };
 exports.getCampAssignPosDetails = getCampAssignPosDetails;

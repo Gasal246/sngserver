@@ -25,7 +25,7 @@ const addCampSchema = Joi.object({
 });
 
 export const posValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -73,13 +73,13 @@ export const posValidator = async (
   }
 };
 
-const checkEmail = async (req: Request) => {
+const checkEmail = async (req: Request | any) => {
   return await posService.checkEmail(
     req.body.email,
     req.params && req.params.id ? req.params.id : undefined
   );
 };
-const checkIp = async (req: Request) => {
+const checkIp = async (req: Request | any) => {
   return await posService.checkIp(
     req.body.ip_mac,
     req.params && req.params.id ? req.params.id : undefined

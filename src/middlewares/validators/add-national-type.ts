@@ -14,7 +14,7 @@ const addClientSchema = Joi.object({
 });
 
 export const addNationalTypeValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {
@@ -52,7 +52,7 @@ export const addNationalTypeValidator = async (
   }
 };
 
-const checkUniqueName = async (req: Request) => {
+const checkUniqueName = async (req: Request | any) => {
   return await nationalTypeService.checkUniqueName(
     req.body.name,
     req.params && req.params.id ? req.params.id : undefined

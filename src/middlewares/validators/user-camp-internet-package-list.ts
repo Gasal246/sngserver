@@ -11,7 +11,7 @@ const UserCampInternetPackageListSchema = Joi.object({
 });
 
 export const userCampInternetPackageListValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

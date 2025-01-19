@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getBaseCampUserDetails = exports.getCampAssignDeviceDetails = exports.getCampByLocationApi = exports.checkCampsByIdsFromClient = exports.getCampByMacAddress = exports.getCampByClientId = exports.getCampByClientIdAndId = exports.getCampsCount = exports.getAllCamps = exports.updateStatus = exports.getCampByIdWithoutStatus = exports.getCampById = exports.updateCamp = exports.createCamp = exports.checkCampName = void 0;
+exports.getCampCurrencyCode = exports.getBaseCampUserDetails = exports.getCampAssignDeviceDetails = exports.getCampByLocationApi = exports.checkCampsByIdsFromClient = exports.getCampByMacAddress = exports.getCampByClientId = exports.getCampByClientIdAndId = exports.getCampsCount = exports.getAllCamps = exports.updateStatus = exports.getCampByIdWithoutStatus = exports.getCampById = exports.updateCamp = exports.createCamp = exports.checkCampName = void 0;
 const helpers_1 = require("../helpers");
 const models_1 = __importDefault(require("../models"));
 const campModel = models_1.default.campModel;
@@ -53,7 +53,10 @@ const updateCamp = async (id, client) => {
 };
 exports.updateCamp = updateCamp;
 const getCampById = async (id) => {
-    const result = await campModel.findOne({ _id: id, status: 1 });
+    const result = await campModel.findOne({
+        _id: (0, helpers_1.createObjectId)(id),
+        status: 1,
+    });
     return result;
 };
 exports.getCampById = getCampById;
@@ -271,4 +274,31 @@ const getBaseCampUserDetails = async (client_id, camp_id) => {
     return result;
 };
 exports.getBaseCampUserDetails = getBaseCampUserDetails;
+const getCampCurrencyCode = async (location_id) => {
+    const result = await campModel.aggregate([
+        {
+            $match: { _id: (0, helpers_1.createObjectId)(location_id) },
+        },
+        {
+            $lookup: {
+                from: "clients",
+                localField: "client_id",
+                foreignField: "_id",
+                as: "client_data",
+                pipeline: [
+                    {
+                        $project: {
+                            currency_code: 1,
+                        },
+                    },
+                ],
+            },
+        },
+        {
+            $unwind: "$client_data",
+        },
+    ]);
+    return result;
+};
+exports.getCampCurrencyCode = getCampCurrencyCode;
 //# sourceMappingURL=camp.js.map

@@ -4,7 +4,7 @@ import { formatResponse } from "../../helpers";
 import { Roles } from "../../types/enums";
 
 export const getAllAccountants = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

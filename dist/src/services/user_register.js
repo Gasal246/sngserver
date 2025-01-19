@@ -4,6 +4,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.userSearchWithKeyword = exports.checkUniquePhone = exports.checkEmail = exports.findUserWithWallet = exports.findUser = exports.updateProfile = exports.updateUserById = exports.updateUser = exports.createUser = exports.isUuidFound = exports.findUserForVerification = exports.findUserByEmail = exports.findUserByMobileNumber = void 0;
+const mongoose_1 = __importDefault(require("mongoose"));
 const helpers_1 = require("../helpers");
 const models_1 = __importDefault(require("../models"));
 const userRegisterModel = models_1.default.userRegisterModel;
@@ -79,7 +80,8 @@ const updateUserById = async (id, data) => {
 };
 exports.updateUserById = updateUserById;
 const updateProfile = async (id, user) => {
-    await userRegisterModel.updateOne({ _id: id }, user);
+    const result = await userRegisterModel.findByIdAndUpdate(new mongoose_1.default.Types.ObjectId(id), user);
+    return result;
 };
 exports.updateProfile = updateProfile;
 const findUser = async (_id) => {

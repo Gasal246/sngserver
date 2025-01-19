@@ -3,7 +3,7 @@ import { formatResponse } from "../../helpers";
 import { nationalTypeService } from "../../services";
 
 export const addNationalType = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

@@ -29,7 +29,7 @@ const storageEngine = multer.diskStorage({
     callback(null, userDir);
   },
   filename: function (
-    req: Request,
+    req: Request | any,
     file: Express.Multer.File,
     callback: (error: Error | null, filename: string) => void
   ) {
@@ -51,7 +51,7 @@ const uploadHandler = multer({
 ]);
 
 export const imageValidator = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

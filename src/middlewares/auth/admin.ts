@@ -6,7 +6,7 @@ import { authConfig } from "../../config/auth.config";
 import { adminService } from "../../services";
 
 export const verifyToken = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

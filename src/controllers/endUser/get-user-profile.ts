@@ -8,7 +8,7 @@ import {
 import { userRegisterService } from "../../services";
 
 export const getUserProfile = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

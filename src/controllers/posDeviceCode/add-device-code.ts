@@ -5,7 +5,7 @@ import { isValidObjectId } from "mongoose";
 import db from "../../models";
 
 export const addDeviceCode = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

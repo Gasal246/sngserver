@@ -4,7 +4,7 @@ import { Message, formatResponse } from "../../helpers";
 import { plantManagerService } from "../../services";
 
 export const isPlantMangerIdIsExists = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

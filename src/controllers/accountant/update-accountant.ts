@@ -3,7 +3,7 @@ import { formatResponse } from "../../helpers";
 import { accountantService } from "../../services";
 
 export const updateAccountant = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

@@ -4,7 +4,7 @@ import { Message, formatResponse } from "../../helpers";
 import { posService } from "../../services";
 
 export const isPosIdIsExists = async (
-  req: Request,
+  req: Request | any,
   res: Response,
   next: NextFunction
 ): Promise<void> => {

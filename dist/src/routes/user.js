@@ -43,10 +43,18 @@ const validators_1 = require("../middlewares/validators");
 const user_1 = require("../middlewares/auth/user");
 const validate_camp_1 = require("../controllers/endUser/validate-camp");
 const validate_camp_2 = require("../middlewares/validators/validate-camp");
+const profile_upload_1 = require("../middlewares/validators/profile-upload");
+const initialProfileUpdate_1 = require("../controllers/endUser/initialProfileUpdate");
+const get_wallet_1 = require("../controllers/wallet/get-wallet");
+const get_transactions_1 = require("../controllers/wallet/get-transactions");
+const notification_1 = require("../services/notification");
 const router = express.Router();
 router.post("/send-otp", (0, multer_1.default)().array(""), validators_1.userSendOtpValidator, controllers_1.sendUserOtp);
 router.post("/otp-verification", (0, multer_1.default)().array(""), validators_1.userVerifyOtpValidator, controllers_1.verifyUserOtp);
 router.post("/profile-update", [user_1.verifyUserToken, validators_1.imageValidator, validators_1.updateProfileValidator], controllers_1.updateProfile);
+// Entry Time Profile Updation End Point
+router.post("/update-profile", user_1.verifyUserToken, profile_upload_1.profileUpload.single("photo"), initialProfileUpdate_1.initialProfileUpdate);
+router.post("/update-expo-push-token", user_1.verifyUserToken, initialProfileUpdate_1.updateExpoPushToken);
 router.get("/national-type", user_1.verifyUserToken, controllers_1.getAllNationalTypes);
 router.get("/country", user_1.verifyUserToken, controllers_1.getAllCountries);
 router.get("/profile", user_1.verifyUserToken, controllers_1.getUserProfile);
@@ -65,5 +73,20 @@ router.get("/camps/packages/internet", [user_1.verifyUserToken], controllers_1.g
 router.get("/camps/get-client-wise-camp", user_1.verifyUserToken, controllers_1.getClientWiseCamp);
 router.get("/camps/:id", [user_1.verifyUserToken, validators_1.checkMongooseId], controllers_1.getOneCamp);
 router.get("/internet-package/order/:id", [user_1.verifyUserToken, validators_1.checkMongooseId], controllers_1.getInternetPackageOrderById);
+router.get("/wallet", user_1.verifyUserToken, get_wallet_1.getWallet);
+router.get("/wallet-transactions/:id", user_1.verifyUserToken, get_transactions_1.getWalletTransactions);
+// ######## Testing Notification Setup ############
+router.post("/notification-test", async (req, res) => {
+    const token = req.body.token;
+    const data = req.body.data;
+    (0, notification_1.sendNotification)(data, token)
+        .then(() => {
+        res.status(200).json("Notification Send");
+        return;
+    })
+        .catch((e) => {
+        res.status(500).json(e);
+    });
+});
 exports.default = router;
 //# sourceMappingURL=user.js.map

@@ -4,7 +4,7 @@ import { coordinatorService, roleService } from "../../services";
 import { Roles } from "../../types/enums";
 
 export const addCoordinator = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {

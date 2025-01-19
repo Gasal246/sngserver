@@ -11,7 +11,7 @@ import { Obj } from "../../types/interfaces";
 import { Roles } from "../../types/enums";
 
 export const assignedPackageListCampWise = async (
-  req: Request,
+  req: Request | any,
   res: Response
 ): Promise<void> => {
   try {
