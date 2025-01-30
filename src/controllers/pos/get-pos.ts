@@ -2,7 +2,10 @@ import { Request, Response } from "express";
 import { posService } from "../../services";
 import { formatResponse } from "../../helpers";
 
-export const getAllPos = async (req: Request | any, res: Response): Promise<void> => {
+export const getAllPos = async (
+  req: Request | any,
+  res: Response
+): Promise<void> => {
   try {
     const status = req.query.status?.toString();
     const pos = await posService.getAllPos(req.decodedToken.data.id, status);

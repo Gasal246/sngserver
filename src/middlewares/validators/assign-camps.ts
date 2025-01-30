@@ -12,6 +12,16 @@ const assignCampsSchema = Joi.object({
     "any.required": "Camp id field is required.",
     "string.empty": "Camp id field is required.",
   }),
+  package_sales_price: Joi.number().required().messages({
+    "any.required": "Package sales price field is required.",
+    "string.empty": "Package sales price field is required.",
+    "number.base": "Package sales price field must contain only numbers.",
+  }),
+  package_cost_price: Joi.number().required().messages({
+    "any.required": "Package cost price field is required.",
+    "string.empty": "Package cost price field is required.",
+    "number.base": "Package cost price field must contain only numbers.",
+  }),
 });
 
 export const assignCampsValidator = async (

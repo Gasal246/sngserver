@@ -2,7 +2,10 @@ import { Request, Response } from "express";
 import { posService, roleService } from "../../services";
 import { Message, createObjectId, formatResponse } from "../../helpers";
 
-export const updatePos = async (req: Request | any, res: Response): Promise<void> => {
+export const updatePos = async (
+  req: Request | any,
+  res: Response
+): Promise<void> => {
   try {
     await posService.updatePos(req.params.id, req.body);
     const data = formatResponse(200, false, "Pos updated successfully.", null);

@@ -16,7 +16,6 @@ import {
 import db from "../../models";
 import { OrderStatus, CreatedByUserType } from "../../types/enums";
 import { addNewTransaction } from "../../services/user_transactions";
-import { getCampCurrencyCode } from "../../services/camp";
 import { getClientByIdWithoutStatus } from "../../services/client";
 
 export const userPlaceInternetOrder = async (
@@ -83,7 +82,7 @@ export const userPlaceInternetOrder = async (
       return;
     }
 
-    const orderPrice = packageData.internet_package_client.package_price;
+    const orderPrice = packageData.package_sales_price;
     if (orderPrice > wallet.wallet_amount) {
       const data = formatResponse(
         400,
@@ -112,8 +111,8 @@ export const userPlaceInternetOrder = async (
       packageData.internet_package_client.internet_package;
     order.duration = originalInternetPackage.duration;
     order.volume = originalInternetPackage.volume;
-    order.download_bandwidth = originalInternetPackage.download_bandwidth;
-    order.upload_bandwidth = originalInternetPackage.upload_bandwidth;
+    order.download_bandwidth = packageData.download_bandwidth;
+    order.upload_bandwidth = packageData.upload_bandwidth;
     order.package_type = originalInternetPackage.type;
     order.sub_total = orderPrice;
     order.payable_amount = orderPrice;

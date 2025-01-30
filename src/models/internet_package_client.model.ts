@@ -8,7 +8,7 @@ export interface IInternetPackageClient extends Document {
   package_name: string;
   package_code: string;
   package_speed: string;
-  package_price: Number;
+  // package_price: Number;
   package_status: Number;
   deleted_at: Date;
   createdAt: Date;
@@ -38,6 +38,11 @@ const schema = new mongoose.Schema(
     },
 
     package_price: {
+      type: Number,
+      required: true,
+    },
+
+    package_cost_price: {
       type: Number,
       required: true,
     },

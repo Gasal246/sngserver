@@ -99,6 +99,13 @@ export const getClientById = async (id: string): Promise<IClient | null> => {
   return result;
 };
 
+export const getClientCurrencyCode = async (id: string) => {
+  const result = await clientModel.findById(createObjectId(id), {
+    currency_code: 1,
+  });
+  return result?.currency_code || "";
+};
+
 export const getClientByIdWithoutStatus = async (
   id: string
 ): Promise<IClient | null> => {

@@ -71,7 +71,7 @@ export const assignedPackageListCampWise = async (
         package_id: a.package_id,
         camp_id: a.camp_id,
         assigned_status: a.status,
-        id: a.package_id,
+        id: a._id,
         client_id: a.internet_package_client
           ? a.internet_package_client.client_id
           : "",
@@ -84,15 +84,16 @@ export const assignedPackageListCampWise = async (
         package_code: a.internet_package_client
           ? a.internet_package_client.package_code
           : "",
-        package_speed: a.internet_package_client
-          ? a.internet_package_client.package_speed
-          : "",
+        package_speed: a.package_speed,
         package_status: a.internet_package_client
           ? a.internet_package_client.package_status
           : "",
-        package_price: a.internet_package_client
-          ? a.internet_package_client.package_price
-          : "",
+        package_price: a.package_sales_price || 0,
+        package_cost_price: a.package_cost_price || 0,
+        package_revenue: a.package_revenue || 0,
+        package_upload_bandwidth: a.upload_bandwidth,
+        package_download_bandwidth: a.download_bandwidth,
+        package_speed_unit: "Mbps",
         created_at: a.createdAt,
         updated_at: a.updatedAt,
         deleted_at: a.deleted_at,

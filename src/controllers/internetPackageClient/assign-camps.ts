@@ -15,6 +15,7 @@ export const assignCamps = async (
   res: Response
 ): Promise<void> => {
   try {
+    // console.log(req.body);
     const objAssignCamps = req.body;
     const camp_ids = objAssignCamps.camp_ids.split(",");
 
@@ -92,6 +93,10 @@ export const assignCamps = async (
       const obj = new db.InternetPackageAssignCampsModel();
       obj.camp_id = element;
       obj.package_id = objAssignCamps.package_id;
+      obj.package_cost_price = req.body.package_cost_price;
+      obj.package_sales_price = req.body.package_sales_price;
+      obj.package_revenue =
+        req.body.package_sales_price - req.body.package_cost_price;
       obj.camp_attach_uuid = generateRandomPackageCode();
       obj.status = 1;
       objAssignCampsList.push(obj);

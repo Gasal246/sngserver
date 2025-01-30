@@ -23,6 +23,7 @@ import {
   updateInternetPackageClient,
 } from "../controllers";
 import multer from "multer";
+import { updateInternetPackageAssignedToCamps } from "../controllers/internetPackageClient/update-internet-package-assigned-to-camps";
 
 const router = express.Router();
 router.get(
@@ -77,6 +78,12 @@ router.post(
   multer().array(""),
   [verifyClientToken, assignCampsValidator],
   assignCamps
+);
+
+router.put(
+  "/internet-package/assigned-to-camps/:id",
+  verifyClientToken,
+  updateInternetPackageAssignedToCamps
 );
 
 export default router;

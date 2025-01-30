@@ -23,6 +23,18 @@ const investorsSchema = Joi.object({
   }),
 });
 
+const assignInvestorCampSchema = Joi.object({
+  camp_id: Joi.string().required().messages({
+    "any.required": "Camp Id field is required.",
+    "string.empty": "Camp Id field is required.",
+  }),
+
+  investor_id: Joi.string().required().messages({
+    "any.required": "Investor Id field is required.",
+    "string.empty": "Investor Id field is required.",
+  }),
+});
+
 export const addInvestorValidator = async (
   req: Request | any,
   res: Response,
@@ -57,6 +69,26 @@ export const addInvestorValidator = async (
       }
     }
 
+    const data = formatResponse(400, true, errorObj, null);
+    res.status(400).json(data);
+    return;
+  }
+};
+
+export const assignInvestorCampValidator = async (
+  req: Request | any,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    await assignInvestorCampSchema
+      .validateAsync(req.body, { abortEarly: false })
+      .then(() => {
+        next();
+      });
+  } catch (error: any) {
+    const { details } = error;
+    let errorObj = errorValidatorResponse(details);
     const data = formatResponse(400, true, errorObj, null);
     res.status(400).json(data);
     return;

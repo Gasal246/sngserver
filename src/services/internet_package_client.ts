@@ -86,6 +86,7 @@ export const getAllInternetPackagesClient = async (
     obj.package_speed = element.package_speed;
     obj.package_status = element.package_status;
     obj.package_price = element.package_price;
+    obj.package_cost_price = element.package_cost_price;
     obj.created_at = element.createdAt;
     obj.updated_at = element.updatedAt;
     obj.deleted_at = element.deleted_at;
@@ -188,8 +189,29 @@ export const assignedPackageListCampsWise = async (
       $unwind: "$camp",
     },
   ]);
+  // console.log("Package Assigned to Camps", result);
   return result;
 };
+
+export const getInternetPackageAssignedToCampById = async (id: string) => {
+  const result = await InternetPackageAssignCampsModel.findById(
+    createObjectId(id)
+  );
+  return result;
+};
+
+export const updateInternetPackageAssignedCamps = async (
+  id: string,
+  body: any
+) => {
+  const result = await InternetPackageAssignCampsModel.findByIdAndUpdate(
+    createObjectId(id),
+    { ...body },
+    { new: true }
+  );
+  return result;
+};
+
 export const assignedPackageListClientPackageWise = async (
   package_id: string,
   status: string,

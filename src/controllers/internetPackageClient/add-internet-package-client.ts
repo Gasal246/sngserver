@@ -14,6 +14,7 @@ export const addInternetPackageClient = async (
   res: Response
 ): Promise<void> => {
   try {
+    // console.log(req.body);
     const internetPackageClientModel = req.body;
 
     const internetPackage = await internetPackageService.getInternetPackageById(
@@ -24,6 +25,7 @@ export const addInternetPackageClient = async (
       res.status(400).json(data);
       return;
     }
+
     const checkAssignFromAdmin =
       await internetPackageService.checkAssignedInternetPackageByAdmin(
         req.decodedToken.data.id,

@@ -3,7 +3,10 @@ import { campService, posService, roleService } from "../../services";
 import { Message, createObjectId, formatResponse } from "../../helpers";
 import { Roles } from "../../types/enums";
 
-export const addPos = async (req: Request | any, res: Response): Promise<void> => {
+export const addPos = async (
+  req: Request | any,
+  res: Response
+): Promise<void> => {
   try {
     const role = await roleService.getRoleBySlug(Roles.ROLE_POS);
     if (!role) {

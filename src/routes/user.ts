@@ -164,4 +164,22 @@ router.post(
   }
 );
 
+// ############# MOC FETCH LOCATION API ############
+router.get(
+  "/moc-fetch-location",
+  (req: express.Request, res: express.Response) => {
+    console.log("Called Moc Location Information...");
+    res.json({
+      SG: {
+        client_ip: "",
+        IntenetAccess: "no",
+        LoggedIn: "no",
+        location_id: "66fa8aac30541af749baf67d",
+        client_mac: "7a:40:f6:be:83:cc",
+      },
+    });
+    return;
+  }
+);
+
 export default router;

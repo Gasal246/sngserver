@@ -20,6 +20,7 @@ import {
   CreatedByUserType,
 } from "../../types/enums";
 import { addNewTransaction } from "../../services/user_transactions";
+import { getClientById, getClientCurrencyCode } from "../../services/client";
 
 export const userWalletRecharge = async (
   req: Request | any,
@@ -88,16 +89,18 @@ export const userWalletRecharge = async (
     //   return;
     // }
 
-    const promises = [];
-    const walletData = await userWalletService.walletAvailableForUserAndClient(
+    let walletData = await userWalletService.walletAvailableForUserAndClient(
       req.decodedToken.data.client_id,
       req.body.user_id
     );
+
+    const promises = [];
     if (walletData) {
       const wallet_balance =
         walletData.wallet_amount + parseFloat(req.body.recharge_amount);
-      promises.push(
-        userWalletService.updateWalletAmount(walletData._id, wallet_balance)
+      await userWalletService.updateWalletAmount(
+        walletData._id,
+        wallet_balance
       );
     } else {
       const wallet = new db.userWalletModel();
@@ -105,7 +108,7 @@ export const userWalletRecharge = async (
       wallet.client_id = createObjectId(req.decodedToken.data.client_id);
       wallet.wallet_amount = parseFloat(req.body.recharge_amount);
       wallet.status = 1;
-      promises.push(userWalletService.createWallet(wallet));
+      walletData = await userWalletService.createWallet(wallet);
     }
 
     const userRecharge = new db.userRechargeModel();
@@ -123,14 +126,18 @@ export const userWalletRecharge = async (
 
     promises.push(userRechargeService.createUserRecharge(userRecharge));
 
+    const currency_code = await getClientCurrencyCode(
+      req.decodedToken.data.client_id
+    );
+
     promises.push(
       addNewTransaction({
         amount: req.body.recharge_amount,
-        currency: "AED",
+        currency: currency_code,
         title: RechargeTypeEnum.POS_TOP_UP,
         type: "credit",
         userid: user._id.toString(),
-        walletid: walletData?.id,
+        walletid: walletData?._id?.toString(),
       })
     );
 

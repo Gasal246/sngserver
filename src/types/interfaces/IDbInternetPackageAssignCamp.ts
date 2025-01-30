@@ -27,5 +27,11 @@ export interface IDbInternetPackageAssignCamp {
   createdAt: Date;
   updatedAt: Date;
   internet_package_client: InternetPackageClient;
+  package_cost_price: number;
+  package_sales_price: number;
+  package_revenue: number;
+  upload_bandwidth: number;
+  download_bandwidth: number;
+  package_speed: string;
   camp: ICamp;
 }

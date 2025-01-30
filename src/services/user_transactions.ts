@@ -22,7 +22,8 @@ export const getTransactionsByWalletId = async (
 ) => {
   const result = await userTransactions
     .find({ walletId: createObjectId(walletID) })
-    .limit(appConstants.transaction_limit * see_more_times);
+    .limit(appConstants.transaction_limit * see_more_times)
+    .sort({ createdAt: -1 });
   return result;
 };
 

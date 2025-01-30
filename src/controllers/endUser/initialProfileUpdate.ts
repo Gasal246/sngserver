@@ -48,7 +48,10 @@ export const initialProfileUpdate = async (
 };
 
 // FUNCTION TO UPDATE EXPO PUSH TOKEN FOR THE NOTIFICATION SERVICES.
-export const updateExpoPushToken = async (req: Request | any, res: Response) => {
+export const updateExpoPushToken = async (
+  req: Request | any,
+  res: Response
+) => {
   try {
     const token = req.body.expo_push_token;
     if (!token) {

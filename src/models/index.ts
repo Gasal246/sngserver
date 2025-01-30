@@ -26,6 +26,9 @@ import UserWalletModel from "./user_wallet.model";
 import OrderInternetPackageModel from "./order_internet_package.model";
 import PlantManagerModel from "./plant_manager.model";
 import UserTransactions from "./transaction.model";
+import Services from "./service.model";
+import Investor_assign_camps from "./investor_assign_camps.model";
+import InvestorRevenueOfAssignedCampService from "./investor_revenue_of_assigned_camp_service.model";
 
 export default {
   accountantModel: Accountant,
@@ -56,4 +59,7 @@ export default {
   orderInternetPackageModel: OrderInternetPackageModel,
   plantManagerModel: PlantManagerModel,
   userTransactions: UserTransactions,
+  servicesModel: Services,
+  investorAssignCampModel: Investor_assign_camps,
+  investorRevenueOfAssignedCampService: InvestorRevenueOfAssignedCampService,
 };

@@ -2,7 +2,10 @@ import { Request, Response } from "express";
 import { posService } from "../../services";
 import { Message, formatResponse } from "../../helpers";
 
-export const getOnePos = async (req: Request | any, res: Response): Promise<void> => {
+export const getOnePos = async (
+  req: Request | any,
+  res: Response
+): Promise<void> => {
   try {
     const pos = await posService.getPosById(req.params.id);
     if (!pos) {

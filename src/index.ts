@@ -102,7 +102,7 @@ export default async (): Promise<Server | void> => {
       fs.mkdirSync(dir, { recursive: true });
     }
 
-    server.listen(PORT, () =>
+    app.listen(3019, "0.0.0.0", () =>
       console.log(`Server is live at localhost:${PORT}`)
     );
   } catch (err) {

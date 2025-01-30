@@ -1,13 +1,20 @@
 import mongoose from "mongoose";
 import { ObjectID } from "../types/interfaces";
+import { required } from "joi";
 
 export interface IInternetPackageAssignCamps extends Document {
   _id: ObjectID;
   package_id: ObjectID;
   camp_id: ObjectID;
   camp_attach_uuid: String;
-  status: Number;
+  status: number;
   deleted_at: Date;
+  package_cost_price: number;
+  package_sales_price: number;
+  package_revenue: number;
+  upload_bandwidth: number;
+  package_speed: string;
+  download_bandwidth: number;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -26,6 +33,33 @@ const schema = new mongoose.Schema(
       type: Number,
       enum: [0, 1, 2, 3],
       required: true,
+    },
+
+    package_cost_price: {
+      type: Number,
+      required: true,
+    },
+
+    package_sales_price: {
+      type: Number,
+      required: true,
+    },
+
+    package_revenue: {
+      type: Number,
+      required: true,
+    },
+
+    upload_bandwidth: {
+      type: Number,
+    },
+
+    download_bandwidth: {
+      type: Number,
+    },
+
+    package_speed: {
+      type: String,
     },
 
     deleted_at: {

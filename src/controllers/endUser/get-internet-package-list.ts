@@ -73,8 +73,12 @@ export const getInternetPackageListForEndUser = async (
         internetPackage.internet_package_client.internet_package_id;
       obj.package_name = internetPackage.internet_package_client.package_name;
       obj.package_code = internetPackage.internet_package_client.package_code;
-      obj.package_speed = internetPackage.internet_package_client.package_speed;
-      obj.package_price = internetPackage.internet_package_client.package_price;
+      obj.package_speed =
+        internetPackage.package_speed ??
+        internetPackage.internet_package_client.package_speed;
+      obj.package_price =
+        internetPackage.package_sales_price ??
+        internetPackage.internet_package_client.package_price;
       obj.package_status =
         internetPackage.internet_package_client.package_status;
       obj.createdAt = internetPackage.internet_package_client.createdAt;
@@ -93,8 +97,11 @@ export const getInternetPackageListForEndUser = async (
       obj.original_duration = minutesToDay(originalPackage.duration);
       obj.original_type = originalPackage.type;
       obj.original_volume = originalPackage.volume;
-      obj.original_download_bandwidth = originalPackage.download_bandwidth;
-      obj.original_upload_bandwidth = originalPackage.upload_bandwidth;
+      obj.original_download_bandwidth =
+        internetPackage.download_bandwidth ??
+        originalPackage.download_bandwidth;
+      obj.original_upload_bandwidth =
+        internetPackage.upload_bandwidth ?? originalPackage.upload_bandwidth;
       obj.original_package_status = originalPackage.package_status;
       internetPackageList.push(obj);
     }

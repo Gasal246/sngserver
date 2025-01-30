@@ -8,6 +8,7 @@ import {
 } from "../controllers";
 import {
   addInvestorValidator,
+  assignInvestorCampValidator,
   checkMongooseId,
   isInvestorIdIsExists,
   statusUpdateValidator,
@@ -15,6 +16,12 @@ import {
 } from "../middlewares/validators";
 import { verifyClientToken } from "../middlewares/auth/client";
 import multer from "multer";
+import { getInvestorAssignedCamps } from "../controllers/investors/get-assigned-camps";
+import { assignCampToInvestor } from "../controllers/investors/assign-camp";
+import {
+  RecoverInvestorAssignCamp,
+  RemoveInvestorAssignedCamp,
+} from "../controllers/investors/remove-assigned-camp";
 
 const router = express.Router();
 router.post(
@@ -40,6 +47,30 @@ router.get(
   "/investors/:id",
   [verifyClientToken, checkMongooseId],
   getOneInvestor
+);
+
+router.post(
+  "/investor/add-camp",
+  [verifyClientToken, assignInvestorCampValidator],
+  assignCampToInvestor
+);
+
+router.get(
+  "/investor/get-assigned-camps/:investorId",
+  verifyClientToken,
+  getInvestorAssignedCamps
+);
+
+router.post(
+  "/remove-investor-camp",
+  [verifyClientToken, assignInvestorCampValidator],
+  RemoveInvestorAssignedCamp
+);
+
+router.post(
+  "/recover-investor-camp",
+  [verifyClientToken, assignInvestorCampValidator],
+  RecoverInvestorAssignCamp
 );
 
 export default router;
