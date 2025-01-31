@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getInternetPackageFromCampAndPackageId = exports.getInternetPackageForPosOrder = exports.assignedPackageListClientPackageWise = exports.assignedPackageListCampsWise = exports.assignCamps = exports.getAssignCampsByPackageIdAndCampId = exports.getAllInternetPackagesClient = exports.updatePackageStatus = exports.getInternetPackageClientByIdWithoutStatus = exports.getInternetPackageClientById = exports.updateInternetPackageClient = exports.createInternetPackageClient = void 0;
+exports.getInternetPackageFromCampAndPackageId = exports.getInternetPackageForPosOrder = exports.assignedPackageListClientPackageWise = exports.updateInternetPackageAssignedCamps = exports.getInternetPackageAssignedToCampById = exports.assignedPackageListCampsWise = exports.assignCamps = exports.getAssignCampsByPackageIdAndCampId = exports.getAllInternetPackagesClient = exports.updatePackageStatus = exports.getInternetPackageClientByIdWithoutStatus = exports.getInternetPackageClientById = exports.updateInternetPackageClient = exports.createInternetPackageClient = void 0;
 const helpers_1 = require("../helpers");
 const models_1 = __importDefault(require("../models"));
 const InternetPackageClientModel = models_1.default.InternetPackageClientModel;
@@ -66,6 +66,7 @@ const getAllInternetPackagesClient = async (filter) => {
         obj.package_speed = element.package_speed;
         obj.package_status = element.package_status;
         obj.package_price = element.package_price;
+        obj.package_cost_price = element.package_cost_price;
         obj.created_at = element.createdAt;
         obj.updated_at = element.updatedAt;
         obj.deleted_at = element.deleted_at;
@@ -156,9 +157,20 @@ const assignedPackageListCampsWise = async (camp_ids, status) => {
             $unwind: "$camp",
         },
     ]);
+    // console.log("Package Assigned to Camps", result);
     return result;
 };
 exports.assignedPackageListCampsWise = assignedPackageListCampsWise;
+const getInternetPackageAssignedToCampById = async (id) => {
+    const result = await InternetPackageAssignCampsModel.findById((0, helpers_1.createObjectId)(id));
+    return result;
+};
+exports.getInternetPackageAssignedToCampById = getInternetPackageAssignedToCampById;
+const updateInternetPackageAssignedCamps = async (id, body) => {
+    const result = await InternetPackageAssignCampsModel.findByIdAndUpdate((0, helpers_1.createObjectId)(id), { ...body }, { new: true });
+    return result;
+};
+exports.updateInternetPackageAssignedCamps = updateInternetPackageAssignedCamps;
 const assignedPackageListClientPackageWise = async (package_id, status, client_id) => {
     const filter = {
         package_id: (0, helpers_1.createObjectId)(package_id),

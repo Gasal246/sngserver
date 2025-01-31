@@ -10,7 +10,9 @@ const mongoose_1 = require("mongoose");
 const models_1 = __importDefault(require("../../models"));
 const enums_1 = require("../../types/enums");
 const user_transactions_1 = require("../../services/user_transactions");
+const client_1 = require("../../services/client");
 const userWalletRecharge = async (req, res) => {
+    var _a;
     try {
         if (!(0, mongoose_1.isValidObjectId)(req.body.profile_camp_id)) {
             const data = (0, helpers_1.formatResponse)(400, true, helpers_1.Message.CAMP_NOT_FOUND, null);
@@ -55,11 +57,11 @@ const userWalletRecharge = async (req, res) => {
         //   res.status(400).json(data);
         //   return;
         // }
+        let walletData = await services_1.userWalletService.walletAvailableForUserAndClient(req.decodedToken.data.client_id, req.body.user_id);
         const promises = [];
-        const walletData = await services_1.userWalletService.walletAvailableForUserAndClient(req.decodedToken.data.client_id, req.body.user_id);
         if (walletData) {
             const wallet_balance = walletData.wallet_amount + parseFloat(req.body.recharge_amount);
-            promises.push(services_1.userWalletService.updateWalletAmount(walletData._id, wallet_balance));
+            await services_1.userWalletService.updateWalletAmount(walletData._id, wallet_balance);
         }
         else {
             const wallet = new models_1.default.userWalletModel();
@@ -67,7 +69,7 @@ const userWalletRecharge = async (req, res) => {
             wallet.client_id = (0, helpers_1.createObjectId)(req.decodedToken.data.client_id);
             wallet.wallet_amount = parseFloat(req.body.recharge_amount);
             wallet.status = 1;
-            promises.push(services_1.userWalletService.createWallet(wallet));
+            walletData = await services_1.userWalletService.createWallet(wallet);
         }
         const userRecharge = new models_1.default.userRechargeModel();
         userRecharge.user_id = user._id;
@@ -82,13 +84,14 @@ const userWalletRecharge = async (req, res) => {
         // userRecharge.service_amount = req.body.service_amount;
         // userRecharge.payable_amount = parseFloat(req.body.recharge_amount);
         promises.push(services_1.userRechargeService.createUserRecharge(userRecharge));
+        const currency_code = await (0, client_1.getClientCurrencyCode)(req.decodedToken.data.client_id);
         promises.push((0, user_transactions_1.addNewTransaction)({
             amount: req.body.recharge_amount,
-            currency: "AED",
+            currency: currency_code,
             title: enums_1.RechargeTypeEnum.POS_TOP_UP,
             type: "credit",
             userid: user._id.toString(),
-            walletid: walletData === null || walletData === void 0 ? void 0 : walletData.id,
+            walletid: (_a = walletData === null || walletData === void 0 ? void 0 : walletData._id) === null || _a === void 0 ? void 0 : _a.toString(),
         }));
         await Promise.all(promises);
         const data = (0, helpers_1.formatResponse)(200, false, "User recharge done successfully", null);

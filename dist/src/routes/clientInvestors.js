@@ -41,11 +41,18 @@ const controllers_1 = require("../controllers");
 const validators_1 = require("../middlewares/validators");
 const client_1 = require("../middlewares/auth/client");
 const multer_1 = __importDefault(require("multer"));
+const get_assigned_camps_1 = require("../controllers/investors/get-assigned-camps");
+const assign_camp_1 = require("../controllers/investors/assign-camp");
+const remove_assigned_camp_1 = require("../controllers/investors/remove-assigned-camp");
 const router = express.Router();
 router.post("/investors", (0, multer_1.default)().array(""), [client_1.verifyClientToken, validators_1.addInvestorValidator], controllers_1.addInvestor);
 router.put("/investors/:id", (0, multer_1.default)().array(""), [client_1.verifyClientToken, validators_1.isInvestorIdIsExists, validators_1.addInvestorValidator], controllers_1.updateInvestor);
 router.post("/investors/status-update/:id", (0, multer_1.default)().array(""), [client_1.verifyClientToken, validators_1.checkMongooseId, validators_1.statusUpdateValidator], controllers_1.investorStatusUpdate);
 router.get("/investors", [client_1.verifyClientToken, validators_1.statusValidator], controllers_1.getAllInvestors);
 router.get("/investors/:id", [client_1.verifyClientToken, validators_1.checkMongooseId], controllers_1.getOneInvestor);
+router.post("/investor/add-camp", [client_1.verifyClientToken, validators_1.assignInvestorCampValidator], assign_camp_1.assignCampToInvestor);
+router.get("/investor/get-assigned-camps/:investorId", client_1.verifyClientToken, get_assigned_camps_1.getInvestorAssignedCamps);
+router.post("/remove-investor-camp", [client_1.verifyClientToken, validators_1.assignInvestorCampValidator], remove_assigned_camp_1.RemoveInvestorAssignedCamp);
+router.post("/recover-investor-camp", [client_1.verifyClientToken, validators_1.assignInvestorCampValidator], remove_assigned_camp_1.RecoverInvestorAssignCamp);
 exports.default = router;
 //# sourceMappingURL=clientInvestors.js.map

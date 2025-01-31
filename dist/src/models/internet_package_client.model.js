@@ -26,6 +26,10 @@ const schema = new mongoose_1.default.Schema({
         type: Number,
         required: true,
     },
+    package_cost_price: {
+        type: Number,
+        required: true,
+    },
     // 0=delete,1=active,2=pending,3=block
     package_status: {
         type: Number,

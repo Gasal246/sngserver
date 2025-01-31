@@ -55,6 +55,11 @@ const internetPackageClientSchema = Joi.object({
         "string.empty": "Package price field is required.",
         "number.base": "Package price field must contain only numbers.",
     }),
+    package_cost_price: Joi.number().required().messages({
+        "any.required": "Package cost price field is required.",
+        "string.empty": "Package cost price field is required.",
+        "number.base": "Package cost price field must contain only numbers.",
+    }),
 });
 const internetPackageClientValidator = async (req, res, next) => {
     const { error } = internetPackageClientSchema.validate(req.body, {

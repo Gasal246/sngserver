@@ -11,7 +11,8 @@ const userTransactions = models_1.default.userTransactions;
 const getTransactionsByWalletId = async (walletID, see_more_times) => {
     const result = await userTransactions
         .find({ walletId: (0, helpers_1.createObjectId)(walletID) })
-        .limit(constants_1.appConstants.transaction_limit * see_more_times);
+        .limit(constants_1.appConstants.transaction_limit * see_more_times)
+        .sort({ createdAt: -1 });
     return result;
 };
 exports.getTransactionsByWalletId = getTransactionsByWalletId;

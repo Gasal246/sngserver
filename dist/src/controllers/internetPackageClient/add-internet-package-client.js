@@ -5,6 +5,7 @@ const services_1 = require("../../services");
 const helpers_1 = require("../../helpers");
 const addInternetPackageClient = async (req, res) => {
     try {
+        // console.log(req.body);
         const internetPackageClientModel = req.body;
         const internetPackage = await services_1.internetPackageService.getInternetPackageById(req.body.internet_package_id);
         if (!internetPackage) {

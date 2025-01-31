@@ -31,6 +31,9 @@ const user_wallet_model_1 = __importDefault(require("./user_wallet.model"));
 const order_internet_package_model_1 = __importDefault(require("./order_internet_package.model"));
 const plant_manager_model_1 = __importDefault(require("./plant_manager.model"));
 const transaction_model_1 = __importDefault(require("./transaction.model"));
+const service_model_1 = __importDefault(require("./service.model"));
+const investor_assign_camps_model_1 = __importDefault(require("./investor_assign_camps.model"));
+const investor_revenue_of_assigned_camp_service_model_1 = __importDefault(require("./investor_revenue_of_assigned_camp_service.model"));
 exports.default = {
     accountantModel: accountant_model_1.default,
     adminModel: admin_model_1.default,
@@ -60,5 +63,8 @@ exports.default = {
     orderInternetPackageModel: order_internet_package_model_1.default,
     plantManagerModel: plant_manager_model_1.default,
     userTransactions: transaction_model_1.default,
+    servicesModel: service_model_1.default,
+    investorAssignCampModel: investor_assign_camps_model_1.default,
+    investorRevenueOfAssignedCampService: investor_revenue_of_assigned_camp_service_model_1.default,
 };
 //# sourceMappingURL=index.js.map

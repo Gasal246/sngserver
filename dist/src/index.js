@@ -115,7 +115,7 @@ exports.default = async () => {
         if (!fs.existsSync(dir)) {
             fs.mkdirSync(dir, { recursive: true });
         }
-        server.listen(PORT, () => console.log(`Server is live at localhost:${PORT}`));
+        app.listen(3019, "0.0.0.0", () => console.log(`Server is live at localhost:${PORT}`));
     }
     catch (err) {
         helpers_1.logger.debug(`Failed to connect to database. ${err}`);

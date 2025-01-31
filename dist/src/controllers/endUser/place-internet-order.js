@@ -47,7 +47,7 @@ const userPlaceInternetOrder = async (req, res) => {
             res.status(400).json(data);
             return;
         }
-        const orderPrice = packageData.internet_package_client.package_price;
+        const orderPrice = packageData.package_sales_price;
         if (orderPrice > wallet.wallet_amount) {
             const data = (0, helpers_1.formatResponse)(400, true, helpers_1.Message.INSUFFICIENT_BALANCE, null);
             res.status(400).json(data);
@@ -65,8 +65,8 @@ const userPlaceInternetOrder = async (req, res) => {
         const originalInternetPackage = packageData.internet_package_client.internet_package;
         order.duration = originalInternetPackage.duration;
         order.volume = originalInternetPackage.volume;
-        order.download_bandwidth = originalInternetPackage.download_bandwidth;
-        order.upload_bandwidth = originalInternetPackage.upload_bandwidth;
+        order.download_bandwidth = packageData.download_bandwidth;
+        order.upload_bandwidth = packageData.upload_bandwidth;
         order.package_type = originalInternetPackage.type;
         order.sub_total = orderPrice;
         order.payable_amount = orderPrice;

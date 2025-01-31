@@ -33,7 +33,7 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.addInvestorValidator = void 0;
+exports.assignInvestorCampValidator = exports.addInvestorValidator = void 0;
 const Joi = __importStar(require("joi"));
 const helpers_1 = require("../../helpers");
 const error_validator_response_1 = require("../../helpers/error-validator-response");
@@ -52,6 +52,16 @@ const investorsSchema = Joi.object({
     full_name: Joi.string().required().messages({
         "any.required": "Full name field is required.",
         "string.empty": "Full name field is required.",
+    }),
+});
+const assignInvestorCampSchema = Joi.object({
+    camp_id: Joi.string().required().messages({
+        "any.required": "Camp Id field is required.",
+        "string.empty": "Camp Id field is required.",
+    }),
+    investor_id: Joi.string().required().messages({
+        "any.required": "Investor Id field is required.",
+        "string.empty": "Investor Id field is required.",
     }),
 });
 const addInvestorValidator = async (req, res, next) => {
@@ -83,6 +93,23 @@ const addInvestorValidator = async (req, res, next) => {
     }
 };
 exports.addInvestorValidator = addInvestorValidator;
+const assignInvestorCampValidator = async (req, res, next) => {
+    try {
+        await assignInvestorCampSchema
+            .validateAsync(req.body, { abortEarly: false })
+            .then(() => {
+            next();
+        });
+    }
+    catch (error) {
+        const { details } = error;
+        let errorObj = (0, error_validator_response_1.errorValidatorResponse)(details);
+        const data = (0, helpers_1.formatResponse)(400, true, errorObj, null);
+        res.status(400).json(data);
+        return;
+    }
+};
+exports.assignInvestorCampValidator = assignInvestorCampValidator;
 const checkUniqueEmail = async (req) => {
     return await services_1.investorsService.checkEmail(req.body.email, req.params && req.params.id ? req.params.id : undefined);
 };

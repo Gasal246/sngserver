@@ -41,6 +41,7 @@ const client_1 = require("../middlewares/auth/client");
 const validators_1 = require("../middlewares/validators");
 const controllers_1 = require("../controllers");
 const multer_1 = __importDefault(require("multer"));
+const update_internet_package_assigned_to_camps_1 = require("../controllers/internetPackageClient/update-internet-package-assigned-to-camps");
 const router = express.Router();
 router.get("/internet-package/assigned", [client_1.verifyClientToken, validators_1.statusValidator], controllers_1.assignedPackageList);
 router.post("/internet-package", (0, multer_1.default)().array(""), [client_1.verifyClientToken, validators_1.internetPackageClientValidator], controllers_1.addInternetPackageClient);
@@ -55,5 +56,6 @@ router.get("/internet-package/assigned-package-camp-wise", [client_1.verifyClien
 router.get("/internet-package/assigned-camps-by-client-package", [client_1.verifyClientToken, validators_1.assignedCampsListClientPackageValidator], controllers_1.assignedCampsListClientPackage);
 router.get("/internet-package/:id", [client_1.verifyClientToken, validators_1.checkMongooseId], controllers_1.getOneInternetPackageClient);
 router.post("/internet-package/assign-camps", (0, multer_1.default)().array(""), [client_1.verifyClientToken, validators_1.assignCampsValidator], controllers_1.assignCamps);
+router.put("/internet-package/assigned-to-camps/:id", client_1.verifyClientToken, update_internet_package_assigned_to_camps_1.updateInternetPackageAssignedToCamps);
 exports.default = router;
 //# sourceMappingURL=internetPackageClient.js.map

@@ -33,31 +33,28 @@ var __importStar = (this && this.__importStar) || (function () {
     };
 })();
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.userPlaceOrderValidator = void 0;
-const Joi = __importStar(require("joi"));
-const helpers_1 = require("../../helpers");
-const error_validator_response_1 = require("../../helpers/error-validator-response");
-const userPlaceOrderSchema = Joi.object({
-    package_id: Joi.string().required().messages({
-        "any.required": "Package id is required.",
-        "string.empty": "Package id is required.",
-    }),
-    service_id: Joi.string().required().messages({
-        "any.required": "Service id is required.",
-        "string.empty": "Service id is required.",
-    }),
+const mongoose_1 = __importStar(require("mongoose"));
+const Investor_assign_campsSchema = new mongoose_1.Schema({
+    investor_id: { type: mongoose_1.Schema.Types.ObjectId, ref: "investors" },
+    camp_id: { type: mongoose_1.Schema.Types.ObjectId, ref: "camps" },
+    services: [
+        {
+            service_id: { type: String },
+            service_revenue_id: { type: mongoose_1.Schema.Types.ObjectId },
+        },
+    ],
+    status: {
+        type: String,
+        enum: ["active", "blocked", "deleted"],
+        default: "active",
+    },
+}, { timestamps: true });
+Investor_assign_campsSchema.method("toJSON", function () {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const { __v, _id, ...object } = this.toObject();
+    object.id = _id;
+    return object;
 });
-const userPlaceOrderValidator = async (req, res, next) => {
-    const { error } = userPlaceOrderSchema.validate(req.body, {
-        abortEarly: false,
-    });
-    if (error) {
-        const { details } = error;
-        const data = (0, helpers_1.formatResponse)(400, true, (0, error_validator_response_1.errorValidatorResponse)(details), null);
-        res.status(400).json(data);
-        return;
-    }
-    next();
-};
-exports.userPlaceOrderValidator = userPlaceOrderValidator;
-//# sourceMappingURL=user-place-internet-order.js.map
+const Investor_assign_camps = mongoose_1.default.model("investor_assign_camps", Investor_assign_campsSchema);
+exports.default = Investor_assign_camps;
+//# sourceMappingURL=investor_assign_camps.model.js.map

@@ -3,7 +3,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
     return (mod && mod.__esModule) ? mod : { "default": mod };
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.getAllCampClientWise = exports.getExpireSubscriptionClient = exports.checkClientsByIds = exports.updateOne = exports.getClientByIdWithoutStatus = exports.getClientById = exports.getAllClient = exports.updateStatus = exports.updateClient = exports.createClient = exports.getClientWithRole = exports.checkEmail = exports.getClientByEmail = void 0;
+exports.getAllCampClientWise = exports.getExpireSubscriptionClient = exports.checkClientsByIds = exports.updateOne = exports.getClientByIdWithoutStatus = exports.getClientCurrencyCode = exports.getClientById = exports.getAllClient = exports.updateStatus = exports.updateClient = exports.createClient = exports.getClientWithRole = exports.checkEmail = exports.getClientByEmail = void 0;
 const helpers_1 = require("../helpers");
 const models_1 = __importDefault(require("../models"));
 const clientModel = models_1.default.clientModel;
@@ -86,6 +86,13 @@ const getClientById = async (id) => {
     return result;
 };
 exports.getClientById = getClientById;
+const getClientCurrencyCode = async (id) => {
+    const result = await clientModel.findById((0, helpers_1.createObjectId)(id), {
+        currency_code: 1,
+    });
+    return (result === null || result === void 0 ? void 0 : result.currency_code) || "";
+};
+exports.getClientCurrencyCode = getClientCurrencyCode;
 const getClientByIdWithoutStatus = async (id) => {
     const result = await clientModel.findById((0, helpers_1.createObjectId)(id));
     return result;

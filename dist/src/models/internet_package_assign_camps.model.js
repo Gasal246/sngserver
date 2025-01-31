@@ -16,6 +16,27 @@ const schema = new mongoose_1.default.Schema({
         enum: [0, 1, 2, 3],
         required: true,
     },
+    package_cost_price: {
+        type: Number,
+        required: true,
+    },
+    package_sales_price: {
+        type: Number,
+        required: true,
+    },
+    package_revenue: {
+        type: Number,
+        required: true,
+    },
+    upload_bandwidth: {
+        type: Number,
+    },
+    download_bandwidth: {
+        type: Number,
+    },
+    package_speed: {
+        type: String,
+    },
     deleted_at: {
         type: Date,
     },
