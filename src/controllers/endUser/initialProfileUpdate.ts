@@ -4,8 +4,6 @@ import { userRegisterService } from "../../services";
 import { updateProfile } from "../../services/user_register";
 import jwt from "jsonwebtoken";
 import { authConfig } from "../../config/auth.config";
-import path from "path";
-import mongoose from "mongoose";
 
 export const initialProfileUpdate = async (
   req: Request | any,
@@ -13,6 +11,7 @@ export const initialProfileUpdate = async (
 ): Promise<void> => {
   try {
     const user = await userRegisterService.findUser(req.decodedToken.data.id);
+    console.log(req.query.name);
     if (!user) {
       const data = formatResponse(
         400,
@@ -28,7 +27,7 @@ export const initialProfileUpdate = async (
       name: req.query.name,
     });
 
-    const userData = { ...req.decodedToken.data, name: req.query.name };
+    const userData = { ...req.decodedToken.data, name: req.query.name, updatedAt: result?.updatedAt };
     const jwtData = { ...req.decodedToken, data: userData };
     const token = jwt.sign(jwtData, authConfig.token);
 
