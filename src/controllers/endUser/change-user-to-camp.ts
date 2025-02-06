@@ -53,16 +53,16 @@ export const changeUserToCamp = async (
       res.status(400).json(data);
       return;
     }
-    if (campAssignedToUser.client_id.toString() !== camp.client_id.toString()) {
-      const data = formatResponse(
-        400,
-        true,
-        "Camp id and base camp id not of same client.",
-        null
-      );
-      res.status(400).json(data);
-      return;
-    }
+    // if (campAssignedToUser.client_id.toString() !== camp.client_id.toString()) {
+    //   const data = formatResponse(
+    //     400,
+    //     true,
+    //     "Camp id and base camp id not of same client.",
+    //     null
+    //   );
+    //   res.status(400).json(data);
+    //   return;
+    // }
 
     const promises = [];
     promises.push(userCampService.deactivateBaseCamp(campAssignedToUser._id));

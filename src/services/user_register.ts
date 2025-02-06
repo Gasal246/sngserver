@@ -96,7 +96,7 @@ export const updateProfile = async (
   user: Obj
 ): Promise<IUser | null> => {
   const result = await userRegisterModel.findByIdAndUpdate(
-    new mongoose.Types.ObjectId(id),
+    createObjectId(id),
     user
   );
   return result;

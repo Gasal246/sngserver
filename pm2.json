@@ -1,9 +1,9 @@
 {
     "apps": [
         {
-            "name": "my-app",
-            "script": "npm",
-            "args" : "start"
+            "name": "searchngo-backend",
+            "script": "yarn",
+            "args" : "run dev"
         }
     ]
 }
