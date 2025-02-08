@@ -76,7 +76,7 @@ export const validateCamp = async (
     };
 
     // const saveUserLog = await UserRegister({
-    //   user_id: 
+    //   user_id:
     //   current_location_id:
     //   location_camp_client_id:
     //   base_camp_id:

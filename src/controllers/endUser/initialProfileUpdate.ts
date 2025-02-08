@@ -27,7 +27,11 @@ export const initialProfileUpdate = async (
       name: req.query.name,
     });
 
-    const userData = { ...req.decodedToken.data, name: req.query.name, updatedAt: result?.updatedAt };
+    const userData = {
+      ...req.decodedToken.data,
+      name: req.query.name,
+      updatedAt: result?.updatedAt,
+    };
     const jwtData = { ...req.decodedToken, data: userData };
     const token = jwt.sign(jwtData, authConfig.token);
 
