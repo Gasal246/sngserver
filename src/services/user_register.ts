@@ -196,7 +196,8 @@ export const checkUniquePhone = async (
 };
 
 export const userSearchWithKeyword = async (
-  keyword: string
+  keyword: string,
+  pos_client_id: string
 ): Promise<Obj[] | []> => {
   const searchRegex = new RegExp(keyword, "i");
   const filter = {
@@ -257,6 +258,7 @@ export const userSearchWithKeyword = async (
           {
             $match: {
               status: 1,
+              client_id: pos_client_id
             },
           },
           {
@@ -277,13 +279,13 @@ export const userSearchWithKeyword = async (
         ],
       },
     },
-
     {
       $unwind: {
         path: "$user_wallet",
         preserveNullAndEmptyArrays: true,
       },
     },
+
     {
       $addFields: {
         id: "$_id",

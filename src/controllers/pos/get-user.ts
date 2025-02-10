@@ -8,7 +8,7 @@ export const getUsers = async (
 ): Promise<void> => {
   try {
     const keyword = req.query.keyword ? req.query.keyword.toString() : "";
-    const users = await userRegisterService.userSearchWithKeyword(keyword);
+    const users = await userRegisterService.userSearchWithKeyword(keyword, req.decodedToken.data.client_id);
     if (!users || !users.length) {
       const data = formatResponse(400, true, Message.NOT_FOUND, null);
       res.status(400).json(data);

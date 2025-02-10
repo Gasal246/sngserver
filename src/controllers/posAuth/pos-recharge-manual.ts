@@ -1,6 +1,8 @@
 import { Request, Response } from "express";
 import {
   CampAssignPosService,
+  campService,
+  orderInternetPackageService,
   userCampService,
   userRechargeService,
   userRegisterService,
@@ -20,7 +22,7 @@ import {
   CreatedByUserType,
 } from "../../types/enums";
 import { addNewTransaction } from "../../services/user_transactions";
-import { getClientById, getClientCurrencyCode } from "../../services/client";
+import { getClientCurrencyCode } from "../../services/client";
 
 export const userWalletRecharge = async (
   req: Request | any,
@@ -28,6 +30,13 @@ export const userWalletRecharge = async (
 ): Promise<void> => {
   try {
     if (!isValidObjectId(req.body.profile_camp_id)) {
+      const data = formatResponse(400, true, Message.CAMP_NOT_FOUND, null);
+      res.status(400).json(data);
+      return;
+    }
+
+    const camp = await campService.getCampById(req.body.profile_camp_id);
+    if (!camp) {
       const data = formatResponse(400, true, Message.CAMP_NOT_FOUND, null);
       res.status(400).json(data);
       return;
@@ -64,33 +73,20 @@ export const userWalletRecharge = async (
       return;
     }
 
-    const assignCampDetails = await userCampService.getAssignCampDetailsOfUser(
+    let assignCampDetails = await userCampService.getAssignCampDetailsOfUser(
       req.body.user_id
     );
     if (!assignCampDetails) {
-      const data = formatResponse(
-        400,
-        true,
-        "User not assigned to any camp.",
-        null
-      );
-      res.status(400).json(data);
-      return;
+      const userCamp = new db.userCampModel();
+      userCamp.user_id = user?._id;
+      userCamp.camp_id = req.body.profile_camp_id;
+      userCamp.client_id = camp.client_id;
+      userCamp.status = 1;
+      assignCampDetails = await userCampService.assignUserToCamp(userCamp);
     }
 
-    // if (req.decodedToken.data.client_id != assignCampDetails.client_id) {
-    //   const data = formatResponse(
-    //     400,
-    //     true,
-    //     "User and pos user not of same client.",
-    //     null
-    //   );
-    //   res.status(400).json(data);
-    //   return;
-    // }
-
     let walletData = await userWalletService.walletAvailableForUserAndClient(
-      req.decodedToken.data.client_id,
+      camp.client_id?.toString(),
       req.body.user_id
     );
 
@@ -105,7 +101,7 @@ export const userWalletRecharge = async (
     } else {
       const wallet = new db.userWalletModel();
       wallet.user_id = createObjectId(req.body.user_id);
-      wallet.client_id = createObjectId(req.decodedToken.data.client_id);
+      wallet.client_id = camp.client_id;
       wallet.wallet_amount = parseFloat(req.body.recharge_amount);
       wallet.status = 1;
       walletData = await userWalletService.createWallet(wallet);
@@ -142,6 +138,12 @@ export const userWalletRecharge = async (
     );
 
     await Promise.all(promises);
+
+    const membership_list = await orderInternetPackageService.getInternetPackageForUser(
+      user._id,
+      undefined,
+      camp?.client_id?.toString()
+    );
 
     const data = formatResponse(
       200,

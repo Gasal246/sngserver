@@ -28,7 +28,7 @@ export const assignPosToDeviceCode = async (
 export const getDeviceListAssignToPos = async (posId: string) => {
   const result = await posAssignPosDeviceModel.aggregate([
     {
-      $match: { pos_id: createObjectId(posId) },
+      $match: { pos_id: createObjectId(posId), status: 1 },
     },
     {
       $lookup: {

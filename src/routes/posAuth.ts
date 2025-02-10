@@ -29,6 +29,7 @@ import { getPosListByCampId } from "../controllers/pos/camps-pos";
 const router = express.Router();
 
 router.post("/login", multer().array(""), posLoginValidator, posLogin);
+
 router.get("/profile", verifyPosToken, getPosProfile);
 router.post(
   "/update-password",
@@ -44,11 +45,13 @@ router.post(
   userWalletRecharge
 );
 router.get("/user/search", [verifyPosToken, userSearchValidator], getUsers);
+
 router.get(
   "/camps/packages/internet",
   [verifyPosToken, getCampWiseInternetPackageValidator],
   getInternetPackageList
 );
+
 router.post(
   "/internet-package/place-order",
   multer().array(""),
