@@ -8,10 +8,6 @@ const userPlaceOrderSchema = Joi.object({
     "any.required": "Package id is required.",
     "string.empty": "Package id is required.",
   }),
-  service_id: Joi.string().required().messages({
-    "any.required": "Service id is required.",
-    "string.empty": "Service id is required.",
-  }),
 });
 
 export const userPlaceOrderValidator = async (

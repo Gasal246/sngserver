@@ -208,9 +208,8 @@ export const userSearchWithKeyword = async (
     status: 1,
   };
   const result = await userRegisterModel.aggregate([
-    {
-      $match: filter,
-    },
+    { $match: filter },
+  
     {
       $lookup: {
         from: "user_camps",
@@ -218,11 +217,7 @@ export const userSearchWithKeyword = async (
         foreignField: "user_id",
         as: "camp_assign",
         pipeline: [
-          {
-            $match: {
-              status: 1,
-            },
-          },
+          { $match: { status: 1 } },
           {
             $lookup: {
               from: "camps",
@@ -241,13 +236,9 @@ export const userSearchWithKeyword = async (
         ],
       },
     },
-
-    {
-      $unwind: {
-        path: "$camp_assign",
-        preserveNullAndEmptyArrays: true,
-      },
-    },
+  
+    { $unwind: { path: "$camp_assign", preserveNullAndEmptyArrays: true } },
+  
     {
       $lookup: {
         from: "user_wallets",
@@ -255,12 +246,7 @@ export const userSearchWithKeyword = async (
         foreignField: "user_id",
         as: "user_wallet",
         pipeline: [
-          {
-            $match: {
-              status: 1,
-              client_id: pos_client_id
-            },
-          },
+          { $match: { status: 1, client_id: pos_client_id } },
           {
             $addFields: {
               id: "$_id",
@@ -268,8 +254,7 @@ export const userSearchWithKeyword = async (
           },
           {
             $project: {
-              _id: 0,
-              id: 1,
+              _id: 1,
               user_id: 1,
               client_id: 1,
               wallet_amount: 1,
@@ -279,13 +264,20 @@ export const userSearchWithKeyword = async (
         ],
       },
     },
+  
+    { $unwind: { path: "$user_wallet", preserveNullAndEmptyArrays: true } },
+  
     {
-      $unwind: {
-        path: "$user_wallet",
-        preserveNullAndEmptyArrays: true,
+      $lookup: {
+        from: "UserTransactions",
+        localField: "user_wallet.id",
+        foreignField: "walletId",
+        as: "user_transactions",
       },
     },
-
+  
+    { $unwind: { path: "$user_transactions", preserveNullAndEmptyArrays: true } },
+  
     {
       $addFields: {
         id: "$_id",
@@ -312,7 +304,7 @@ export const userSearchWithKeyword = async (
         },
       },
     },
-
+  
     {
       $unset: [
         "__v",
@@ -322,9 +314,10 @@ export const userSearchWithKeyword = async (
         "camp_assign.camp_details._id",
         "camp_assign._id",
         "wallet_balance",
-        "user_wallet__v",
+        "user_wallet.__v",
       ],
     },
   ]);
+  
   return result;
 };

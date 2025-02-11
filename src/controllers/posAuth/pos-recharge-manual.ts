@@ -149,7 +149,7 @@ export const userWalletRecharge = async (
       200,
       false,
       "User recharge done successfully",
-      null
+      membership_list
     );
     res.status(200).json(data);
     return;
