@@ -286,7 +286,7 @@ export const userSearchWithKeyword = async (
     },
     {
       $lookup: {
-        from: "UserTransactions",
+        from: "usertransactions",
         localField: "user_wallet.id",
         foreignField: "walletId",
         as: "user_transactions"
@@ -294,7 +294,8 @@ export const userSearchWithKeyword = async (
     },
     {
       $unwind: {
-        path: "$user_transactions"
+        path: "$user_transactions",
+        preserveNullAndEmptyArrays: true
       }
     },
     {
