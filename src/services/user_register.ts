@@ -257,7 +257,7 @@ export const userSearchWithKeyword = async (
           {
             $match: {
               status: 1,
-              client_id: pos_client_id,
+              client_id: createObjectId(pos_client_id),
             },
           },
           {
