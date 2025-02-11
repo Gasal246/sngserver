@@ -293,12 +293,6 @@ export const userSearchWithKeyword = async (
       }
     },
     {
-      $unwind: {
-        path: "$user_transactions",
-        preserveNullAndEmptyArrays: true
-      }
-    },
-    {
       $addFields: {
         id: "$_id",
         user_image: {
@@ -334,7 +328,7 @@ export const userSearchWithKeyword = async (
         "camp_assign.camp_details._id",
         "camp_assign._id",
         "wallet_balance",
-        "user_wallet__v",
+        "user_wallet.__v",
       ],
     },
   ]);
