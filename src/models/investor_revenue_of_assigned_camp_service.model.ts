@@ -1,10 +1,10 @@
 import mongoose, { Schema, Document, ObjectId } from "mongoose";
 
 export interface IInvestorRevenueOfAssignedCampService extends Document {
-  Start_date: Date | null;
-  End_date: Date | null;
-  Revenue_percent: Number | null;
-  Service_id: String | null;
+  start_date: Date | null;
+  end_date: Date | null;
+  revenue_percent: Number | null;
+  service_id: String | null;
   _id: ObjectId;
   createdAt: Date;
   updatedAt: Date;
@@ -12,10 +12,10 @@ export interface IInvestorRevenueOfAssignedCampService extends Document {
 
 const InvestorRevenueOfAssignedCampServiceSchema: Schema = new Schema(
   {
-    Start_date: { type: Date },
-    End_date: { type: Date },
-    Revenue_percent: { type: Number },
-    Service_id: { type: String },
+    start_date: { type: Date },
+    end_date: { type: Date },
+    revenue_percent: { type: Number },
+    service_id: { type: String },
   },
   { timestamps: true }
 );

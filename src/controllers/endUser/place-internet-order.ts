@@ -156,12 +156,12 @@ export const userPlaceInternetOrder = async (
 
     // Adding Wallet Transaction
     promises.push(
-      addNewTransaction({
+      await addNewTransaction({
         userid: userData.id,
         walletid: wallet.id,
         amount: orderPrice,
         currency: location_client?.currency_code || "",
-        title: `Membership Purchased (${order.package_name})`,
+        title: `Membership Purchased (${packageData.internet_package_client.package_name})`,
         type: "debit",
       })
     );

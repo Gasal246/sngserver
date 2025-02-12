@@ -25,5 +25,5 @@ ServicesSchema.method("toJSON", function () {
   return object;
 });
 
-const Services = mongoose.model<IServices>("Services", ServicesSchema);
+const Services = mongoose.model<IServices>("services", ServicesSchema);
 export default Services;

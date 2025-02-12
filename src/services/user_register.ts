@@ -289,8 +289,8 @@ export const userSearchWithKeyword = async (
         from: "usertransactions",
         localField: "user_wallet.id",
         foreignField: "walletId",
-        as: "user_transactions"
-      }
+        as: "user_transactions",
+      },
     },
     {
       $addFields: {

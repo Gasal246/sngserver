@@ -9,6 +9,7 @@ export interface IUser_transactions extends Document {
   title: String | null;
   currencyType: String | null;
   serviceId: String | null;
+  revenue: Number | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -22,6 +23,7 @@ const UserTransactionsSchema: Schema = new Schema(
     title: { type: String },
     currencyType: { type: String },
     serviceId: { type: Schema.Types.ObjectId },
+    revenue: { type: Number },
   },
   { timestamps: true }
 );

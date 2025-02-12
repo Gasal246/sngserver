@@ -135,3 +135,4 @@ export * from "./camp/get-base-camp-user";
 export * from "./admin/get-camps-client-wise";
 export * from "./admin/get-all-camps-client-wise";
 export * from "./endUser/get-client-wise-camps";
+export * from "./serviceController/add-service";
