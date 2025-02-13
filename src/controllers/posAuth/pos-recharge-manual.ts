@@ -21,8 +21,9 @@ import {
   RechargeTypeEnum,
   CreatedByUserType,
 } from "../../types/enums";
-import { addNewTransaction } from "../../services/user_transactions";
+import { addNewTransaction, getTransactionsByWalletId } from "../../services/user_transactions";
 import { getClientCurrencyCode } from "../../services/client";
+import { getWalletById } from "../../services/user_wallet";
 
 export const userWalletRecharge = async (
   req: Request | any,
@@ -139,17 +140,14 @@ export const userWalletRecharge = async (
 
     await Promise.all(promises);
 
-    const membership_list = await orderInternetPackageService.getInternetPackageForUser(
-      user._id,
-      undefined,
-      camp?.client_id?.toString()
-    );
+    const updated_wallet = await getWalletById(walletData?._id?.toString());
+    const transactions = await getTransactionsByWalletId(walletData?._id?.toString(), 1)
 
     const data = formatResponse(
       200,
       false,
       "User recharge done successfully",
-      membership_list
+      { updated_wallet, transactions }
     );
     res.status(200).json(data);
     return;
