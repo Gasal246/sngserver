@@ -13,7 +13,7 @@ const ServicesSchema: Schema = new Schema(
   {
     service_name: { type: String },
     transaction_title: { type: String },
-    status: { type: String, enum: ["active", "disabled"] },
+    status: { type: String, enum: [0, 1], default: 1 },
   },
   { timestamps: true }
 );
