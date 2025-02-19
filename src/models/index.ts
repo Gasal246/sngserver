@@ -29,6 +29,7 @@ import UserTransactions from "./transaction.model";
 import Services from "./service.model";
 import Investor_assign_camps from "./investor_assign_camps.model";
 import InvestorRevenueOfAssignedCampService from "./investor_revenue_of_assigned_camp_service.model";
+import Client_assign_services from "./client_assign_services.model";
 
 export default {
   accountantModel: Accountant,
@@ -62,4 +63,5 @@ export default {
   servicesModel: Services,
   investorAssignCampModel: Investor_assign_camps,
   investorRevenueOfAssignedCampService: InvestorRevenueOfAssignedCampService,
+  clientAssignServices: Client_assign_services,
 };

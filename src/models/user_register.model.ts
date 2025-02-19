@@ -39,6 +39,7 @@ export interface IUser extends Document {
   expo_push_token: string;
   new_phone: string;
   client_mac_id: string;
+  socket_id: string | null;
   createdAt: Date;
   updatedAt: Date;
   is_new_user: boolean;
@@ -194,6 +195,9 @@ const schema = new mongoose.Schema(
     is_new_user: {
       default: "",
       type: Boolean,
+    },
+    socket_id: {
+      type: String,
     },
   },
   { timestamps: true }

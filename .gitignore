@@ -5,3 +5,9 @@ env/*
 .env 
 
 src/env
+
+package-lock.json
+
+public/uploads/*
+
+public/uploads

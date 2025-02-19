@@ -38,6 +38,32 @@ const deleteSchema = Joi.object({
   })
 })
 
+const attachSchema = Joi.object({
+  service_id: Joi.string().min(6).required().messages({
+    "any.required": "service_id is required.",
+    "string.empty": "your service id field must contain something.",
+    "string.min": "we don't think this is an service id"
+  }),
+  client_id: Joi.string().min(6).required().messages({
+    "any.required": "client_id is required.",
+    "string.empty": "your client id field must contain something.",
+    "string.min": "we don't think this is an client id"
+  })
+})
+
+const statusChangeSchema = Joi.object({
+  id: Joi.string().min(6).required().messages({
+    "any.required": "id is required.",
+    "string.empty": "id field must contain something.",
+    "string.min": "think this is id or what"
+  }),
+  status: Joi.number().max(1).required().messages({
+    "any.required": "status is required.",
+    "number.min": "you should provide 0 / 1 as a status",
+    "number.max": "you should provide 0 / 1 as a status"
+  })
+})
+
 export const serviceAddValidator = async (
   req: Request,
   res: Response,
@@ -79,3 +105,25 @@ export const serviceSoftDeleteValidator = async (req: Request, res: Response, ne
   }
   next();
 };
+
+export const serviceAttachValidator = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const { error } = attachSchema.validate(req.body, { abortEarly: false });
+  if( error ) {
+    const { details } = error;
+    const data = formatResponse(400, true, errorValidatorResponse(details), null);
+    res.status(400).json(data);
+    return;
+  }
+  next();
+}
+
+export const clientAttachedServiceStatusChangeValidator = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+  const { error } = statusChangeSchema.validate(req.body, { abortEarly: false });
+  if( error ) {
+    const { details } = error;
+    const data = formatResponse(400, true, errorValidatorResponse(details), null);
+    res.status(400).json(data);
+    return;
+  }
+  next();
+}
