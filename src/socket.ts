@@ -17,27 +17,43 @@ export const initSocket = (server: HttpServer): void => {
       allowedHeaders: ["Content-Type", "Authorization"],
       credentials: true,
     },
-    transports: ['websocket', 'polling'],
-    pingTimeout: 60000,
-    pingInterval: 25000,
-    allowEIO3: true,  // Enable older engine.io protocol versions
-    perMessageDeflate: {
-      zlibDeflateOptions: {
-        chunkSize: 1024,
-        memLevel: 7,
-        level: 3,
-      },
-      zlibInflateOptions: {
-        chunkSize: 10 * 1024,
-      },
-      threshold: 1024,
-      concurrencyLimit: 10,
-      disable: true,  // Ensure per-message deflate is fully disabled
+    // Transport Configuration
+    transports: ['websocket'],           // WebSocket only for better stability
+    allowUpgrades: false,                // Prevent transport upgrades
+    pingTimeout: 30000,                  // 30 seconds ping timeout
+    pingInterval: 10000,                 // 10 seconds ping interval
+    connectTimeout: 30000,               // 30 seconds connection timeout
+    
+    // Protocol Configuration
+    allowEIO3: true,                     // Support Socket.IO v3 clients
+    maxHttpBufferSize: 1e6,              // 1MB max message size
+    
+    // Compression Configuration
+    perMessageDeflate: false,            // Disable WebSocket compression
+    httpCompression: false,              // Disable HTTP compression
+    
+    // Connection Configuration
+    cookie: false,                       // Don't use cookies
+    serveClient: false,                  // Don't serve client files
+  });
+
+  // Error handling
+  io.engine.on("connection_error", (err) => {
+    console.log("Connection error:", err);
+    // Clean up the problematic request
+    if (err.req) {
+      err.req.destroy();
     }
   });
 
-  io.engine.on("connection_error", (err) => {
-    console.log("Connection error:", err);
+  // Handle engine errors
+  io.engine.on("error", (err) => {
+    console.log("Engine error:", err);
+  });
+
+  // Clean up on server close
+  server.on('close', () => {
+    io.close();
   });
 
   io.on("connection", (socket: Socket) => {
@@ -48,6 +64,25 @@ export const initSocket = (server: HttpServer): void => {
       headers: socket.handshake.headers,
       query: socket.handshake.query,
       time: new Date().toISOString()
+    });
+
+    // Handle disconnection
+    socket.on('disconnect', (reason) => {
+      console.log(`Client ${socket.id} disconnected, reason: ${reason}`);
+      socket.removeAllListeners();
+    });
+
+    // Handle socket errors
+    socket.on('error', (error) => {
+      console.log(`Socket error for ${socket.id}:`, error);
+      socket.disconnect(true);
+    });
+
+    // Monitor connection health
+    socket.conn.on('packet', (packet) => {
+      if (packet.type === 'ping') {
+        console.log(`Ping received from ${socket.id}`);
+      }
     });
 
     // Kiosk requests verification for a user
