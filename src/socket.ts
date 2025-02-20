@@ -14,15 +14,26 @@ export const initSocket = (server: HttpServer): void => {
     cors: {
       origin: "*",
       methods: ["GET", "POST"],
-      allowedHeaders: ["Content-Type", "Authorization"],  // Added Authorization
+      allowedHeaders: ["Content-Type", "Authorization"],
       credentials: true,
     },
-    // Add these transport options
     transports: ['websocket', 'polling'],
-    // Add ping timeout and interval
     pingTimeout: 60000,
     pingInterval: 25000,
-    perMessageDeflate: false
+    allowEIO3: true,  // Enable older engine.io protocol versions
+    perMessageDeflate: {
+      zlibDeflateOptions: {
+        chunkSize: 1024,
+        memLevel: 7,
+        level: 3,
+      },
+      zlibInflateOptions: {
+        chunkSize: 10 * 1024,
+      },
+      threshold: 1024,
+      concurrencyLimit: 10,
+      disable: true,  // Ensure per-message deflate is fully disabled
+    }
   });
 
   io.engine.on("connection_error", (err) => {

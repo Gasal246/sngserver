@@ -38,22 +38,10 @@ export default async (): Promise<Server | void> => {
     SourceMapSupport.install();
 
     const whitelist = [ENV.CORS_DOMAIN];
-    const whitelistQA = [ENV.CORS_DOMAIN];
 
     const corsOptions: CorsOptions = {
       origin: (origin, callback) => {
         if (whitelist.indexOf(origin) !== -1 || origin === undefined) {
-          callback(null, true);
-        } else {
-          callback(new Error("UNAUTHORIZED!"));
-        }
-      },
-      credentials: true,
-    };
-
-    const corsOptionsQA: CorsOptions = {
-      origin: (origin, callback) => {
-        if (whitelistQA.indexOf(origin) !== -1 || origin === undefined) {
           callback(null, true);
         } else {
           callback(new Error("UNAUTHORIZED!"));
