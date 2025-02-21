@@ -1,4 +1,9 @@
 import cors from "cors";
+import { EventEmitter } from 'events';
+
+// Increase EventEmitter max listeners limit
+EventEmitter.defaultMaxListeners = 15;
+
 import express, { Request, Response } from "express";
 import expressStatusMonitor from "express-status-monitor";
 import Http, { Server } from "http";
@@ -6,7 +11,7 @@ import mongoose from "mongoose";
 import * as fs from "fs";
 import path from "path";
 import SourceMapSupport from "source-map-support";
-import { initSocket } from "./socket"; // Import the socket initialization
+import { initWebSocket } from "./websocket"; // Import the WebSocket initialization
 import { getMongoURL } from "./config/db.config";
 import { isProd, logger } from "./helpers";
 import router from "./routes";
@@ -53,8 +58,8 @@ export default async (): Promise<Server | void> => {
     // Create HTTP server
     const server = Http.createServer(app);
     
-    // Initialize Socket.IO with the HTTP server
-    initSocket(server);
+    // Initialize WebSocket server
+    initWebSocket(server);
 
     server.setTimeout(600000);
 
@@ -87,7 +92,7 @@ export default async (): Promise<Server | void> => {
     // Important: Use the HTTP server to listen, not the Express app
     server.listen(3019, '0.0.0.0', () => {
       console.log(`Server is live at localhost:${PORT}`);
-      console.log(`Socket.IO is ready for connections`);
+      console.log(`WebSocket server is ready for connections`);
     });
 
   } catch (err) {

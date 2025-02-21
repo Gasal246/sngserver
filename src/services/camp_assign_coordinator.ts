@@ -15,7 +15,7 @@ export const isCampAssignWithCoordinator = async (
 };
 
 export const totalCountOfCamps = async (camp_id: string): Promise<Number> => {
-  const result = await campAssignCoordinatorModel.count({
+  const result = await campAssignCoordinatorModel.countDocuments({
     camp_id: camp_id,
     status: 1,
   });

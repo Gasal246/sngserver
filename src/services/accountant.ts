@@ -76,7 +76,7 @@ export const updateStatus = async (
 };
 
 export const getAccountantCount = async (clientId: string): Promise<Number> => {
-  const result = await accountantModel.count({
+  const result = await accountantModel.countDocuments({
     client_id: clientId,
     status: {
       $ne: 0,

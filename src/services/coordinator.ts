@@ -78,7 +78,7 @@ export const getCoordinatorByIdWithoutStatus = async (
 export const getCoordinatorCount = async (
   clientId: string
 ): Promise<Number> => {
-  const result = await coordinatorModel.count({
+  const result = await coordinatorModel.countDocuments({
     client_id: clientId,
     status: {
       $ne: 0,

@@ -45,7 +45,8 @@ export const plantManagerLogin = async (
     //Generated jwt token
     const token = jwt.sign(jwtData, authConfig.token, {
       expiresIn: authConfig.expiresIn,
-    });
+      algorithm: authConfig.algorithm,
+    } as jwt.SignOptions);
     const data = formatResponse(201, false, Message.LOGIN_SUCCESS, {
       user_data: jwtData.data,
       token: token,

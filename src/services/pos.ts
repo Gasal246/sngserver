@@ -41,7 +41,7 @@ export const checkIp = async (
 };
 
 export const getPosCount = async (clientId: string): Promise<Number> => {
-  const result = await posModel.count({
+  const result = await posModel.countDocuments({
     client_id: clientId,
     status: {
       $ne: 0,

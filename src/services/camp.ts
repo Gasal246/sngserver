@@ -96,7 +96,7 @@ export const getAllCamps = async (
 };
 
 export const getCampsCount = async (clientId: string): Promise<Number> => {
-  const result = await campModel.count({
+  const result = await campModel.countDocuments({
     client_id: clientId,
     status: {
       $ne: 0,
