@@ -26,6 +26,7 @@ import investorsAuthRouter from "./investorsAuth";
 import plantManagerRouter from "./plantManager";
 import plantManagerAuthRouter from "./plantManagerAuth";
 import serviceRouter from "./services";
+import clientServicesRouter from "./clientServices";
 
 const router = Router();
 router.use("/api/admin", adminRouter);
@@ -55,5 +56,6 @@ router.use("/api/investor", investorsAuthRouter);
 router.use("/api/admin", plantManagerRouter);
 router.use("/api/plant-manager", plantManagerAuthRouter);
 router.use("/api/services", serviceRouter);
+router.use("/api/client-admin", clientServicesRouter);
 
 export default router;

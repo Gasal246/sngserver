@@ -41,6 +41,10 @@ export const hasDuplicate = (array: any[]): boolean => {
   return new Set(array).size !== array.length;
 };
 
+export const removeDuplicates = (array: string[]): string[] => {
+  return Array.from(new Set(array));
+};
+
 export const checkAllIdValid = (ids: any[]): boolean => {
   for (let index = 0; index < ids.length; index++) {
     const element = ids[index];

@@ -7,6 +7,7 @@ EventEmitter.defaultMaxListeners = 15;
 import express, { Request, Response } from "express";
 import expressStatusMonitor from "express-status-monitor";
 import Http, { Server } from "http";
+import https from "https";
 import mongoose from "mongoose";
 import * as fs from "fs";
 import path from "path";
@@ -55,8 +56,15 @@ export default async (): Promise<Server | void> => {
       credentials: true,
     };
 
+    const sslOptions = {
+      key: fs.readFileSync(`/etc/letsencrypt/live/searchngo.app/privkey.pem`),
+      cert: fs.readFileSync(`/etc/letsencrypt/live/searchngo.app/fullchain.pem`),
+    };
+
     // Create HTTP server
-    const server = Http.createServer(app);
+    // const server = Http.createServer(app);
+
+    const server = https.createServer(sslOptions, app);
     
     // Initialize WebSocket server
     initWebSocket(server);
