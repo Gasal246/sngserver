@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import {
   CampAssignPosService,
   campService,
-  orderInternetPackageService,
   userCampService,
   userRechargeService,
   userRegisterService,
@@ -135,6 +134,9 @@ export const userWalletRecharge = async (
         type: "credit",
         userid: user._id.toString(),
         walletid: walletData?._id?.toString(),
+        created_by_type: req.decodedToken.data.type,
+        pos_user_id: req?.body?.pos_user_id,
+        ref_id: req?.body?.transaction_reference_id,
       })
     );
 

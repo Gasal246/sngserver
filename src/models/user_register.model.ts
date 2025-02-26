@@ -40,6 +40,7 @@ export interface IUser extends Document {
   new_phone: string;
   client_mac_id: string;
   socket_id: string | null;
+  next_mobile_change_at: Date | null;
   createdAt: Date;
   updatedAt: Date;
   is_new_user: boolean;
@@ -198,6 +199,9 @@ const schema = new mongoose.Schema(
     },
     socket_id: {
       type: String,
+    },
+    next_mobile_change_at: {
+      type: Date,
     },
   },
   { timestamps: true }

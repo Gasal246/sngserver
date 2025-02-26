@@ -132,3 +132,57 @@ export const verifyUserOtp = async (
     return;
   }
 };
+
+
+export const mobileNumberChangedVerification = async (
+  req: Request | any,
+  res: Response
+) => {
+  try {
+    const user = await userRegisterService.findUser(req.decodedToken.data.id);
+    if (!user) {
+      const data = formatResponse(
+        400,
+        true,
+        "User not found",
+        null
+      );
+      res.status(400).json(data);
+      return;
+    }
+
+    if (user?.otp != req.body.otp) {
+      const data = formatResponse(400, true, "Invalid OTP", null);
+      res.status(400).json(data);
+      return;
+    }
+
+    user.country_code = req.body.country_code;
+    user.phone = req.body.mobile_number;
+
+    const updatedUser = await userRegisterService.updateUser(
+      req.decodedToken.data.id,
+      user
+    );
+
+    if (!updatedUser) {
+      const data = formatResponse(
+        500,
+        true,
+        Message.SOMETHING_WENT_WRONG,
+        null
+      );
+      res.status(500).json(data);
+      return;
+    }
+
+    const data = formatResponse(200, false, "Mobile number changed successfully", { userData: updatedUser });
+    res.status(200).json(data);
+    return;
+
+  } catch (e: any) {
+    const data = formatResponse(500, true, e.message, null);
+    res.status(500).json(data);
+    return;
+  }
+}

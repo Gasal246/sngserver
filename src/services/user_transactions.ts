@@ -14,6 +14,12 @@ interface TransactionObj {
   type: string;
   currency: string | String;
   serviceid?: string;
+  revenue?: number;
+  sales_amount?: number;
+  cost_amount?: number;
+  created_by_type?: string;
+  pos_user_id?: string;
+  ref_id?: string;
 }
 
 export const getTransactionsByWalletId = async (
@@ -36,6 +42,12 @@ export const addNewTransaction = async (data: TransactionObj) => {
     amount: data.amount,
     currencyType: data.currency,
     serviceId: data?.serviceid || null,
+    revenue: data?.revenue || null,
+    sales_amount: data?.sales_amount || null,
+    cost_amount: data?.cost_amount || null,
+    created_by_type: data?.created_by_type || null,
+    pos_user_id: data?.pos_user_id || null,
+    ref_id: data?.ref_id || null,
   });
   const savedTransaction = await newTransaction.save();
   return savedTransaction;

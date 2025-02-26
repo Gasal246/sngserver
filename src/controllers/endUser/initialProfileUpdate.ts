@@ -33,10 +33,7 @@ export const initialProfileUpdate = async (
       updatedAt: result?.updatedAt,
     };
     const jwtData = { ...req.decodedToken, data: userData };
-    const token = jwt.sign(jwtData, authConfig.token, {
-      expiresIn: authConfig.expiresIn,
-      algorithm: authConfig.algorithm,
-    } as jwt.SignOptions);
+    const token = jwt.sign(jwtData, authConfig.token);
 
     const data = formatResponse(201, false, Message.LOGIN_SUCCESS, {
       user_data: userData,

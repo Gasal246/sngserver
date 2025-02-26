@@ -10,6 +10,11 @@ export interface IUser_transactions extends Document {
   currencyType: String | null;
   serviceId: String | null;
   revenue: Number | null;
+  sales_amount: Number | null;
+  cost_amount: Number | null;
+  created_by_type: String | null;
+  pos_user_id: ObjectId | null;
+  ref_id: String | null;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -24,6 +29,11 @@ const UserTransactionsSchema: Schema = new Schema(
     currencyType: { type: String },
     serviceId: { type: Schema.Types.ObjectId },
     revenue: { type: Number },
+    sales_amount: { type: Number },
+    cost_amount: { type: Number },
+    pos_user_id: { type: Schema.Types.ObjectId },
+    ref_id: { type: String },
+    created_by_type: { type: String },
   },
   { timestamps: true }
 );

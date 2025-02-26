@@ -56,15 +56,14 @@ export default async (): Promise<Server | void> => {
       credentials: true,
     };
 
-    const sslOptions = {
-      key: fs.readFileSync(`/etc/letsencrypt/live/searchngo.app/privkey.pem`),
-      cert: fs.readFileSync(`/etc/letsencrypt/live/searchngo.app/fullchain.pem`),
-    };
+    // const sslOptions = {
+    //   key: fs.readFileSync(`/etc/letsencrypt/live/searchngo.app/privkey.pem`),
+    //   cert: fs.readFileSync(`/etc/letsencrypt/live/searchngo.app/fullchain.pem`),
+    // };
 
     // Create HTTP server
-    // const server = Http.createServer(app);
-
-    const server = https.createServer(sslOptions, app);
+    const server = Http.createServer(app);
+    // const server = https.createServer(sslOptions, app);
     
     // Initialize WebSocket server
     initWebSocket(server);

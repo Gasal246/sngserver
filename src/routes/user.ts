@@ -18,6 +18,7 @@ import {
   getUserProfile,
   manualActivePackage,
   newUserPhoneVerify,
+  sendUserMobileChangeOtp,
   sendUserOtp,
   updateProfile,
   userPlaceInternetOrder,
@@ -36,6 +37,8 @@ import {
   manualActivePackageValidator,
   userPlaceOrderValidator,
   orderStatusValidator,
+  userSendMobileChangeOtpValidator,
+  userMobileNumberChangeVerificationValidator,
 } from "../middlewares/validators";
 import { verifyUserToken } from "../middlewares/auth/user";
 import { validateCamp } from "../controllers/endUser/validate-camp";
@@ -146,6 +149,16 @@ router.get(
 
 router.get("/wallet", verifyUserToken, getWallet);
 router.get("/wallet-transactions/:id", verifyUserToken, getWalletTransactions);
+
+router.post(
+  "/send-mobile-otp",
+  [verifyUserToken, userSendMobileChangeOtpValidator],
+  sendUserMobileChangeOtp
+);
+router.post("/verify-change-number", [
+  verifyUserToken,
+  userMobileNumberChangeVerificationValidator,
+]);
 
 // ######## Testing Notification Setup ############
 router.post(

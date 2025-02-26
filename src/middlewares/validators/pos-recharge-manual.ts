@@ -22,6 +22,14 @@ const posRechargeManualSchema = Joi.object({
     "any.required": "Camp id is required.",
     "string.empty": "Camp id is required.",
   }),
+  transaction_reference_id: Joi.string().optional().messages({
+    "any.optional": "Transaction reference id is optional.",
+    "string.empty": "Transaction reference id is optional.",
+  }),
+  pos_user_id: Joi.string().optional().messages({
+    "any.optional": "Pos user id is optional.",
+    "string.empty": "Pos user id is optional.",
+  }),
 });
 
 export const posRechargeManualValidator = async (

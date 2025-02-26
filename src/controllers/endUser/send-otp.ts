@@ -12,7 +12,6 @@ export const sendUserOtp = async (
   res: Response
 ): Promise<void> => {
   try {
-    console.log(req.body); // Only for Developement Purposes;
     const user = await userRegisterService.findUserByMobileNumber(
       req.body.mobile
     );
@@ -109,3 +108,55 @@ export const sendUserOtp = async (
     return;
   }
 };
+
+export const sendUserMobileChangeOtp = async (
+  req: Request | any,
+  res: Response
+): Promise<void> => {
+  try {
+    const user = await userRegisterService.findUser(req.decodedToken.data.id);
+    if (!user) {
+      const data = formatResponse(
+        400,
+        true,
+        "User not found",
+        null
+      );
+      res.status(400).json(data);
+      return;
+    }
+
+    if (user?.next_mobile_change_at && new Date(user?.next_mobile_change_at) > new Date()) {
+      const data = formatResponse(
+        302,
+        true,
+        "Invalid Date of next mobile change",
+        { userData: user}
+      );
+      res.status(400).json(data);
+      return;
+    }
+
+    const otp = generateOtp();
+    await sendOtp(
+      req.body.country_code + req.body.phone,
+      otp.toString()
+    );
+
+    // update otp in user
+    user.otp = otp;
+
+    // UPDATION USER WITH NEW MOBILE CHANGE DATE ( 30 days )
+    user.next_mobile_change_at = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000);
+    const updatedUser = await userRegisterService.updateUser(user._id.toString(), user);
+
+    const data = formatResponse(200, false, "OTP send your registered number.", { userData: updatedUser });
+    res.status(200).json(data);
+    return;
+
+  } catch (error: any) {
+    const data = formatResponse(500, true, error.message, null);
+    res.status(500).json(data);
+    return;
+  }
+}
