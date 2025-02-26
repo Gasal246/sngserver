@@ -33,7 +33,7 @@ const UserTransactionsSchema: Schema = new Schema(
     cost_amount: { type: Number },
     pos_user_id: { type: Schema.Types.ObjectId },
     ref_id: { type: String },
-    created_by_type: { type: String },
+    created_by_type: { type: String, enum: ["user", "pos"] },
   },
   { timestamps: true }
 );

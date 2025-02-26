@@ -30,6 +30,10 @@ const posRechargeManualSchema = Joi.object({
     "any.optional": "Pos user id is optional.",
     "string.empty": "Pos user id is optional.",
   }),
+  created_by_type: Joi.string().optional().messages({
+    "any.optional": "Created by type is optional.",
+    "string.empty": "Created by type is optional.",
+  }),
 });
 
 export const posRechargeManualValidator = async (
