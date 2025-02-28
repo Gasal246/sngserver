@@ -28,9 +28,10 @@ import PlantManagerModel from "./plant_manager.model";
 import UserTransactions from "./transaction.model";
 import Services from "./service.model";
 import Investor_assign_camps from "./investor_assign_camps.model";
-import InvestorRevenueOfAssignedCampService from "./investor_revenue_of_assigned_camp_service.model";
 import Client_assign_services from "./client_assign_services.model";
 import CampAssignServicesModel from "./camp_assign_services.model";
+import Investor_assign_services from "./investor_assign_services.model";
+import Investor_revenue_scheduleModel from "./investor_revenue_schedule.model";
 
 export default {
   accountantModel: Accountant,
@@ -63,7 +64,8 @@ export default {
   userTransactions: UserTransactions,
   servicesModel: Services,
   investorAssignCampModel: Investor_assign_camps,
-  investorRevenueOfAssignedCampService: InvestorRevenueOfAssignedCampService,
   clientAssignServices: Client_assign_services,
   campAssignServicesModel: CampAssignServicesModel,
+  investorAssignServicesModel: Investor_assign_services,
+  investorRevenueScheduleModel: Investor_revenue_scheduleModel,
 };

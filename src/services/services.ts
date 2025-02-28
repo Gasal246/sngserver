@@ -147,3 +147,8 @@ export const changeStatusOfService = async (id: string, status: number) => {
   );
   return result;
 };
+
+export const getServiceById = async (id: string) => {
+  const result = await serviceModal.findById(createObjectId(id));
+  return result;
+};

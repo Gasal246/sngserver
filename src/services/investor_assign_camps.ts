@@ -111,3 +111,14 @@ export const permenentDeleteInvestorAssignedCamp = async (
   });
   return result;
 };
+
+export const isInvestorAssignedToCamp = async (
+  investor_id: string,
+  camp_id: string
+) => {
+  const result = await investorAssignCampsModel.findOne({
+    investor_id: createObjectId(investor_id),
+    camp_id: createObjectId(camp_id),
+  });
+  return !!result;
+};

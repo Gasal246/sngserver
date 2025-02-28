@@ -34,6 +34,14 @@ export const checkEmail = async (
   return await investorsModel.findOne(filter);
 };
 
+export const getInvestorByInvestorId = async (id: string) => {
+  const result = await investorsModel.findOne(
+    { _id: createObjectId(id), status: 1 },
+    { password: 0 }
+  );
+  return result;
+};
+
 export const getInvestorById = async (
   id: string,
   client_id: string
