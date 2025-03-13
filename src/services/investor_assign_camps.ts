@@ -23,7 +23,7 @@ export const createInvestorAssignCampDocument = async (
 
 export const getInvestorAssignedCampsList = async (
   investor_id: string,
-  status: string
+  status?: string
 ) => {
   const filter = {
     investor_id: createObjectId(investor_id),

@@ -36,12 +36,7 @@ export const assignCampsToAccountant = async (
 
     const camp_array = req.body.camp_ids.split(",");
     if (hasDuplicate(camp_array)) {
-      const data = formatResponse(
-        400,
-        true,
-        "No duplication allow in camp ids selection.",
-        null
-      );
+      const data = formatResponse( 400, true, "No duplication allow in camp ids selection.", null );
       res.status(400).json(data);
       return;
     }
@@ -49,12 +44,7 @@ export const assignCampsToAccountant = async (
     const camps = [];
     for (const camp of camp_array) {
       if (!isValidObjectId(camp)) {
-        const data = formatResponse(
-          400,
-          true,
-          Message.SOMETHING_WRONG_IN_CAMP_SELECTION,
-          null
-        );
+        const data = formatResponse( 400, true, Message.SOMETHING_WRONG_IN_CAMP_SELECTION, null );
         res.status(400).json(data);
         return;
       }
@@ -73,12 +63,7 @@ export const assignCampsToAccountant = async (
         isCampAssignToAccountantPromise,
       ]);
       if (!clientId || isCampAssignToAccountant) {
-        const data = formatResponse(
-          400,
-          true,
-          Message.SOMETHING_WRONG_IN_CAMP_SELECTION,
-          null
-        );
+        const data = formatResponse( 400, true, Message.SOMETHING_WRONG_IN_CAMP_SELECTION, null );
         res.status(400).json(data);
         return;
       }
@@ -88,12 +73,7 @@ export const assignCampsToAccountant = async (
       const count = await campAssignAccountantService.totalCountOfCamps(camp);
       const index = camp_array.indexOf(camp);
       if (count >= camps[index].no_of_allowed_account) {
-        const data = formatResponse(
-          400,
-          true,
-          "Your can't exceed camp accountant assign limit",
-          null
-        );
+        const data = formatResponse( 400, true, "Your can't exceed camp accountant assign limit", null );
         res.status(400).json(data);
         return;
       }
@@ -109,12 +89,7 @@ export const assignCampsToAccountant = async (
     }
     await Promise.all(promises);
 
-    const data = formatResponse(
-      200,
-      false,
-      "Accountant assigned to camps successfully.",
-      null
-    );
+    const data = formatResponse( 200, false, "Accountant assigned to camps successfully.", null );
     res.status(200).json(data);
     return;
   } catch (e: any) {

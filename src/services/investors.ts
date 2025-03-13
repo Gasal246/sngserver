@@ -52,6 +52,10 @@ export const getInvestorById = async (
   );
 };
 
+export const getInvestorByIdOnly = async (id: string) => {
+  return await investorsModel.findById(createObjectId(id), { password: 0 });
+};
+
 export const getInvestorByIdWithoutStatus = async (
   id: string,
   client_id: string

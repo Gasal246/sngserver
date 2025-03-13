@@ -2,6 +2,8 @@ import mongoose, { Schema, Document, ObjectId } from "mongoose";
 
 export interface IUser_transactions extends Document {
   _id: ObjectId;
+  clientId: ObjectId | null;
+  campId: ObjectId | null;
   userId: ObjectId | null;
   walletId: ObjectId | null;
   type: String | null;
@@ -21,6 +23,8 @@ export interface IUser_transactions extends Document {
 
 const UserTransactionsSchema: Schema = new Schema(
   {
+    clientId: { type: Schema.Types.ObjectId, ref: "client" },
+    campId: { type: Schema.Types.ObjectId, ref: "camp" },
     userId: { type: Schema.Types.ObjectId, ref: "user_register" },
     walletId: { type: Schema.Types.ObjectId, ref: "user_wallet" },
     type: { type: String, enum: ["credit", "debit"] },

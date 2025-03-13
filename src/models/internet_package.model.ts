@@ -12,6 +12,7 @@ export interface IInternetPackage extends Document {
   package_speed: string;
   package_code: string;
   package_status: number;
+  service_id: ObjectID | null;
   deleted_at: Date;
   createdAt: Date;
   updatedAt: Date;
@@ -66,6 +67,11 @@ const schema = new mongoose.Schema(
       type: Number,
       enum: [0, 1, 2, 3],
       required: true,
+    },
+
+    service_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "services",
     },
 
     deleted_at: {

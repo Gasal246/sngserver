@@ -34,4 +34,5 @@ export interface IDbInternetPackageAssignCamp {
   download_bandwidth: number;
   package_speed: string;
   camp: ICamp;
+  service_id: string;
 }

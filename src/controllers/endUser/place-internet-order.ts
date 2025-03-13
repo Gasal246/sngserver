@@ -17,6 +17,7 @@ import db from "../../models";
 import { OrderStatus, CreatedByUserType } from "../../types/enums";
 import { addNewTransaction } from "../../services/user_transactions";
 import { getClientByIdWithoutStatus } from "../../services/client";
+import { getServiceById } from "../../services/services";
 
 export const userPlaceInternetOrder = async (
   req: Request | any,
@@ -43,12 +44,6 @@ export const userPlaceInternetOrder = async (
       res.status(400).json(data);
       return;
     }
-
-    // if (userData.location_camp.location_camp_client_id.toString() !== assignCampDetails.client_id.toString()) {
-    //   const data = formatResponse(400, true, "Camp id and base camp id not of same client.", null);
-    //   res.status(400).json(data);
-    //   return;
-    // }
 
     if (!isValidObjectId(req.body.package_id)) {
       const data = formatResponse(400, true, "Package not found.", null);
@@ -154,6 +149,11 @@ export const userPlaceInternetOrder = async (
       userData.location_camp.location_camp_id
     );
 
+    let service_info = null;
+    if (packageData?.service_id) {
+      service_info = await getServiceById(packageData?.service_id);
+    }
+
     // Adding Wallet Transaction
     promises.push(
       await addNewTransaction({
@@ -161,8 +161,15 @@ export const userPlaceInternetOrder = async (
         walletid: wallet.id,
         amount: orderPrice,
         currency: location_client?.currency_code || "",
-        title: `Membership Purchased (${packageData.internet_package_client.package_name})`,
+        title: `${service_info?.transaction_title || "Membership Purchased"} (${packageData.internet_package_client.package_name})`,
         type: "debit",
+        revenue: (packageData.package_sales_price - packageData.package_cost_price) || 0,
+        sales_amount: packageData.package_sales_price || 0,
+        cost_amount: packageData.package_cost_price || 0,
+        serviceid: packageData?.service_id,
+        ref_id: order._id.toString(),
+        campId: userData.location_camp.location_camp_id,
+        clientId: userData.location_camp.location_camp_client_id,
       })
     );
 

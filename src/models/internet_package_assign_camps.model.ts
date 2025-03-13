@@ -14,6 +14,7 @@ export interface IInternetPackageAssignCamps extends Document {
   package_revenue: number;
   upload_bandwidth: number;
   package_speed: string;
+  service_id: ObjectID | null;
   download_bandwidth: number;
   createdAt: Date;
   updatedAt: Date;
@@ -60,6 +61,11 @@ const schema = new mongoose.Schema(
 
     package_speed: {
       type: String,
+    },
+
+    service_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "services",
     },
 
     deleted_at: {

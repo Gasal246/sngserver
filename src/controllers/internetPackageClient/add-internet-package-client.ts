@@ -44,6 +44,7 @@ export const addInternetPackageClient = async (
 
     internetPackageClientModel.client_id = req.decodedToken.data.id;
     internetPackageClientModel.package_code = internetPackage.package_code;
+    internetPackageClientModel.service_id = internetPackage.service_id;
 
     await internetPackageClientService.createInternetPackageClient(
       internetPackageClientModel

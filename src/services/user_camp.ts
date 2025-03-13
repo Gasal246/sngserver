@@ -96,3 +96,65 @@ export const getBaseCampDetailsFromUser = async (
 
   return result[0];
 };
+
+export const getCampUsers = async (camp_id: string): Promise<IUserCamp[]> => {
+  const result = await userCampModel.aggregate([
+    {
+      $match: { camp_id: createObjectId(camp_id), status: 1 }
+    },
+    {
+      $lookup: {
+        from: "user_registers",
+        localField: "user_id",
+        foreignField: "_id",
+        as: "user_data",
+        pipeline: [
+          {
+            $match: { status: 1 }
+          },
+          {
+            $addFields: {
+              id: "$_id",
+            },
+          },
+          {
+            $project: {
+              _id: 0,
+              id: 1,
+              name: 1,
+              email: 1,
+              phone: 1,
+              status: 1,
+              block: 1,
+              block_building: 1,
+              floor_no: 1,
+              building_no: 1,
+              room_no: 1,
+              client_id: 1,
+              gender: 1,
+              company_name: 1,
+              job_title: 1,
+              uuid: 1
+            }
+          }
+        ]
+      }
+    },
+    {
+      $unwind: "$user_data"
+    },
+    {
+      $project: {
+        _id: 0,
+        campAssignUserId: 1,
+        user_id: 1,
+        camp_id: 1,
+        client_id: 1,
+        status: 1,
+        camp: 1,
+        user_data: 1,
+      }
+    }
+  ]);
+  return result;
+}

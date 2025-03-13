@@ -1,6 +1,5 @@
 import { createObjectId } from "../helpers";
 import db from "../models";
-import { IInvestor_revenue_schedule } from "../models/investor_revenue_schedule.model";
 
 const investorRevenueScheduleModel = db.investorRevenueScheduleModel;
 
@@ -108,4 +107,34 @@ export const getRevenueScheduleById = async (id: string) => {
     createObjectId(id)
   );
   return result;
+};
+
+export const getRevenueScheduleByInvestorId = async (investor_id: string) => {
+  const result = await investorRevenueScheduleModel.find({
+    investor_id: createObjectId(investor_id),
+  });
+  return result;
+};
+
+export const getRevenueScheduleInvestorCamp = async (
+  investor_id: string,
+  camp_id: string
+) => {
+  const result = await investorRevenueScheduleModel.find({
+    investor_id: createObjectId(investor_id),
+    camp_id: createObjectId(camp_id),
+  });
+  return result;
+};
+
+export const getRevenuePercentWithinDate = async (
+  investor_id: string,
+  date: Date
+) => {
+  const result = await investorRevenueScheduleModel.findOne({
+    investor_id: createObjectId(investor_id),
+    start_date: { $lte: date },
+    end_date: { $gte: date },
+  });
+  return result?.revenue_percent || 0;
 };

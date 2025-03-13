@@ -67,6 +67,11 @@ const internetPackageSchema = Joi.object({
     "any.required": "Package speed field is required.",
     "string.empty": "Package speed field is required.",
   }),
+
+  service_id: Joi.string().required().messages({
+    "any.required": "Service id field is required.",
+    "string.empty": "Service id field is required.",
+  })
 });
 
 export const internetPackageValidator = async (

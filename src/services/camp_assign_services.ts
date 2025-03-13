@@ -1,5 +1,7 @@
 import { createObjectId } from "../helpers";
 import db from "../models";
+import { ICamp_assign_services } from "../models/camp_assign_services.model";
+import camp from "../routes/camp";
 import { Obj } from "../types/interfaces";
 
 const campAssignServicesModel = db.campAssignServicesModel;
@@ -68,5 +70,32 @@ export const changeStatusOfService = async (id: string, status: number) => {
     { status: status },
     { new: true }
   );
+  return result;
+};
+
+export const getServiceAssignedCamps = async (
+  service_id: string,
+  status?: string
+) => {
+  const result = await campAssignServicesModel
+    .find({
+      service_id: createObjectId(service_id),
+      status: parseInt(status || "1"),
+    })
+    .populate("camp_id");
+  return result;
+};
+
+export const getCampsAssignedToService = async (
+  service_id: string,
+  client_id: string
+) => {
+  const result = await campAssignServicesModel
+    .find({
+      service_id: createObjectId(service_id),
+      client_id: createObjectId(client_id),
+      status: 1,
+    })
+    .populate("camp_id");
   return result;
 };

@@ -25,7 +25,7 @@ export const getOneAccountant = async (
     }
 
     const data = formatResponse(200, false, "Accountant detail.", {
-      list: accountant,
+      accountant,
     });
     res.status(200).json(data);
     return;

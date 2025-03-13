@@ -20,6 +20,8 @@ interface TransactionObj {
   created_by_type?: string;
   pos_user_id?: string;
   ref_id?: string;
+  campId?: string;
+  clientId?: string;
 }
 
 export const getTransactionsByWalletId = async (
@@ -48,7 +50,85 @@ export const addNewTransaction = async (data: TransactionObj) => {
     created_by_type: data?.created_by_type || null,
     pos_user_id: data?.pos_user_id || null,
     ref_id: data?.ref_id || null,
+    campId: data?.campId || null,
+    clientId: data?.clientId || null,
   });
   const savedTransaction = await newTransaction.save();
   return savedTransaction;
+};
+
+export const getServiceBasedTransactionsOfCamp = async (
+  camp_id: string,
+  service_ids: string[]
+) => {
+  const result = await userTransactions.aggregate([
+    {
+      $match: {
+        campId: createObjectId(camp_id),
+        serviceId: { $in: service_ids.map((id) => createObjectId(id)) },
+      },
+    },
+    {
+      $lookup: {
+        from: "services",
+        localField: "serviceId",
+        foreignField: "_id",
+        as: "service",
+      },
+    },
+    { $unwind: { path: "$service", preserveNullAndEmptyArrays: true } },
+  ]);
+  return result;
+};
+
+export const getUserTransactionsWithStartAndEndDateIncludingServiceId = async (
+  ge_date: Date,
+  le_date: Date,
+  service_ids: string[]
+) => {
+  const transactions = await userTransactions.find({
+    serviceId: { $in: service_ids.map((id) => createObjectId(id)) },
+    createdAt: { $gte: ge_date, $lte: le_date },
+  });
+  return transactions;
+};
+
+export const getTransactionsOfClientWithinDates = async (
+  start_date: Date,
+  end_date: Date,
+  client_id: string
+) => {
+  const result = await userTransactions.find({
+    clientId: createObjectId(client_id),
+    createdAt: { $gte: start_date, $lte: end_date },
+  });
+  return result;
+};
+
+export const getCampTransactionsWithinDates = async (
+  client_id: string,
+  camp_id: string,
+  start_date: Date,
+  end_date: Date
+) => {
+  const result = await userTransactions.find({
+    clientId: createObjectId(client_id),
+    campId: createObjectId(camp_id),
+    createdAt: { $gte: start_date, $lte: end_date },
+  });
+  return result;
+};
+
+export const getServiceIdTransactionWithinDates = async (
+  client_id: string,
+  service_id: string,
+  start_date: Date,
+  end_date: Date
+) => {
+  const result = await userTransactions.find({
+    clientId: createObjectId(client_id),
+    serviceId: createObjectId(service_id),
+    createdAt: { $gte: start_date, $lte: end_date },
+  });
+  return result;
 };

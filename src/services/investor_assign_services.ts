@@ -57,3 +57,16 @@ export const investorAssignServiceChangeStatus = async (
   );
   return result;
 };
+
+export const getAllInvestorAssignedServices = async (
+  investor_id: string,
+  status?: number
+) => {
+  const result = await investorAssignServicesModel
+    .find({
+      investor_id: createObjectId(investor_id),
+      status: status || 1,
+    })
+    .populate("service_id");
+  return result;
+};

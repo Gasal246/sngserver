@@ -3,6 +3,7 @@ import db from "../models";
 import { IOrderInternetPackage } from "../models/order_internet_package.model";
 import { OrderStatus } from "../types/enums";
 import { Obj, ObjectID } from "../types/interfaces";
+import { createObjectId } from "../helpers";
 
 const orderInternetPackageModel = db.orderInternetPackageModel;
 
@@ -670,3 +671,15 @@ export const getInternetPackageForCoordinator = async (
   ]);
   return result;
 };
+
+export const getOrdersByUserIdsandCamp = async (
+  userIds: ObjectID[],
+  campId: ObjectID
+) => {
+  const result = await orderInternetPackageModel.find({
+    user_id: { $in: userIds },
+    camp_id: campId,
+    order_status: OrderStatus.active,
+  }, { user_id: 1, camp_id: 1 });
+  return result;
+}

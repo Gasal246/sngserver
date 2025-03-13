@@ -106,3 +106,13 @@ export const getAccountantByIdWithPassword = async (
 export const updateOne = async (_id: ObjectID, obj: Obj): Promise<void> => {
   await accountantModel.updateOne({ _id: _id }, obj);
 };
+
+// gasal added utilities..
+export const isAccountantAdded = async (email: string, client_id: string) => {
+  const result = await accountantModel.findOne({
+    email: email,
+    client_id: client_id,
+    status: { $ne: 1 },
+  });
+  return result;
+};

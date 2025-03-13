@@ -53,10 +53,12 @@ export const updateInternetPackage = async (
 export const getInternetPackageById = async (
   id: string
 ): Promise<IInternetPackage | null> => {
-  const result = await internetPackageModel.findOne({
-    _id: id,
-    package_status: 1,
-  });
+  const result = await internetPackageModel
+    .findOne({
+      _id: id,
+      package_status: 1,
+    })
+    .populate("service_id");
   return result;
 };
 export const checkAssignedInternetPackageByAdmin = async (
