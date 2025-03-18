@@ -158,7 +158,7 @@ export const userPlaceInternetOrder = async (
     promises.push(
       await addNewTransaction({
         userid: userData.id,
-        walletid: wallet.id,
+        walletid: wallet._id.toString(),
         amount: orderPrice,
         currency: location_client?.currency_code || "",
         title: `${service_info?.transaction_title || "Membership Purchased"} (${packageData.internet_package_client.package_name})`,

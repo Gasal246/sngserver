@@ -57,7 +57,8 @@ export const getInternetPackageOrderUserWise = async (
 
     const list = await orderInternetPackageService.getInternetPackageForUser(
       createObjectId(userId),
-      status
+      status,
+      req.decodedToken.data.client_id
     );
     if (!list || !list.length) {
       const data = formatResponse(400, true, Message.NOT_FOUND, null);

@@ -154,12 +154,14 @@ export const getServiceById = async (id: string) => {
 };
 
 interface SERVICE_NAMES {
-  MEMBERSHIP: 'Membership';
-  SMART_WASH: 'Smart Wash';
-  WATER: 'Water Plus';
+  MEMBERSHIP: "Membership";
+  SMART_WASH: "Smart Wash";
+  WATER: "Water Plus";
 }
 
-export const getServiceByName = async (name: SERVICE_NAMES[keyof SERVICE_NAMES]) => {
+export const getServiceByName = async (
+  name: SERVICE_NAMES[keyof SERVICE_NAMES]
+) => {
   const result = await serviceModal.findOne({ service_name: name });
   return result;
-}
+};

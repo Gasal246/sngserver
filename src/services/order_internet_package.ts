@@ -676,10 +676,13 @@ export const getOrdersByUserIdsandCamp = async (
   userIds: ObjectID[],
   campId: ObjectID
 ) => {
-  const result = await orderInternetPackageModel.find({
-    user_id: { $in: userIds },
-    camp_id: campId,
-    order_status: OrderStatus.active,
-  }, { user_id: 1, camp_id: 1 });
+  const result = await orderInternetPackageModel.find(
+    {
+      user_id: { $in: userIds },
+      camp_id: campId,
+      order_status: OrderStatus.active,
+    },
+    { user_id: 1, camp_id: 1 }
+  );
   return result;
-}
+};

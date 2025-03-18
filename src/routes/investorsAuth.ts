@@ -85,6 +85,10 @@ router.get(
   getInvestorMembershipAssignedCamps
 );
 
-router.get("/get-investor-users/membership/:campId", verifyInvestorToken, getInvestorMembershipUsers);
+router.get(
+  "/get-investor-users/membership/:campId",
+  verifyInvestorToken,
+  getInvestorMembershipUsers
+);
 
 export default router;
