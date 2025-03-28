@@ -38,10 +38,10 @@ export const initWebSocket = (server: HttpServer): void => {
       }
     }, 10000);
 
-    ws.on('pong', () => {
-      // Client is still alive
-      console.log(`Received pong from client ${clientId}`);
-    });
+    // gasal - Uncomment below snippet to check client connection
+    // ws.on('pong', () => {
+    //   console.log(`Received pong from client ${clientId}`);
+    // });
 
     ws.on('message', async (data: string) => {
       try {

@@ -13,6 +13,7 @@ import {
 import jwt from "jsonwebtoken";
 import { authConfig } from "../../config/auth.config";
 import { isValidObjectId } from "mongoose";
+import { addRecord, getAllowedChange } from "../../services/mobile_change_history";
 
 export const verifyUserOtp = async (
   req: Request | any,
@@ -157,8 +158,32 @@ export const mobileNumberChangedVerification = async (
       return;
     }
 
+    const availableRecords = await getAllowedChange(req.decodedToken.data.id, req.body.mobile_number);
+    if(availableRecords) {
+      availableRecords.old_number = user.phone;
+      availableRecords.country_code = req.body.country_code;
+      availableRecords.mobile = req.body.mobile_number;
+      availableRecords.user_changed = true;
+      availableRecords.changed_date = new Date();
+      await availableRecords.save();
+    } else {
+      await addRecord({
+        user_id: req.decodedToken.data.id,
+        client_id: user.client_id?.toString(),
+        mobile: req.body.mobile_number,
+        old_number: user.phone,
+        country_code: req.body.country_code,
+        user_changed: true,
+        changed_date: new Date(),
+        pos_allowed: false
+      });
+    }
+
     user.country_code = req.body.country_code;
     user.phone = req.body.mobile_number;
+
+    // UPDATION USER WITH NEW MOBILE CHANGE DATE ( 30 days )
+    user.next_mobile_change_at = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000);
 
     const updatedUser = await userRegisterService.updateUser(
       req.decodedToken.data.id,

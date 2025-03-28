@@ -6,6 +6,7 @@ import {
   userRegisterService,
 } from "../../services";
 import db from "../../models";
+import { getAllowedChange, getHistory } from "../../services/mobile_change_history";
 
 export const sendUserOtp = async (
   req: Request | any,
@@ -126,15 +127,13 @@ export const sendUserMobileChangeOtp = async (
       return;
     }
 
+    const posAllowed = await getAllowedChange(user._id.toString(), req.body.phone);
     if (user?.next_mobile_change_at && new Date(user?.next_mobile_change_at) > new Date()) {
-      const data = formatResponse(
-        302,
-        true,
-        "Invalid Date of next mobile change",
-        { userData: user}
-      );
-      res.status(400).json(data);
-      return;
+      if(!posAllowed) {
+        const data = formatResponse( 302, true, "Invalid Date of next mobile change", { userData: user} );
+        res.status(302).json(data);
+        return;
+      }
     }
 
     const otp = generateOtp();
@@ -147,13 +146,12 @@ export const sendUserMobileChangeOtp = async (
     user.otp = otp;
 
     // UPDATION USER WITH NEW MOBILE CHANGE DATE ( 30 days )
-    user.next_mobile_change_at = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000);
+    // user.next_mobile_change_at = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000);
     const updatedUser = await userRegisterService.updateUser(user._id.toString(), user);
 
     const data = formatResponse(200, false, "OTP send your registered number.", { userData: updatedUser });
     res.status(200).json(data);
     return;
-
   } catch (error: any) {
     const data = formatResponse(500, true, error.message, null);
     res.status(500).json(data);

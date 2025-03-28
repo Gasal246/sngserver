@@ -1,8 +1,7 @@
-import { Document } from "mongoose";
 import db from "../models";
-import { IUser_transactions } from "../models/transaction.model";
 import { createObjectId } from "../helpers";
 import { appConstants } from "../constants";
+import { ObjectID } from "../types/interfaces";
 
 const userTransactions = db.userTransactions;
 
@@ -130,5 +129,19 @@ export const getServiceIdTransactionWithinDates = async (
     serviceId: createObjectId(service_id),
     createdAt: { $gte: start_date, $lte: end_date },
   });
+  return result;
+};
+
+export const getTransactionsByCampIdsWithinDate = async (
+  camp_ids: ObjectID[],
+  start_date: Date,
+  end_date: Date
+) => {
+  const result = await userTransactions
+    .find({
+      campId: { $in: camp_ids },
+      createdAt: { $gte: start_date, $lte: end_date },
+    })
+    .populate("serviceId");
   return result;
 };

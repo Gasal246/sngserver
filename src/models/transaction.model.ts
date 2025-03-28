@@ -31,7 +31,7 @@ const UserTransactionsSchema: Schema = new Schema(
     amount: { type: Number },
     title: { type: String },
     currencyType: { type: String },
-    serviceId: { type: Schema.Types.ObjectId },
+    serviceId: { type: Schema.Types.ObjectId, ref: "services" },
     revenue: { type: Number },
     sales_amount: { type: Number },
     cost_amount: { type: Number },

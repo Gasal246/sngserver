@@ -17,6 +17,7 @@ import {
   getRechargeHistory,
   getUserProfile,
   manualActivePackage,
+  mobileNumberChangedVerification,
   newUserPhoneVerify,
   sendUserMobileChangeOtp,
   sendUserOtp,
@@ -158,7 +159,11 @@ router.post(
 router.post("/verify-change-number", [
   verifyUserToken,
   userMobileNumberChangeVerificationValidator,
+  mobileNumberChangedVerification,
 ]);
+
+// ########## COMPANION DEVICES ###########
+// router.post("/add-companion", verifyUserToken, addCompanion)
 
 // ######## Testing Notification Setup ############
 router.post(

@@ -9,7 +9,7 @@ export const getAssignCampByAccountant = async (
 ): Promise<void> => {
   try {
     const status = req.query.status ? req.query.status.toString() : "";
-    const accountantId = req.query.accountant_id?.toString();
+    const accountantId = req.query.accountant_id?.toString() || req.decodedToken.data.id;
     if (!accountantId || !isValidObjectId(accountantId)) {
       const data = formatResponse(400, true, Message.NOT_FOUND, null);
       res.status(400).json(data);

@@ -25,6 +25,10 @@ import { verifyPosToken } from "../middlewares/auth/pos";
 import multer from "multer";
 import { getInternetPackageList } from "../controllers/posAuth/get-internet-package-list";
 import { getPosListByCampId } from "../controllers/pos/camps-pos";
+import {
+  addMobileChangeRecord,
+  getUserMobileChangeHistory,
+} from "../controllers/pos/mobile-change";
 
 const router = express.Router();
 
@@ -75,5 +79,13 @@ router.get(
   verifyPosToken,
   getPosListByCampId
 );
+
+router.get(
+  "/get-mobile-change-history/:userId",
+  verifyPosToken,
+  getUserMobileChangeHistory
+);
+
+router.post("/allow-mobile-change", verifyPosToken, addMobileChangeRecord);
 
 export default router;

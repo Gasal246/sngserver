@@ -1,8 +1,9 @@
+import { ObjectId } from "mongoose";
 import { createObjectId } from "../helpers";
 import db from "../models";
 import { ICamp_assign_services } from "../models/camp_assign_services.model";
 import camp from "../routes/camp";
-import { Obj } from "../types/interfaces";
+import { Obj, ObjectID } from "../types/interfaces";
 
 const campAssignServicesModel = db.campAssignServicesModel;
 
@@ -95,6 +96,42 @@ export const getCampsAssignedToService = async (
       service_id: createObjectId(service_id),
       client_id: createObjectId(client_id),
       status: 1,
+    })
+    .populate("camp_id");
+  return result;
+};
+
+export const getDistinctServiceByCampIds = async (camp_ids: ObjectID[]) => {
+  const result = await campAssignServicesModel.aggregate([
+    { $match: { camp_id: { $in: camp_ids } } }, // Match camp_ids in the given array
+    { $group: { _id: "$service_id" } }, // Get distinct service_ids
+    {
+      $lookup: {
+        from: "services",
+        localField: "_id",
+        foreignField: "_id",
+        as: "serviceDetails",
+      },
+    },
+    { $unwind: "$serviceDetails" },
+    { $project: { serviceDetails: 1, _id: 0 } },
+  ]);
+  return result;
+};
+
+export const getServicesByAttachedCampId = async (camp_id: string) => {
+  const result = await campAssignServicesModel
+    .find({
+      camp_id: createObjectId(camp_id),
+    })
+    .populate("service_id");
+  return result;
+};
+
+export const getCampsByAttachedServiceId = async (service_id: string) => {
+  const result = await campAssignServicesModel
+    .find({
+      service_id: createObjectId(service_id),
     })
     .populate("camp_id");
   return result;

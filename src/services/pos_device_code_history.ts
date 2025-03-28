@@ -32,9 +32,7 @@ export const getDeviceCodeHistory = async (
   return result;
 };
 
-export const getDeviceByMacAddress = async (
-  mac: string
-): Promise<IPosDeviceCodeHistory | null> => {
+export const getDeviceByMacAddress = async (mac: string) => {
   const result = await posDeviceCodeHistoryModel.findOne({
     device_mac_address: mac,
     code_status: 1,

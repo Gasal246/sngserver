@@ -9,6 +9,7 @@ export interface IUser extends Document {
   password: string;
   country_code: number;
   phone: string;
+  dob: Date;
   age: number;
   gender: string;
   country_id: ObjectID;
@@ -75,6 +76,9 @@ const schema = new mongoose.Schema(
     phone: {
       type: String,
       // required: true,
+    },
+    dob: {
+      type: Date,
     },
     age: {
       default: 0,
