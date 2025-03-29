@@ -33,6 +33,7 @@ import CampAssignServicesModel from "./camp_assign_services.model";
 import Investor_assign_services from "./investor_assign_services.model";
 import Investor_revenue_scheduleModel from "./investor_revenue_schedule.model";
 import Mobile_change_historyModel from "./mobile_change_history.model";
+import Companion_devices from "./companion_devices.model";
 
 export default {
   accountantModel: Accountant,
@@ -70,4 +71,5 @@ export default {
   investorAssignServicesModel: Investor_assign_services,
   investorRevenueScheduleModel: Investor_revenue_scheduleModel,
   mobileChangeHistoryModel: Mobile_change_historyModel,
+  companionDevicesModel: Companion_devices,
 };
