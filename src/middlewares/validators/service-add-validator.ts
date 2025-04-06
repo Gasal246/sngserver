@@ -6,63 +6,63 @@ import { formatResponse } from "../../helpers";
 const addServiceSchema = Joi.object({
   service_name: Joi.string().required().messages({
     "any.required": "service_name is required.",
-    "string.empty": "service_name is required."
+    "string.empty": "service_name is required.",
   }),
   transaction_title: Joi.string().required().messages({
     "any.required": "transaction_title is required.",
-    "string.empty": "transaction_title is required."
-  })
+    "string.empty": "transaction_title is required.",
+  }),
 });
 
 const updateServiceSchema = Joi.object({
   service_id: Joi.string().required().messages({
-    "any.required": "service_id is required."
+    "any.required": "service_id is required.",
   }),
   new_service_name: Joi.string().optional().messages({
-    "string.empty": "new_service_name provide a complete string or null."
+    "string.empty": "new_service_name provide a complete string or null.",
   }),
   new_transaction_name: Joi.string().optional().messages({
-    "string.empty": "new_transaction_name provide a complete string or null."
-  })
-})
+    "string.empty": "new_transaction_name provide a complete string or null.",
+  }),
+});
 
 const deleteSchema = Joi.object({
   service_id: Joi.string().min(6).required().messages({
     "any.required": "service_id is required.",
     "string.empty": "your service id field must contain something.",
-    "string.min": "we don't think this is an service id"
+    "string.min": "we don't think this is an service id",
   }),
   status: Joi.number().max(1).required().messages({
     "any.required": "status is mandatory.",
-    "number.min": "you should provide 0 / 1 as a number"
-  })
-})
+    "number.min": "you should provide 0 / 1 as a number",
+  }),
+});
 
 const attachSchema = Joi.object({
   service_id: Joi.string().min(6).required().messages({
     "any.required": "service_id is required.",
     "string.empty": "your service id field must contain something.",
-    "string.min": "we don't think this is an service id"
+    "string.min": "we don't think this is an service id",
   }),
   client_id: Joi.string().min(6).required().messages({
     "any.required": "client_id is required.",
     "string.empty": "your client id field must contain something.",
-    "string.min": "we don't think this is an client id"
-  })
-})
+    "string.min": "we don't think this is an client id",
+  }),
+});
 
 const statusChangeSchema = Joi.object({
   id: Joi.string().min(6).required().messages({
     "any.required": "id is required.",
     "string.empty": "id field must contain something.",
-    "string.min": "think this is id or what"
+    "string.min": "think this is id or what",
   }),
   status: Joi.number().max(1).required().messages({
     "any.required": "status is required.",
     "number.min": "you should provide 0 / 1 as a status",
-    "number.max": "you should provide 0 / 1 as a status"
-  })
-})
+    "number.max": "you should provide 0 / 1 as a status",
+  }),
+});
 
 export const serviceAddValidator = async (
   req: Request,
@@ -84,46 +84,86 @@ export const serviceAddValidator = async (
   next();
 };
 
-export const serviceEditValidator = async (req: Request, res: Response, next: NextFunction ): Promise<void> => {
-  const { error } = updateServiceSchema.validate(req.body, { abortEarly: false });
-  if( error ) {
+export const serviceEditValidator = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const { error } = updateServiceSchema.validate(req.body, {
+    abortEarly: false,
+  });
+  if (error) {
     const { details } = error;
-    const data = formatResponse(400, true, errorValidatorResponse(details), null);
+    const data = formatResponse(
+      400,
+      true,
+      errorValidatorResponse(details),
+      null
+    );
     res.status(400).json(data);
     return;
   }
   next();
 };
 
-export const serviceSoftDeleteValidator = async (req: Request, res: Response, next: NextFunction ): Promise<void> => {
+export const serviceSoftDeleteValidator = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   const { error } = deleteSchema.validate(req.body, { abortEarly: false });
-  if( error ) {
+  if (error) {
     const { details } = error;
-    const data = formatResponse(400, true, errorValidatorResponse(details), null);
+    const data = formatResponse(
+      400,
+      true,
+      errorValidatorResponse(details),
+      null
+    );
     res.status(400).json(data);
     return;
   }
   next();
 };
 
-export const serviceAttachValidator = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
+export const serviceAttachValidator = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
   const { error } = attachSchema.validate(req.body, { abortEarly: false });
-  if( error ) {
+  if (error) {
     const { details } = error;
-    const data = formatResponse(400, true, errorValidatorResponse(details), null);
+    const data = formatResponse(
+      400,
+      true,
+      errorValidatorResponse(details),
+      null
+    );
     res.status(400).json(data);
     return;
   }
   next();
-}
+};
 
-export const clientAttachedServiceStatusChangeValidator = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
-  const { error } = statusChangeSchema.validate(req.body, { abortEarly: false });
-  if( error ) {
+export const clientAttachedServiceStatusChangeValidator = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  const { error } = statusChangeSchema.validate(req.body, {
+    abortEarly: false,
+  });
+  if (error) {
     const { details } = error;
-    const data = formatResponse(400, true, errorValidatorResponse(details), null);
+    const data = formatResponse(
+      400,
+      true,
+      errorValidatorResponse(details),
+      null
+    );
     res.status(400).json(data);
     return;
   }
   next();
-}
+};

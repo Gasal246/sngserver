@@ -16,11 +16,16 @@ export const getAccountantAvailableServices = async (
     }
 
     const assignData = await campAssignAccountantService.getCampByAccountant(
-        createObjectId(accountantId),
-        "1"
+      createObjectId(accountantId),
+      "1"
     );
     if (!assignData || !assignData.length) {
-      const data = formatResponse(400, true, "Accountant is not assigned to any camp.", null);
+      const data = formatResponse(
+        400,
+        true,
+        "Accountant is not assigned to any camp.",
+        null
+      );
       res.status(400).json(data);
       return;
     }

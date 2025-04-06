@@ -72,13 +72,14 @@ export const userSendOtpValidator = async (
   next();
 };
 
-
 export const userSendMobileChangeOtpValidator = async (
-  req: Request | any, 
+  req: Request | any,
   res: Response,
   next: NextFunction
 ) => {
-  const { error } = userSendMobileChangeOtpSchema.validate(req.body, { abortEarly: false });
+  const { error } = userSendMobileChangeOtpSchema.validate(req.body, {
+    abortEarly: false,
+  });
   if (error) {
     const { details } = error;
     const data = formatResponse(
@@ -92,14 +93,16 @@ export const userSendMobileChangeOtpValidator = async (
   }
 
   next();
-}
+};
 
 export const userMobileNumberChangeVerificationValidator = async (
   req: Request | any,
   res: Response,
   next: NextFunction
 ) => {
-  const { error } = userMobileChangeVerificationSchema.validate(req.body, { abortEarly: false });
+  const { error } = userMobileChangeVerificationSchema.validate(req.body, {
+    abortEarly: false,
+  });
   if (error) {
     const { details } = error;
     const data = formatResponse(
@@ -113,4 +116,4 @@ export const userMobileNumberChangeVerificationValidator = async (
   }
 
   next();
-}
+};

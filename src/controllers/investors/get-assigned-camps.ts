@@ -43,20 +43,28 @@ export const getInvestorAssignedCamps = async (req: Request, res: Response) => {
   }
 };
 
-export const getInvestorMembershipAssignedCamps = async (req: Request | any, res: Response) => {
+export const getInvestorMembershipAssignedCamps = async (
+  req: Request | any,
+  res: Response
+) => {
   try {
     const investorId = req.decodedToken?.data?.id;
     const investor = await getInvestorByIdOnly(investorId);
 
-    if(!investor) {
+    if (!investor) {
       const data = formatResponse(400, true, "investor not found", null);
       res.status(400).json(data);
       return;
     }
 
-    const service = await getServiceByName('Membership');
-    if(!service) {
-      const data = formatResponse(500, true, "Server Side Error, Service Not Found", null); 
+    const service = await getServiceByName("Membership");
+    if (!service) {
+      const data = formatResponse(
+        500,
+        true,
+        "Server Side Error, Service Not Found",
+        null
+      );
       res.status(500).json(data);
       return;
     }
@@ -64,12 +72,26 @@ export const getInvestorMembershipAssignedCamps = async (req: Request | any, res
     const assignedCamps = await getInvestorAssignedCampsList(investorId);
     const investor_camps = assignedCamps?.map((camp: any) => camp?.camp_data);
 
-    const client_camps_with_service_id = await getCampsAssignedToService(service._id.toString(), investor?.client_id!?.toString());
-    const service_id_camps = client_camps_with_service_id.map((camp: any) => camp.camp_id);
+    const client_camps_with_service_id = await getCampsAssignedToService(
+      service._id.toString(),
+      investor?.client_id!?.toString()
+    );
+    const service_id_camps = client_camps_with_service_id.map(
+      (camp: any) => camp.camp_id
+    );
 
-    const filtered_camps = service_id_camps?.filter((camp: any) => investor_camps?.some((incamp: any) => incamp._id?.toString() === camp._id?.toString()));
+    const filtered_camps = service_id_camps?.filter((camp: any) =>
+      investor_camps?.some(
+        (incamp: any) => incamp._id?.toString() === camp._id?.toString()
+      )
+    );
 
-    const data = formatResponse(200, false, "investor camps fetched", filtered_camps)
+    const data = formatResponse(
+      200,
+      false,
+      "investor camps fetched",
+      filtered_camps
+    );
     res.status(200).json(data);
     return;
   } catch (error: any) {
@@ -77,4 +99,4 @@ export const getInvestorMembershipAssignedCamps = async (req: Request | any, res
     res.status(500).json(data);
     return;
   }
-}
+};

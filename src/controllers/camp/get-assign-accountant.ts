@@ -16,10 +16,11 @@ export const getAssignAccountant = async (
       return;
     }
 
-    const assignData = await campAssignAccountantService.getCampAssignAccountantDetails(
+    const assignData =
+      await campAssignAccountantService.getCampAssignAccountantDetails(
         createObjectId(campId),
         status
-    );
+      );
     if (!assignData || !assignData.length) {
       const data = formatResponse(400, true, Message.NOT_FOUND, null);
       res.status(400).json(data);

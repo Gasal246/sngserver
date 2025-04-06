@@ -13,7 +13,10 @@ import {
 import jwt from "jsonwebtoken";
 import { authConfig } from "../../config/auth.config";
 import { isValidObjectId } from "mongoose";
-import { addRecord, getAllowedChange } from "../../services/mobile_change_history";
+import {
+  addRecord,
+  getAllowedChange,
+} from "../../services/mobile_change_history";
 
 export const verifyUserOtp = async (
   req: Request | any,
@@ -134,7 +137,6 @@ export const verifyUserOtp = async (
   }
 };
 
-
 export const mobileNumberChangedVerification = async (
   req: Request | any,
   res: Response
@@ -142,12 +144,7 @@ export const mobileNumberChangedVerification = async (
   try {
     const user = await userRegisterService.findUser(req.decodedToken.data.id);
     if (!user) {
-      const data = formatResponse(
-        400,
-        true,
-        "User not found",
-        null
-      );
+      const data = formatResponse(400, true, "User not found", null);
       res.status(400).json(data);
       return;
     }
@@ -158,8 +155,11 @@ export const mobileNumberChangedVerification = async (
       return;
     }
 
-    const availableRecords = await getAllowedChange(req.decodedToken.data.id, req.body.mobile_number);
-    if(availableRecords) {
+    const availableRecords = await getAllowedChange(
+      req.decodedToken.data.id,
+      req.body.mobile_number
+    );
+    if (availableRecords) {
       availableRecords.old_number = user.phone;
       availableRecords.country_code = req.body.country_code;
       availableRecords.mobile = req.body.mobile_number;
@@ -175,7 +175,7 @@ export const mobileNumberChangedVerification = async (
         country_code: req.body.country_code,
         user_changed: true,
         changed_date: new Date(),
-        pos_allowed: false
+        pos_allowed: false,
       });
     }
 
@@ -183,7 +183,9 @@ export const mobileNumberChangedVerification = async (
     user.phone = req.body.mobile_number;
 
     // UPDATION USER WITH NEW MOBILE CHANGE DATE ( 30 days )
-    user.next_mobile_change_at = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000);
+    user.next_mobile_change_at = new Date(
+      new Date().getTime() + 30 * 24 * 60 * 60 * 1000
+    );
 
     const updatedUser = await userRegisterService.updateUser(
       req.decodedToken.data.id,
@@ -201,13 +203,17 @@ export const mobileNumberChangedVerification = async (
       return;
     }
 
-    const data = formatResponse(200, false, "Mobile number changed successfully", { userData: updatedUser });
+    const data = formatResponse(
+      200,
+      false,
+      "Mobile number changed successfully",
+      { userData: updatedUser }
+    );
     res.status(200).json(data);
     return;
-
   } catch (e: any) {
     const data = formatResponse(500, true, e.message, null);
     res.status(500).json(data);
     return;
   }
-}
+};

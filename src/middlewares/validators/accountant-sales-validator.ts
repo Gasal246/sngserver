@@ -49,49 +49,70 @@ const getServiceSalesDataSchema = Joi.object({
 });
 
 export const getCampWiseSalesDataValidator = async (
-    req: Request | any,
-    res: Response,
-    next: NextFunction
+  req: Request | any,
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
-    try {
-        await getCampWiseSalesDataSchema.validateAsync(req.query, { abortEarly: false });
-        next();
-    } catch (error: any) {
-        const { details } = error;
-        const data = formatResponse(400, true, errorValidatorResponse(details), null);
-        res.status(400).json(data);
-        return;
-    }
-}
+  try {
+    await getCampWiseSalesDataSchema.validateAsync(req.query, {
+      abortEarly: false,
+    });
+    next();
+  } catch (error: any) {
+    const { details } = error;
+    const data = formatResponse(
+      400,
+      true,
+      errorValidatorResponse(details),
+      null
+    );
+    res.status(400).json(data);
+    return;
+  }
+};
 
 export const getCampSalesDataValidator = async (
-    req: Request | any,
-    res: Response,
-    next: NextFunction
+  req: Request | any,
+  res: Response,
+  next: NextFunction
 ): Promise<void> => {
-    try {
-        await getCampSalesDataSchema.validateAsync(req.query, { abortEarly: false });
-        next();
-    } catch (error: any) {
-        const { details } = error;
-        const data = formatResponse(400, true, errorValidatorResponse(details), null);
-        res.status(400).json(data);
-        return;
-    }
-}
+  try {
+    await getCampSalesDataSchema.validateAsync(req.query, {
+      abortEarly: false,
+    });
+    next();
+  } catch (error: any) {
+    const { details } = error;
+    const data = formatResponse(
+      400,
+      true,
+      errorValidatorResponse(details),
+      null
+    );
+    res.status(400).json(data);
+    return;
+  }
+};
 
 export const getServiceSalesDataValidator = async (
-    req: Request | any,
-    res: Response,
-    next: NextFunction
-  ): Promise<void> => {
-    try {
-      await getServiceSalesDataSchema.validateAsync(req.query, { abortEarly: false });
-      next();
-    } catch (error: any) {
-      const { details } = error;
-      const data = formatResponse(400, true, errorValidatorResponse(details), null);
-      res.status(400).json(data);
-      return;
-    }
+  req: Request | any,
+  res: Response,
+  next: NextFunction
+): Promise<void> => {
+  try {
+    await getServiceSalesDataSchema.validateAsync(req.query, {
+      abortEarly: false,
+    });
+    next();
+  } catch (error: any) {
+    const { details } = error;
+    const data = formatResponse(
+      400,
+      true,
+      errorValidatorResponse(details),
+      null
+    );
+    res.status(400).json(data);
+    return;
   }
+};

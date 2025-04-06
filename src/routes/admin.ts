@@ -33,12 +33,6 @@ import {
 
 const router = express.Router();
 
-/**
- * Use middleware like auth, that should verify the token and if token is valid decode it and save all values into req.decodedToken
- * Then you can access token payload like, const decodedToke = req.decodedToken;
- * decodedToke.role, decodedToke.userId, etc...
- */
-
 router.post("/login", multer().array(""), loginValidator, adminLogin);
 router.post(
   "/update-password",

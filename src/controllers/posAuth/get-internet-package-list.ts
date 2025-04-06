@@ -61,8 +61,10 @@ export const getInternetPackageList = async (
           internetPackage.internet_package_client.internet_package_id;
         obj.package_name = internetPackage.internet_package_client.package_name;
         obj.package_code = internetPackage.internet_package_client.package_code;
-        obj.package_speed = internetPackage.internet_package_client.package_speed;
-        obj.package_price = internetPackage.internet_package_client.package_price;
+        obj.package_speed =
+          internetPackage.internet_package_client.package_speed;
+        obj.package_price =
+          internetPackage.internet_package_client.package_price;
         obj.package_status =
           internetPackage.internet_package_client.package_status;
         obj.createdAt = internetPackage.internet_package_client.createdAt;
@@ -86,7 +88,8 @@ export const getInternetPackageList = async (
       }
     }
     const data = formatResponse(200, false, "Internet package list", {
-      list: internetPackageList, pos_verified: true
+      list: internetPackageList,
+      pos_verified: true,
     });
     res.status(200).json(data);
     return;

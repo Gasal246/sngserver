@@ -54,3 +54,34 @@ export const sendSigninCodesPushNotification = async (
     }
   });
 };
+
+export const sendCredentialsToCompanion = async (
+  token: string,
+  body: string,
+  data: {
+    user_data: any;
+    token: string;
+  }
+) => {
+  return new Promise(async (resolve, reject) => {
+    if (!Expo.isExpoPushToken(token)) {
+      return reject("Not a valid Expo Push Token");
+    }
+
+    const messages = [
+      {
+        to: token,
+        sound: "default",
+        body,
+        data,
+      },
+    ];
+
+    try {
+      const tickets = await expo.sendPushNotificationsAsync(messages);
+      resolve(tickets);
+    } catch (error) {
+      reject(error);
+    }
+  });
+};

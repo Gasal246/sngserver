@@ -20,7 +20,10 @@ import {
   RechargeTypeEnum,
   CreatedByUserType,
 } from "../../types/enums";
-import { addNewTransaction, getTransactionsByWalletId } from "../../services/user_transactions";
+import {
+  addNewTransaction,
+  getTransactionsByWalletId,
+} from "../../services/user_transactions";
 import { getClientCurrencyCode } from "../../services/client";
 import { getWalletById } from "../../services/user_wallet";
 
@@ -143,14 +146,15 @@ export const userWalletRecharge = async (
     await Promise.all(promises);
 
     const updated_wallet = await getWalletById(walletData?._id?.toString());
-    const transactions = await getTransactionsByWalletId(walletData?._id?.toString(), 1)
-
-    const data = formatResponse(
-      200,
-      false,
-      "User recharge done successfully",
-      { updated_wallet, transactions }
+    const transactions = await getTransactionsByWalletId(
+      walletData?._id?.toString(),
+      1
     );
+
+    const data = formatResponse(200, false, "User recharge done successfully", {
+      updated_wallet,
+      transactions,
+    });
     res.status(200).json(data);
     return;
   } catch (e: any) {

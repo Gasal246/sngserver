@@ -164,7 +164,7 @@ router.post("/verify-change-number", [
 ]);
 
 // ########## COMPANION DEVICES ###########
-router.post("/add-companion", verifyUserToken, addNewCompanion)
+router.post("/add-companion", verifyUserToken, addNewCompanion);
 
 // ######## Testing Notification Setup ############
 router.post(

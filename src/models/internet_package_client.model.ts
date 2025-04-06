@@ -9,6 +9,7 @@ export interface IInternetPackageClient extends Document {
   package_code: string;
   package_speed: string;
   // package_price: Number;
+  isCompanion: boolean;
   package_status: Number;
   service_id: ObjectID | null;
   deleted_at: Date;
@@ -58,6 +59,11 @@ const schema = new mongoose.Schema(
     service_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "services",
+    },
+
+    isCompanion: {
+      type: Boolean,
+      default: false,
     },
 
     deleted_at: {

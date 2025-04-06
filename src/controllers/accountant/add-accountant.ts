@@ -45,16 +45,24 @@ export const addAccountant = async (
 
     req.body.client_id = client_id;
 
-    const isMailExist = await accountantService.isAccountantAdded(req.body.email, client_id);
-    if(isMailExist) {
-      const data = formatResponse( 400, true, "Email already exists.", null );
+    const isMailExist = await accountantService.isAccountantAdded(
+      req.body.email,
+      client_id
+    );
+    if (isMailExist) {
+      const data = formatResponse(400, true, "Email already exists.", null);
       res.status(200).json(data);
       return;
     }
 
     await accountantService.createAccountant(role._id, req.body);
 
-    const data = formatResponse( 200, false, "Accountant created successfully.", null );
+    const data = formatResponse(
+      200,
+      false,
+      "Accountant created successfully.",
+      null
+    );
     res.status(200).json(data);
     return;
   } catch (e: any) {

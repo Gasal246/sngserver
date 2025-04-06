@@ -57,9 +57,10 @@ export const posLogin = async (
     // *me (main)
     let jwtData;
     if (req.body.camp_id) {
-      const deviceHistory = await posDeviceCodeHistoryService.getDeviceByMacAddress(
-        req.body.device_mac_address
-      );
+      const deviceHistory =
+        await posDeviceCodeHistoryService.getDeviceByMacAddress(
+          req.body.device_mac_address
+        );
 
       if (!deviceHistory) {
         const data = formatResponse(401, true, "Device is not active.", null);

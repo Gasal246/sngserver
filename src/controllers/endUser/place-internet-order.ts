@@ -161,9 +161,12 @@ export const userPlaceInternetOrder = async (
         walletid: wallet._id.toString(),
         amount: orderPrice,
         currency: location_client?.currency_code || "",
-        title: `${service_info?.transaction_title || "Membership Purchased"} (${packageData.internet_package_client.package_name})`,
+        title: `${service_info?.transaction_title || "Membership Purchased"} (${
+          packageData.internet_package_client.package_name
+        })`,
         type: "debit",
-        revenue: (packageData.package_sales_price - packageData.package_cost_price) || 0,
+        revenue:
+          packageData.package_sales_price - packageData.package_cost_price || 0,
         sales_amount: packageData.package_sales_price || 0,
         cost_amount: packageData.package_cost_price || 0,
         serviceid: packageData?.service_id,

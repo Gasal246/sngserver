@@ -6,7 +6,10 @@ import {
   userRegisterService,
 } from "../../services";
 import db from "../../models";
-import { getAllowedChange, getHistory } from "../../services/mobile_change_history";
+import {
+  getAllowedChange,
+  getHistory,
+} from "../../services/mobile_change_history";
 
 export const sendUserOtp = async (
   req: Request | any,
@@ -117,39 +120,50 @@ export const sendUserMobileChangeOtp = async (
   try {
     const user = await userRegisterService.findUser(req.decodedToken.data.id);
     if (!user) {
-      const data = formatResponse(
-        400,
-        true,
-        "User not found",
-        null
-      );
+      const data = formatResponse(400, true, "User not found", null);
       res.status(400).json(data);
       return;
     }
 
-    const posAllowed = await getAllowedChange(user._id.toString(), req.body.phone);
-    if (user?.next_mobile_change_at && new Date(user?.next_mobile_change_at) > new Date()) {
-      if(!posAllowed) {
-        const data = formatResponse( 302, true, "Invalid Date of next mobile change", { userData: user} );
+    const posAllowed = await getAllowedChange(
+      user._id.toString(),
+      req.body.phone
+    );
+    if (
+      user?.next_mobile_change_at &&
+      new Date(user?.next_mobile_change_at) > new Date()
+    ) {
+      if (!posAllowed) {
+        const data = formatResponse(
+          302,
+          true,
+          "Invalid Date of next mobile change",
+          { userData: user }
+        );
         res.status(302).json(data);
         return;
       }
     }
 
     const otp = generateOtp();
-    await sendOtp(
-      req.body.country_code + req.body.phone,
-      otp.toString()
-    );
+    await sendOtp(req.body.country_code + req.body.phone, otp.toString());
 
     // update otp in user
     user.otp = otp;
 
     // UPDATION USER WITH NEW MOBILE CHANGE DATE ( 30 days )
     // user.next_mobile_change_at = new Date(new Date().getTime() + 30 * 24 * 60 * 60 * 1000);
-    const updatedUser = await userRegisterService.updateUser(user._id.toString(), user);
+    const updatedUser = await userRegisterService.updateUser(
+      user._id.toString(),
+      user
+    );
 
-    const data = formatResponse(200, false, "OTP send your registered number.", { userData: updatedUser });
+    const data = formatResponse(
+      200,
+      false,
+      "OTP send your registered number.",
+      { userData: updatedUser }
+    );
     res.status(200).json(data);
     return;
   } catch (error: any) {
@@ -157,4 +171,4 @@ export const sendUserMobileChangeOtp = async (
     res.status(500).json(data);
     return;
   }
-}
+};

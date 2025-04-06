@@ -1,7 +1,10 @@
 import { Server as HttpServer } from "http";
 import { WebSocket, WebSocketServer } from "ws";
-import { v4 as uuidv4 } from 'uuid';
-import { executeSocketDisconnetion, getExpoTokenByUserId } from "./services/socketQueries";
+import { v4 as uuidv4 } from "uuid";
+import {
+  executeSocketDisconnetion,
+  getExpoTokenByUserId,
+} from "./services/socketQueries";
 import { sendSigninCodesPushNotification } from "./services/notification";
 
 interface VerificationSession {
@@ -19,15 +22,15 @@ let wss: WebSocketServer;
 
 export const initWebSocket = (server: HttpServer): void => {
   console.log("WebSocket Server Initializing...");
-  
+
   wss = new WebSocketServer({ server });
 
   // Error handling for the WebSocket server
-  wss.on('error', (error: any) => {
-    console.error('WebSocket Server Error:', error);
+  wss.on("error", (error: any) => {
+    console.error("WebSocket Server Error:", error);
   });
 
-  wss.on('connection', (ws: WebSocket) => {
+  wss.on("connection", (ws: WebSocket) => {
     const clientId = uuidv4();
     console.log(`New WebSocket connection (${clientId})`);
 
@@ -43,61 +46,67 @@ export const initWebSocket = (server: HttpServer): void => {
     //   console.log(`Received pong from client ${clientId}`);
     // });
 
-    ws.on('message', async (data: string) => {
+    ws.on("message", async (data: string) => {
       try {
         const message: WebSocketMessage = JSON.parse(data.toString());
-        
+
         switch (message.type) {
-          case 'sendVerification': {
+          case "sendVerification": {
             const { userId } = message.payload;
             const expo_token = await getExpoTokenByUserId(userId);
-            
+
             if (!expo_token) {
               console.log("No Expo token found!");
-              ws.send(JSON.stringify({
-                type: 'error',
-                payload: { message: 'No Expo token found' }
-              }));
+              ws.send(
+                JSON.stringify({
+                  type: "error",
+                  payload: { message: "No Expo token found" },
+                })
+              );
               return;
             }
 
             const verificationSessionId = uuidv4();
             verificationSessions.set(verificationSessionId, {
               kioskWs: ws,
-              userId: userId
+              userId: userId,
             });
 
             await sendSigninCodesPushNotification(
               expo_token,
-              'Verify your account access!',
+              "Verify your account access!",
               {
-                type: 'verification',
+                type: "verification",
                 verificationSessionId,
-                userId
+                userId,
               }
             );
 
-            ws.send(JSON.stringify({
-              type: 'displayCode',
-              payload: { userId, verificationSessionId }
-            }));
+            ws.send(
+              JSON.stringify({
+                type: "displayCode",
+                payload: { userId, verificationSessionId },
+              })
+            );
             break;
           }
 
-          case 'submitVerification': {
+          case "submitVerification": {
             const { verificationSessionId, confirm } = message.payload;
             const session = verificationSessions.get(verificationSessionId);
-            
+
             if (!session) {
               console.log("No verification session found");
               return;
             }
 
             if (session.kioskWs.readyState === WebSocket.OPEN) {
-              session.kioskWs.send(JSON.stringify({
-                type: confirm ? 'verificationSuccess' : 'verificationFailed',
-                payload: { userId: session.userId }
-              }));
+              session.kioskWs.send(
+                JSON.stringify({
+                  type: confirm ? "verificationSuccess" : "verificationFailed",
+                  payload: { userId: session.userId },
+                })
+              );
             }
 
             console.log("Verification state sent");
@@ -106,19 +115,21 @@ export const initWebSocket = (server: HttpServer): void => {
           }
         }
       } catch (error) {
-        console.error('Error processing message:', error);
-        ws.send(JSON.stringify({
-          type: 'error',
-          payload: { message: 'Internal server error' }
-        }));
+        console.error("Error processing message:", error);
+        ws.send(
+          JSON.stringify({
+            type: "error",
+            payload: { message: "Internal server error" },
+          })
+        );
       }
     });
 
-    ws.on('close', async () => {
+    ws.on("close", async () => {
       console.log(`Client disconnected (${clientId})`);
       clearInterval(pingInterval);
       await executeSocketDisconnetion(clientId);
-      
+
       // Clean up any verification sessions for this connection
       for (const [sessionId, session] of verificationSessions.entries()) {
         if (session.kioskWs === ws) {
@@ -127,13 +138,13 @@ export const initWebSocket = (server: HttpServer): void => {
       }
     });
 
-    ws.on('error', (error) => {
+    ws.on("error", (error) => {
       console.error(`WebSocket error for client ${clientId}:`, error);
     });
   });
 
   // Clean up on server close
-  server.on('close', () => {
+  server.on("close", () => {
     wss.close();
   });
 };

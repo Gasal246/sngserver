@@ -26,6 +26,7 @@ export interface IOrderInternetPackage extends Document {
   created_by: ObjectID;
   created_by_type: string;
   camp_id: ObjectID;
+  isCompanion: boolean;
   createdAt: Date;
   updatedAt: Date;
 }
@@ -139,6 +140,8 @@ const schema: Schema = new mongoose.Schema(
     },
 
     camp_id: { type: mongoose.Schema.Types.ObjectId },
+
+    isCompanion: { type: Boolean, default: false },
   },
 
   { timestamps: true }

@@ -1,5 +1,5 @@
 import cors from "cors";
-import { EventEmitter } from 'events';
+import { EventEmitter } from "events";
 
 // Increase EventEmitter max listeners limit
 EventEmitter.defaultMaxListeners = 15;
@@ -37,7 +37,7 @@ export default async (): Promise<Server | void> => {
 
     mongoose.set("strictQuery", false);
     await mongoose.connect(getMongoURL(ENV));
-    
+
     const app = express();
     app.use(expressStatusMonitor());
 
@@ -64,7 +64,7 @@ export default async (): Promise<Server | void> => {
     // Create HTTP server
     const server = Http.createServer(app);
     // const server = https.createServer(sslOptions, app);
-    
+
     // Initialize WebSocket server
     initWebSocket(server);
 
@@ -97,11 +97,10 @@ export default async (): Promise<Server | void> => {
     }
 
     // Important: Use the HTTP server to listen, not the Express app
-    server.listen(3019, '0.0.0.0', () => {
+    server.listen(3019, "0.0.0.0", () => {
       console.log(`Server is live at localhost:${PORT}`);
       console.log(`WebSocket server is ready for connections`);
     });
-
   } catch (err) {
     logger.debug(`Failed to connect to database. ${err}`);
   }
