@@ -14,7 +14,7 @@ const schema: Schema = new mongoose.Schema(
   {
     camp_id: { type: mongoose.Schema.Types.ObjectId, ref: "camp" },
 
-    pos_id: { type: mongoose.Schema.Types.ObjectId, ref: "Pos_device_code" },
+    pos_id: { type: mongoose.Schema.Types.ObjectId, ref: "pos" },
 
     // 0=delete,1=active,2=pending,3=block
     status: {

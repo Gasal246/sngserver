@@ -156,3 +156,12 @@ export const getCampAssignPosDetails = async (
   const result = await campAssignPosModel.aggregate(pipeline);
   return result;
 };
+
+export const getDistinctPosByCampIds = async (
+  campIds: ObjectID[]
+): Promise<Obj[]> => {
+  const result = await campAssignPosModel
+    .find({ camp_id: { $in: campIds } })
+    .populate("pos_id");
+  return result;
+};

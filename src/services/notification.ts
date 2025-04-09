@@ -59,6 +59,7 @@ export const sendCredentialsToCompanion = async (
   token: string,
   body: string,
   data: {
+    type: string;
     user_data: any;
     token: string;
   }

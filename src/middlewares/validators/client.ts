@@ -137,6 +137,12 @@ const addClientSchema = Joi.object({
   currency_code: Joi.string().required().messages({
     "any.required": "currency code is required.",
   }),
+  is_companion_allowed: Joi.number().required().messages({
+    "any.required": "The is companion allowed field is required.",
+  }),
+  allowed_devices: Joi.number().required().messages({
+    "any.required": "The allowed devices field is required.",
+  }),
 });
 
 export const ClientValidator = async (

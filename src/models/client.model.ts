@@ -127,6 +127,16 @@ const schema = new mongoose.Schema(
       type: String,
       required: true,
     },
+
+    is_companion_allowed: {
+      type: Number,
+      enum: [0, 1],
+      required: true,
+    },
+    allowed_devices: {
+      type: Number,
+      required: true,
+    },
   },
   { timestamps: true }
 );

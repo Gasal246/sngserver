@@ -106,3 +106,10 @@ export const updateCompanionByNthNumber = async (
   );
   return result;
 };
+
+export const getUserCompanions = async (user_id: string) => {
+  const result = await companionDevicesModel.find({
+    user_id: createObjectId(user_id),
+  });
+  return result;
+};

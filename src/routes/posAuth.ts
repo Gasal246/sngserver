@@ -29,6 +29,8 @@ import {
   addMobileChangeRecord,
   getUserMobileChangeHistory,
 } from "../controllers/pos/mobile-change";
+import { posAppUserUpdateValidator } from "../middlewares/validators/pos-appuser-validate";
+import { updateAppUser } from "../controllers/pos/updateAppUser";
 
 const router = express.Router();
 
@@ -86,6 +88,12 @@ router.get(
   getUserMobileChangeHistory
 );
 
-router.post("/allow-mobile-change", verifyPosToken, addMobileChangeRecord);
+router.post("/allow-mobile-change", [verifyPosToken], addMobileChangeRecord);
+
+router.post(
+  "/update-appuser",
+  [verifyPosToken, posAppUserUpdateValidator],
+  updateAppUser
+);
 
 export default router;

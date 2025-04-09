@@ -4,6 +4,7 @@ import {
   getAccountantDetails,
   getAccountantProfile,
   getAssignCampByAccountant,
+  getAssignPos,
   getInternetPackageOrderAccountantWise,
   updateAccountantPassword,
 } from "../controllers";
@@ -25,6 +26,13 @@ import {
   getCampWiseSalesDataValidator,
   getServiceSalesDataValidator,
 } from "../middlewares/validators/accountant-sales-validator";
+import {
+  walletRechargeCampWiseValidator,
+  walletRechargePosWiseValidator,
+} from "../middlewares/validators/accountant-wallet-validator";
+import { getCampWiseWalletRecharge } from "../controllers/accountant/wallet-campwise";
+import { accountantAssignPos } from "../controllers/accountant/get-assigned-pos";
+import { getPosWiseWalletRecharge } from "../controllers/accountant/wallet-poswise";
 
 const router = express.Router();
 
@@ -53,6 +61,21 @@ router.get(
   "/get-assigned-services",
   verifyAccountantToken,
   getAccountantAvailableServices
+);
+
+// ::::::::::::::: Accountant Wallet ::::::::::::::::
+router.get("/get-assigned-pos", verifyAccountantToken, accountantAssignPos);
+
+router.get(
+  "/wallet/campwise",
+  [verifyAccountantToken, walletRechargeCampWiseValidator],
+  getCampWiseWalletRecharge
+);
+
+router.get(
+  "/wallet/poswise",
+  [verifyAccountantToken, walletRechargePosWiseValidator],
+  getPosWiseWalletRecharge
 );
 
 router.get(

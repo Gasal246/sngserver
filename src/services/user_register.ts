@@ -80,6 +80,15 @@ export const updateUser = async (
   return result;
 };
 
+export const findRegisteredUserById = async (id: string) => {
+  try {
+    const result = await userRegisterModel.findById(createObjectId(id));
+    return result;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const updateUserById = async (id: string, data: any) => {
   try {
     const result = await userRegisterModel.findByIdAndUpdate(id, data, {

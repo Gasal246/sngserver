@@ -53,6 +53,7 @@ import { getWallet } from "../controllers/wallet/get-wallet";
 import { getWalletTransactions } from "../controllers/wallet/get-transactions";
 import { sendNotification } from "../services/notification";
 import { addNewCompanion } from "../controllers/companion/addCompanion";
+import { getUserCompanionDevices } from "../controllers/companion/getCompanionDevices";
 
 const router = express.Router();
 router.post("/send-otp", multer().array(""), userSendOtpValidator, sendUserOtp);
@@ -165,6 +166,8 @@ router.post("/verify-change-number", [
 
 // ########## COMPANION DEVICES ###########
 router.post("/add-companion", verifyUserToken, addNewCompanion);
+
+router.get("/companion-devices", verifyUserToken, getUserCompanionDevices);
 
 // ######## Testing Notification Setup ############
 router.post(

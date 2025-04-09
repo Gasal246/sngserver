@@ -12,12 +12,12 @@ import { sendCredentialsToCompanion } from "../../services/notification";
 export const addNewCompanion = async (req: Request | any, res: Response) => {
   try {
     const token_data = req.decodedToken.data;
-    const { expoToken, deviceName, deviceModel, os, osVersion } = req.body;
+    const { companionET:expoToken, deviceName, deviceModel, deviceOs:os, deviceOsVersion:osVersion } = req.body;
 
     const nth_data = await getNextCompanionNumber(token_data?.id);
     const device_data = {
       user_id: token_data?.id,
-      nth_number: 1, // add the dynamic one after calculating
+      nth_number: nth_data?.nth_number, // add the dynamic one after calculating
       expo_token: expoToken,
       device_name: deviceName,
       device_model: deviceModel,
@@ -46,6 +46,7 @@ export const addNewCompanion = async (req: Request | any, res: Response) => {
       authConfig.token
     );
     await sendCredentialsToCompanion(expoToken, "Connecting to main device.", {
+      type: "companion",
       user_data: companion_user_data,
       token: companion_token,
     });
